@@ -1,7 +1,9 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+//require __DIR__ . '/vendor/autoload.php';
 
+header('Location: /main/');
+die();
 
 // try{
 //     $db = new PDO("mysql:host=host.docker.internal:3306;dbname=testdb", "root", "mypassword");
