@@ -9,7 +9,7 @@ services:
         tty: true
         working_dir: /var/www
         volumes: 
-            - ./app/public/:/var/www
+            - ./app:/var/www
         networks: 
             - local-bridge
 
@@ -19,7 +19,7 @@ services:
         container_name: nginx
         tty: true
         volumes: 
-            - ./app/public/:/var/www
+            - ./app:/var/www
             - ./docker/nginx/conf.d:/etc/nginx/conf.d/
         ports: 
             - 80:80
@@ -64,7 +64,7 @@ services:
         tty: true
         command: ['composer','install']
         volumes:
-            - ./app/public/:/app
+            - ./app:/app
     
 #network
 networks:

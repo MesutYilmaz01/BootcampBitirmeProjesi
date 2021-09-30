@@ -1,3 +1,17 @@
+<?php
+
+
+
+include '../../vendor/autoload.php';
+
+
+use \Project\Repositories\UserRepository as UserRepository;
+use \Project\Database\Database as Database;
+use \Project\Models\User as User;
+$db = new Database(new UserRepository(new User()));
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
