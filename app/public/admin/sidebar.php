@@ -34,8 +34,8 @@
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Haberler</h6>
-            <a class="collapse-item" href="buttons.html">Haber Ekle</a>
-            <a class="collapse-item" href="cards.html">Haberler</a>
+            <a class="collapse-item" href="addnew.php">Haber Ekle</a>
+            <a class="collapse-item" href="news.php">Haberler</a>
         </div>
     </div>
 </li>
