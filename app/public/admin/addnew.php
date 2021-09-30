@@ -1,3 +1,11 @@
+<?php
+if (isset($_POST))
+{
+    var_dump($_POST);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,22 +67,25 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <form>
+                                            <form method="POST" action="" enctype="multipart/form-data">
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control"
+                                                        <input type="text" class="form-control" name="title"
                                                             placeholder="Haber Başlığı">
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <textarea class="form-control" placeholder="Haber İçeriği" rows=7></textarea>
+                                                        <textarea class="form-control" 
+                                                        placeholder="Haber İçeriği" 
+                                                        rows=7
+                                                        name="content"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <label>Kategoriler</label>    
-                                                        <select class="form-control" multiple>
+                                                        <select class="form-control" name="category">
                                                             <option selected>Open this select menu</option>
                                                             <option value="1">One</option>
                                                             <option value="2">Two</option>
@@ -86,15 +97,15 @@
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <div class="mb-3">
                                                             <label for="formFile" class="form-label">Resim Seçiniz</label>
-                                                            <input class="form-control" type="file" id="formFile">
+                                                            <input class="form-control" type="file" id="formFile" name="img">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-3 mb-3 mb-sm-0">
-                                                        <a href="#" class="btn btn-block btn-primary">
-                                                            <span class="text">Kaydet</span>
-                                                        </a>
+                                                        <button type="submit" class="btn btn-block btn-primary">
+                                                            Kaydet
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </form>

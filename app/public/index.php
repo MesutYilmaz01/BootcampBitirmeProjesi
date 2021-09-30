@@ -2,7 +2,7 @@
 
 //require __DIR__ . '/vendor/autoload.php';
 
-header('Location: /main/');
+header('Location: /public/main/');
 die();
 
 // try{
