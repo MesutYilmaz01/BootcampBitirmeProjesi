@@ -15,6 +15,8 @@ class NewsService{
             $data->setTitle($_POST["title"]);
             $data->setContent($_POST["content"]);
             $data->setCategory($_POST["category"]);
+            $data->setCreatedAt(date('d-m-Y-h:i'));
+            $data->setUpdatedAt(date('d-m-Y-h:i'));
             $data->setImg($imgPath[1]);
             $repo = new NewsRepository();
             $result = $repo->create($data);

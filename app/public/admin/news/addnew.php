@@ -4,6 +4,9 @@ require '../../../vendor/autoload.php';
 
 use Project\Repositories\NewsRepository as NewsRepository;
 use Project\Services\NewsService as NewsService;
+use Project\Services\CategoriesService as CategoriesService;
+$categoryService = new CategoriesService();
+$categories = $categoryService->getCategories();
 $message = '';
 if (isset($_POST["save"]))
 {
@@ -108,10 +111,12 @@ if (isset($_POST["save"]))
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <label>Kategoriler</label>    
                                                         <select class="form-control" name="category">
-                                                            <option selected>Open this select menu</option>
-                                                            <option value="1">One</option>
-                                                            <option value="2">Two</option>
-                                                            <option value="3">Three</option>
+                                                            <?
+                                                                foreach ($categories as $category)
+                                                                {
+                                                                    echo '<option value='.$category->getId().'>'.$category->getCategory().'</option>';
+                                                                }
+                                                            ?>
                                                         </select>
                                                     </div>
                                                 </div>

@@ -3,8 +3,10 @@
 namespace Project\Models;
 
 class Category{
-    private int $id;
-    private string $category;
+    private $id;
+    private $category;
+    private $created_at;
+    private $updated_at; 
     public function getId(){
         return $this->id;
     }
@@ -16,5 +18,17 @@ class Category{
     }
     public function setCategory($category){
         $this->category = $category;
+    }
+    public function getCreatedAt(){
+        return $this->created_at;
+    }
+    public function setCreatedAt($date){
+        $this->created_at = $date;
+    }
+    public function getUpdatedAt(){
+        return $this->updated_at;
+    }
+    public function setUpdatedAt($date){
+        $this->updated_at = $date;
     }
 }

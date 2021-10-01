@@ -2,18 +2,16 @@
 
 require '../../../vendor/autoload.php';
 
-use Project\Repositories\NewsRepository as NewsRepository;
-use Project\Services\NewsService as NewsService;
-$service = new NewsService();
+use Project\Repositories\CategoryRepository as CategoryRepository;
 use Project\Services\CategoriesService as CategoriesService;
-$categoryService = new CategoriesService();
-$categories = $categoryService->getCategories();
-$data = $service->getNewsById();
+$service = new CategoriesService();
+$id = $_GET["id"];
+$data = $service->getCategoryById($id);
 $message = '';
 //after post
 if (isset($_POST["update"]))
 {
-    $result = $service->updateNews($data);
+    $result = $service->updateCategory($data);
     //Validationlar Henüz Yapılmadı !
     if ($result[0] == 1)
     {
@@ -27,7 +25,7 @@ if (isset($_POST["update"]))
                      '.$result[1].'   
                      </div>';
     }
-    $data = $service->getNewsById();
+    $data = $service->getCategoryById($id);
 }
 ?>
 
@@ -42,7 +40,7 @@ if (isset($_POST["update"]))
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Haber Ekle</title>
+    <title>Kategori Ekle</title>
 
     <!-- Custom fonts for this template-->
     <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -79,7 +77,7 @@ if (isset($_POST["update"]))
 
                     <!-- Page Heading -->
                     <div class="text-center">
-                        <h1 class="h3 mb-4 text-gray-800">Haber Güncelle</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Kategori Güncelle</h1>
                         <? if($message != '') echo $message;?>
                     </div>
 
@@ -88,49 +86,16 @@ if (isset($_POST["update"]))
                                 <!-- Last News Card -->
                                 <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary text-center">Haber Güncelleme Formu</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary text-center">Kategori Güncelleme Formu</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <form method="POST" action="updatenew.php?id=<?echo $data->getId()?>" enctype="multipart/form-data">
+                                            <form method="POST" action="updatecategory.php?id=<?echo $data->getId()?>" enctype="multipart/form-data">
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="title"
-                                                            placeholder="Haber Başlığı" value="<?echo $data->getTitle()?>"> 
-                                                    </div>
-                                                </div>
-                                                <div class="form-group d-flex justify-content-center">
-                                                    <div class="col-10 mb-3 mb-sm-0">
-                                                        <textarea class="form-control" name="content" placeholder="Haber İçeriği" rows="7"><?echo $data->getContent()?></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group d-flex justify-content-center">
-                                                    <div class="col-10 mb-3 mb-sm-0">
-                                                        <label>Kategoriler</label>    
-                                                        <select class="form-control" name="category">
-                                                            <?
-                                                                foreach ($categories as $category)
-                                                                {   if ($category->getId() == $data->getCategory())
-                                                                    {
-                                                                        echo '<option value='.$category->getId().' selected>'.$category->getCategory().'</option>';
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        echo '<option value='.$category->getId().'>'.$category->getCategory().'</option>';
-                                                                    }
-                                                                }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group d-flex justify-content-center">
-                                                    <div class="col-10 mb-3 mb-sm-0">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Not : Resim güncellenmesini istemiyorsanız resim seçmeyiniz.</label></br>
-                                                            <label for="formFile" class="form-label">Resim Seçiniz</label>
-                                                            <input class="form-control" type="file" id="formFile" name="img">
-                                                        </div>
+                                                        <input type="text" class="form-control" name="category"
+                                                            placeholder="Kategori Adı" value="<?echo $data->getCategory()?>"> 
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">

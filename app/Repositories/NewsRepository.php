@@ -21,7 +21,7 @@ class NewsRepository{
 
         $insert = $query->execute(array(
             $data->getTitle(), $data->getContent(), $data->getCategory(), 
-            $data->getImg(), date('d-m-Y:h:i'), date('d-m-Y-h:i')
+            $data->getImg(), $data->getCreatedAt(), $data->getUpdatedAt()
         ));
         if ($insert)
         {

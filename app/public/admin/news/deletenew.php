@@ -25,7 +25,7 @@ header('refresh:3;url=/public/admin/news/news.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Haber Ekle</title>
+    <title>Haber Sil</title>
 
     <!-- Custom fonts for this template-->
     <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -62,7 +62,7 @@ header('refresh:3;url=/public/admin/news/news.php');
 
                     <!-- Page Heading -->
                     <div class="text-center">
-                        <h1 class="h3 mb-4 text-gray-800">Haber Silindi</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Haberler</h1>
                     </div>
 
                     <div class="row d-flex justify-content-center">
@@ -70,7 +70,7 @@ header('refresh:3;url=/public/admin/news/news.php');
                                 <!-- Last News Card -->
                                 <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary text-center">Haber Güncelleme Formu</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary text-center">Haber Silme Formu</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
