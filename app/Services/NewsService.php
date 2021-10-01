@@ -65,7 +65,7 @@ class NewsService{
 
     public function saveImg(){
         define ('SITE_ROOT', realpath(dirname(__FILE__)));
-        $directory = SITE_ROOT."/../public/src/img/";
+        $directory = SITE_ROOT."/../public/assets/img/";
         $tmp_name = $_FILES["img"]["tmp_name"];
         $name = $_FILES["img"]["name"];
         $size = $_FILES["img"]["size"];
@@ -89,6 +89,6 @@ class NewsService{
             return array(3,"Resim jpg veya png formatında olmalı.");
         }
         move_uploaded_file($tmp_name, $directory.''.$imgName);
-        return array(1,'/public/src/img/'.$imgName);
+        return array(1,'/public/assets/img/'.$imgName);
     }
 }
