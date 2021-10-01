@@ -6,20 +6,25 @@ use Project\Repositories\NewsRepository as NewsRepository;
 use Project\Services\NewsService as NewsService;
 $service = new NewsService();
 $data = $service->getNewsById();
+$message = '';
 //after post
 if (isset($_POST["update"]))
 {
-     $result = $service->updateNews($data);
-     if ($result){
-         //düznelenecek
-         echo "işlem başarılı";
-         $data = $service->getNewsById();
-     }
-     else
-     {
-         //düzenlenecek
-         echo "Güncelleme yapılamadı";
-     }
+    $result = $service->updateNews($data);
+    //Validationlar Henüz Yapılmadı !
+    if ($result[0] == 1)
+    {
+         $message =  '<div class="alert alert-success" role="alert">
+                      '.$result[1].'   
+                     </div>';
+    }
+    else
+    {
+        $message =  '<div class="alert alert-danger" role="alert">
+                     '.$result[1].'   
+                     </div>';
+    }
+    $data = $service->getNewsById();
 }
 ?>
 
@@ -72,6 +77,7 @@ if (isset($_POST["update"]))
                     <!-- Page Heading -->
                     <div class="text-center">
                         <h1 class="h3 mb-4 text-gray-800">Haber Güncelle</h1>
+                        <? if($message != '') echo $message;?>
                     </div>
 
                     <div class="row d-flex justify-content-center">
@@ -84,16 +90,16 @@ if (isset($_POST["update"]))
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <form method="POST" action="updatenew.php?id=<?echo $data["id"]?>" enctype="multipart/form-data">
+                                            <form method="POST" action="updatenew.php?id=<?echo $data->getId()?>" enctype="multipart/form-data">
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <input type="text" class="form-control" name="title"
-                                                            placeholder="Haber Başlığı" <?echo 'value='.$data["title"]?>> 
+                                                            placeholder="Haber Başlığı" value="<?echo $data->getTitle()?>"> 
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <textarea class="form-control" name="content" placeholder="Haber İçeriği" rows="7"><?echo $data["content"]?></textarea>
+                                                        <textarea class="form-control" name="content" placeholder="Haber İçeriği" rows="7"><?echo $data->getContent()?></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
@@ -110,6 +116,7 @@ if (isset($_POST["update"]))
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <div class="mb-3">
+                                                            <label class="form-label">Not : Resim güncellenmesini istemiyorsanız resim seçmeyiniz.</label></br>
                                                             <label for="formFile" class="form-label">Resim Seçiniz</label>
                                                             <input class="form-control" type="file" id="formFile" name="img">
                                                         </div>

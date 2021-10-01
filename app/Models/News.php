@@ -46,7 +46,7 @@ class News{
         return $this->updated_at;
     }
     public function setUpdatedAt($date){
-        $this->img = $date;
+        $this->updated_at = $date;
     }
     public function getId(){
         return $this->id;

@@ -1,11 +1,18 @@
 <?php
 require '../../../vendor/autoload.php';
 
-use Project\Repositories\NewsRepository as NewsRepository;
 use Project\Services\NewsService as NewsService;
 $service = new NewsService();
-$data = $service->getNewsById();
-
+$data = $service->deleteNewById();
+$message = '';
+if ($data == null){
+    $message = "Silme işlemi sırasında bir hata oluştu";
+}
+else
+{
+    $message = "Silme işlemi başarıyla gerçekleşti.";
+}
+header('refresh:3;url=/public/admin/news/news.php'); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +25,7 @@ $data = $service->getNewsById();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Haber Detay</title>
+    <title>Haber Ekle</title>
 
     <!-- Custom fonts for this template-->
     <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -54,36 +61,31 @@ $data = $service->getNewsById();
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800 text-center" >Haber Detay</h1>
+                    <div class="text-center">
+                        <h1 class="h3 mb-4 text-gray-800">Haber Silindi</h1>
+                    </div>
 
-                        <div class="d-flex justify-content-center text-center">
-                            <div class="col-8 mt-3">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-10">
+                                <!-- Last News Card -->
                                 <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary text-center">Haber</h6>
-                                    </div>
-                                    <div class="card-body mb-2">
-                                        <div>
-                                            <img src="<?echo $data->getImg()?>" width="650px"/>
-                                        </div>
-                                        <div class="mt-3 text-gray-900">
-                                            <h4><? echo $data->getTitle() ?></h4>
-                                            <div class="mt-3">
-                                                <? echo $data->getContent()?>
-                                            </div>
-                                            <div class="mt-3">
-                                                <h4 class="text-gray-900">Kategori</h4>
-                                                <div class="text-lg text-gray-600">Global, Spor</div>
-                                            </div>
-                                            <div class="mt-3">
-                                                <a href="updatenew.php?id=<?echo $data->getId()?>" class="btn btn-success">Güncelle</a>
-                                                <a href="deletenew.php?id=<?echo $data->getId()?>" class="btn btn-danger">Sil</a>
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary text-center">Haber Güncelleme Formu</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="alert alert-warning" role="alert">
+                                                <? echo $message?></br>
+                                                Haberler sayfasına yönlendiriliyorsunuz...
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
 
                 </div>
                 <!-- /.container-fluid -->

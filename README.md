@@ -6,4 +6,4 @@ Run docker compose to up containers on main folder.
 
 2.Step
 Run composer to get dependencies on app folder.
-    composer install
+    docker run --rm --interactive --tty --volume $PWD/src:/app composer install

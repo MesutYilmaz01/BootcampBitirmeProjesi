@@ -99,9 +99,9 @@ $data = $service->getAllFromDatabase();
                                                         </a>
                                                         </td>
                                                         <td>Düzenleyen</td>
-                                                        <td>'.$item->getCreatedAt().'</td>
+                                                        <td>'.$item->getUpdatedAt().'</td>
                                                         <td><a href="#" class="btn btn-success btn-block">Yorumlar</a></td>
-                                                        <td><a href="#" class="btn btn-danger btn-block">Sil</a></td>
+                                                        <td><a href="deletenew.php?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>
                                                         <td><a href="updatenew.php?id='.$item->getId().'" class="btn btn-warning btn-block">Güncelle</a></td>';
                                             }
                                         ?>

@@ -2,7 +2,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/public/admin/">
     <div class="sidebar-brand-text mx-3">Admin Paneli</div>
 </a>
 
@@ -11,7 +11,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="/public/admin/">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Anasayfa</span></a>
 </li>
@@ -34,8 +34,8 @@
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Haberler</h6>
-            <a class="collapse-item" href="addnew.php">Haber Ekle</a>
-            <a class="collapse-item" href="news.php">Haberler</a>
+            <a class="collapse-item" href="/public/admin/news/addnew.php">Haber Ekle</a>
+            <a class="collapse-item" href="/public/admin/news/news.php">Haberler</a>
         </div>
     </div>
 </li>

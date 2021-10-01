@@ -14,31 +14,41 @@ class NewsRepository{
         $this->db = $db->getDb();
 
     }
-    public function create(array $data): bool{
+    public function create(News $data){
         $query = $this->db->prepare("INSERT INTO news 
         (title,content,category,img,created_at,updated_at)
         VALUES (?,?,?,?,?,?)");
 
         $insert = $query->execute(array(
-            $data["title"], $data["content"], $data["category"], $data["img"], date('d-m-Y:h:i'), date('d-m-Y-h:i')
+            $data->getTitle(), $data->getContent(), $data->getCategory(), 
+            $data->getImg(), date('d-m-Y:h:i'), date('d-m-Y-h:i')
         ));
-
         if ($insert)
         {
             $last_id = $this->db->lastInsertId();
-            return true;
+            return array(1,"Haber başarı ile eklendi.");
         }
-        return false;
+        return array(0,"Haber eklerken bir hata oluştu.");
         
     }
-    public function update(array $data): bool{
+    public function update(News $data){
         $sql = "UPDATE news SET title=?, content=?, category=?, img=?, created_at=?, updated_at=? WHERE id=?";
         $stmt= $this->db->prepare($sql);
-        $result = $stmt->execute([$data["title"], $data["content"], $data["category"], $data["img"], $data["created_at"], $data["updated_at"], $data["id"]]);
-        return $result;
+        $result = $stmt->execute([$data->getTitle(), $data->getContent(), $data->getCategory(), 
+                                $data->getImg(), $data->getCreatedAt(), $data->getUpdatedAt(), $data->getId()]);
+        if ($result) 
+        {
+            return array(1,"Haber başarı ile güncellendi.");
+        }
+        return array(0,"Haber güncellenirken bir hata oluştu.");
     }
     public function delete(){
-
+        $data = null;
+        $id = $_GET["id"];
+        $sql = "DELETE FROM news WHERE id=?";
+        $stmt= $this->db->prepare($sql);
+        $data = $stmt->execute([$id]);
+        return $data;
     }
     public function select(){
         $model = array();
@@ -64,7 +74,15 @@ class NewsRepository{
         $stmt = $this->db->prepare("SELECT * FROM news WHERE id=?");
         $stmt->execute([$id]);
         $data = $stmt->fetch(); 
-        return $data;
+        $news = new News();
+        $news->setId($data["id"]);
+        $news->setTitle($data["title"]);
+        $news->setContent($data["content"]);
+        $news->setCategory($data["category"]);
+        $news->setImg($data["img"]);
+        $news->setCreatedAt($data["created_at"]);
+        $news->setUpdatedAt($data["updated_at"]);
+        return $news;
     }
 
 }

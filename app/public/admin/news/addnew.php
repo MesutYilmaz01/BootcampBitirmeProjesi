@@ -4,19 +4,23 @@ require '../../../vendor/autoload.php';
 
 use Project\Repositories\NewsRepository as NewsRepository;
 use Project\Services\NewsService as NewsService;
-
+$message = '';
 if (isset($_POST["save"]))
 {
     $service = new NewsService();
     $result = $service->addToDatabase();
-    if ($result)
+    //Validationlar Henüz Yapılmadı !
+    if ($result[0] == 1)
     {
-        //düzenlenecek
-        echo 'Kayıt Başarılı!';
+        $message =  '<div class="alert alert-success" role="alert">
+                     '.$result[1].'   
+                    </div>';
     }
-    else{
-        //düzenlenecek
-        echo 'Hata oluştu';
+    else
+    {
+        $message =  '<div class="alert alert-danger" role="alert">
+                     '.$result[1].'   
+                    </div>';
     }
 
 }
@@ -72,6 +76,7 @@ if (isset($_POST["save"]))
                     <!-- Page Heading -->
                     <div class="text-center">
                         <h1 class="h3 mb-4 text-gray-800">Haber Ekle</h1>
+                        <? if($message != '') echo $message;?>
                     </div>
 
                     <div class="row d-flex justify-content-center">

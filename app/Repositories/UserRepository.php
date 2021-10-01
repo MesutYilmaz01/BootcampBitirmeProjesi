@@ -7,7 +7,7 @@ use Project\Models\User as User;
 class UserRepository{
     public function __construct(User $user)
     {
-        echo 'userrepo';   
+        
     }
     public function create(){
     }
