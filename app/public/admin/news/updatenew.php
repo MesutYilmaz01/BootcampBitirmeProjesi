@@ -1,3 +1,28 @@
+<?php
+
+require '../../../vendor/autoload.php';
+
+use Project\Repositories\NewsRepository as NewsRepository;
+use Project\Services\NewsService as NewsService;
+$service = new NewsService();
+$data = $service->getNewsById();
+//after post
+if (isset($_POST["update"]))
+{
+     $result = $service->updateNews($data);
+     if ($result){
+         //düznelenecek
+         echo "işlem başarılı";
+         $data = $service->getNewsById();
+     }
+     else
+     {
+         //düzenlenecek
+         echo "Güncelleme yapılamadı";
+     }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,13 +37,13 @@
     <title>Haber Ekle</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -28,7 +53,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <? include './sidebar.php' ?>
+        <? include '../shared/sidebar.php' ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -38,7 +63,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <? include './topbar.php' ?>
+                <? include '../shared/topbar.php' ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -59,22 +84,22 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <form>
+                                            <form method="POST" action="updatenew.php?id=<?echo $data["id"]?>" enctype="multipart/form-data">
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Haber Başlığı">
+                                                        <input type="text" class="form-control" name="title"
+                                                            placeholder="Haber Başlığı" <?echo 'value='.$data["title"]?>> 
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <textarea class="form-control" placeholder="Haber İçeriği" rows=7></textarea>
+                                                        <textarea class="form-control" name="content" placeholder="Haber İçeriği" rows="7"><?echo $data["content"]?></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <label>Kategoriler</label>    
-                                                        <select class="form-control" multiple>
+                                                        <select class="form-control" name="category">
                                                             <option selected>Open this select menu</option>
                                                             <option value="1">One</option>
                                                             <option value="2">Two</option>
@@ -86,15 +111,15 @@
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <div class="mb-3">
                                                             <label for="formFile" class="form-label">Resim Seçiniz</label>
-                                                            <input class="form-control" type="file" id="formFile">
+                                                            <input class="form-control" type="file" id="formFile" name="img">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-3 mb-3 mb-sm-0">
-                                                        <a href="#" class="btn btn-block btn-primary">
-                                                            <span class="text">Kaydet</span>
-                                                        </a>
+                                                        <button type="submit" name="update" class="btn btn-block btn-primary">
+                                                            Kaydet
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -113,7 +138,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <? include './footer.php' ?>
+            <? include '../shared/footer.php' ?>
             <!-- End of Footer -->
 
         </div>
@@ -128,18 +153,18 @@
     </a>
 
     <!-- Logout Modal-->
-    <? include './logoutmodel.php' ?>
+    <? include '../shared/logoutmodel.php' ?>
     <!-- Logout Modal End -->
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../assets/js/sb-admin-2.min.js"></script>
+    <script src="../../assets/js/sb-admin-2.min.js"></script>
 
 </body>
 

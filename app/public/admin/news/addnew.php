@@ -1,7 +1,24 @@
 <?php
-if (isset($_POST))
+
+require '../../../vendor/autoload.php';
+
+use Project\Repositories\NewsRepository as NewsRepository;
+use Project\Services\NewsService as NewsService;
+
+if (isset($_POST["save"]))
 {
-    var_dump($_POST);
+    $service = new NewsService();
+    $result = $service->addToDatabase();
+    if ($result)
+    {
+        //düzenlenecek
+        echo 'Kayıt Başarılı!';
+    }
+    else{
+        //düzenlenecek
+        echo 'Hata oluştu';
+    }
+
 }
 
 ?>
@@ -20,13 +37,13 @@ if (isset($_POST))
     <title>Haber Ekle</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -36,7 +53,7 @@ if (isset($_POST))
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <? include './sidebar.php' ?>
+        <? include '../shared/sidebar.php' ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -46,7 +63,7 @@ if (isset($_POST))
             <div id="content">
 
                 <!-- Topbar -->
-                <? include './topbar.php' ?>
+                <? include '../shared/topbar.php' ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -103,7 +120,7 @@ if (isset($_POST))
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-3 mb-3 mb-sm-0">
-                                                        <button type="submit" class="btn btn-block btn-primary">
+                                                        <button type="submit" class="btn btn-block btn-primary"  name="save">
                                                             Kaydet
                                                         </button>
                                                     </div>
@@ -124,7 +141,7 @@ if (isset($_POST))
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <? include './footer.php' ?>
+            <? include '../shared/footer.php' ?>
             <!-- End of Footer -->
 
         </div>
@@ -139,18 +156,18 @@ if (isset($_POST))
     </a>
 
     <!-- Logout Modal-->
-    <? include './logoutmodel.php' ?>
+    <? include '../shared/logoutmodel.php' ?>
     <!-- Logout Modal End -->
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../assets/js/sb-admin-2.min.js"></script>
+    <script src="../../assets/js/sb-admin-2.min.js"></script>
 
 </body>
 

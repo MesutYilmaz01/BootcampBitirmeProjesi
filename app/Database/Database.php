@@ -2,8 +2,6 @@
 
 namespace Project\Database;
 
-use \Project\Repositories\DatabaseRepository as DatabaseRepository;
-
 class Database{
     private $db;
     public function __construct()
@@ -15,6 +13,6 @@ class Database{
         }
     }
     public function getDb(){
-        $this->db;
+        return $this->db;
     }
 }

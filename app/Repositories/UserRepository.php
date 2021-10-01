@@ -4,7 +4,7 @@ namespace Project\Repositories;
 
 use Project\Models\User as User;
 
-class UserRepository implements DatabaseRepository{
+class UserRepository{
     public function __construct(User $user)
     {
         echo 'userrepo';   

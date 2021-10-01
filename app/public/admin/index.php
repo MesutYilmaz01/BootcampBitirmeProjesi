@@ -41,7 +41,7 @@ use \Project\Models\User as User;
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <? include './sidebar.php' ?>
+        <? include './shared/sidebar.php' ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -51,7 +51,7 @@ use \Project\Models\User as User;
             <div id="content">
 
                 <!-- Topbar -->
-                <? include './topbar.php' ?>
+                <? include './shared/topbar.php' ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -154,7 +154,7 @@ use \Project\Models\User as User;
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <? include './footer.php' ?>
+            <? include './shared/footer.php' ?>
             <!-- End of Footer -->
 
         </div>
@@ -169,7 +169,7 @@ use \Project\Models\User as User;
     </a>
 
     <!-- Logout Modal-->
-    <? include './logoutmodel.php' ?>
+    <? include './shared/logoutmodel.php' ?>
     <!-- Logout Modal End -->
 
     <!-- Bootstrap core JavaScript-->
