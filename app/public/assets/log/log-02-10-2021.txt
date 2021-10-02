@@ -27,3 +27,8 @@ LOG DATE : [02-10-2021:58]		Type: INFO		Message:Veritabanından tüm kategoriler
 LOG DATE : [02-10-2021:00]		Type: INFO		Message:Veritabanından tüm kategoriler çekildi
 LOG DATE : [02-10-2021:02]		Type : ERROR			Message : Veritabanından Tüm Kullanıcılar Çekildi
 LOG DATE : [02-10-2021:02]		Type : INFO			Message : 5 id'li kullanıcı veritabanından çekildi.
+LOG DATE : [02-10-2021:04]		Type : ERROR			Message : Veritabanından Tüm Kullanıcılar Çekildi
+LOG DATE : [02-10-2021:04]		Type : INFO			Message : 3 id'li kullanıcı veritabanından silindi.
+LOG DATE : [02-10-2021:04]		Type : ERROR			Message : Veritabanından Tüm Kullanıcılar Çekildi
+LOG DATE : [02-10-2021:04]		Type : INFO			Message : 5 id'li kullanıcı veritabanından silindi.
+LOG DATE : [02-10-2021:04]		Type : ERROR			Message : Veritabanından Tüm Kullanıcılar Çekildi
