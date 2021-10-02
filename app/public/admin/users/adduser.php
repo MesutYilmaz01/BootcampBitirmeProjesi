@@ -103,19 +103,19 @@ if (isset($_POST["save"]))
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="email"
+                                                        <input type="email" class="form-control" name="email"
                                                             placeholder="Email">
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="password"
+                                                        <input type="password" class="form-control" name="password"
                                                             placeholder="Şifre">
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="password2"
+                                                        <input type="password" class="form-control" name="password2"
                                                             placeholder="Şifre Tekrar">
                                                     </div>
                                                 </div>

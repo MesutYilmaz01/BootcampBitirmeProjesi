@@ -42,13 +42,17 @@ class NewsRepository{
         }
         return array(0,"Haber güncellenirken bir hata oluştu.");
     }
-    public function delete(){
-        $data = null;
-        $id = $_GET["id"];
-        $sql = "DELETE FROM news WHERE id=?";
-        $stmt= $this->db->prepare($sql);
-        $data = $stmt->execute([$id]);
-        return $data;
+    public function delete($id){
+        $isExist = $this->selectById($id);
+        if ($isExist)
+        {            
+            $data = null;
+            $sql = "DELETE FROM news WHERE id=?";
+            $stmt= $this->db->prepare($sql);
+            $data = $stmt->execute([$id]);
+            return $data;
+        }
+        return false;
     }
     public function select(){
         $model = array();
@@ -68,12 +72,16 @@ class NewsRepository{
         return $model;
         
     }
-    public function selectById(){
+    public function selectById($id){
         $data = null;
-        $id = $_GET["id"];
         $stmt = $this->db->prepare("SELECT * FROM news WHERE id=?");
         $stmt->execute([$id]);
         $data = $stmt->fetch(); 
+        if ($data == false)
+        {
+            return false;
+        }
+
         $news = new News();
         $news->setId($data["id"]);
         $news->setTitle($data["title"]);

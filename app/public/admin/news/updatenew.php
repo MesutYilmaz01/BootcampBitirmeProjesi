@@ -9,6 +9,11 @@ use Project\Services\CategoriesService as CategoriesService;
 $categoryService = new CategoriesService();
 $categories = $categoryService->getCategories();
 $data = $service->getNewsById();
+if($data == false)
+{
+    header('Location: /public/404/404.php');
+    die();
+}
 $message = '';
 //after post
 if (isset($_POST["update"]))
@@ -111,7 +116,8 @@ if (isset($_POST["update"]))
                                                         <select class="form-control" name="category">
                                                             <?
                                                                 foreach ($categories as $category)
-                                                                {   if ($category->getId() == $data->getCategory())
+                                                                {   
+                                                                    if ($category->getId() == $data->getCategory())
                                                                     {
                                                                         echo '<option value='.$category->getId().' selected>'.$category->getCategory().'</option>';
                                                                     }

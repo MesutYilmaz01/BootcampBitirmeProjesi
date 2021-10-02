@@ -40,13 +40,17 @@ class CategoryRepository{
         return array(0,"Kategori güncellenirken bir hata oluştu.");
         
     }
-    public function delete(){
-        $data = null;
-        $id = $_GET["id"];
-        $sql = "DELETE FROM categories WHERE id=?";
-        $stmt= $this->db->prepare($sql);
-        $data = $stmt->execute([$id]);
-        return $data;
+    public function delete($id){
+        $isExist = $this->selectById($id);
+        if ($isExist)
+        {  
+            $data = null;
+            $sql = "DELETE FROM categories WHERE id=?";
+            $stmt= $this->db->prepare($sql);
+            $data = $stmt->execute([$id]);
+            return $data;
+        }
+        return false;
     }
     public function select(){
         $model = array();
@@ -67,6 +71,10 @@ class CategoryRepository{
         $stmt = $this->db->prepare("SELECT * FROM categories WHERE id=?");
         $stmt->execute([$id]);
         $data = $stmt->fetch(); 
+        if ($data == false)
+        {
+            return false;
+        }
         $news = new Category();
         $news->setId($data["id"]);
         $news->setCategory($data["category"]);

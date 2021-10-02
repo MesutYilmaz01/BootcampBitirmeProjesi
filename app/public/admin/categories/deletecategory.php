@@ -5,8 +5,10 @@ use Project\Services\CategoriesService as CategoriesService;
 $service = new CategoriesService();
 $data = $service->deleteCategoryById();
 $message = '';
-if ($data == null){
+if ($data == false){
     $message = "Silme işlemi sırasında bir hata oluştu";
+    header('Location: /public/404/404.php');
+    die();
 }
 else
 {

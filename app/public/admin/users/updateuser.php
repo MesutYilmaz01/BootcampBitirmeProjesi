@@ -6,6 +6,11 @@ use Project\Services\UserService as UserService;
 
 $service = new UserService();
 $data = $service->getUserById();
+if ($data == false)
+{
+    header('Location: /public/404/404.php');
+    die();
+}
 $message = '';
 //after post
 if (isset($_POST["update"]))
@@ -107,20 +112,20 @@ if (isset($_POST["update"]))
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="email"
+                                                        <input type="email" class="form-control" name="email"
                                                             value="<?echo $data->getEmail()?>"
                                                             placeholder="Email">
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="password"
+                                                        <input type="password" class="form-control" name="password"
                                                             placeholder="Şifre">
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="password2"
+                                                        <input type="password" class="form-control" name="password2"
                                                             placeholder="Şifre Tekrar">
                                                     </div>
                                                 </div>

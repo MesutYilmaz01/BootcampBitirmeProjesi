@@ -43,12 +43,16 @@ class UserRepository{
     }
 
     public function delete($id){
-        $data = null;
-        $sql = "DELETE FROM users WHERE id=?";
-        $stmt= $this->db->prepare($sql);
-        $data = $stmt->execute([$id]);
-        return $data;
-
+        $isExist = $this->selectById($id);
+        if ($isExist)
+        {
+            $data = null;
+            $sql = "DELETE FROM users WHERE id=?";
+            $stmt= $this->db->prepare($sql);
+            $data = $stmt->execute([$id]);
+            return $data;
+        }
+        return false;
     }
 
     public function select(){
@@ -74,7 +78,11 @@ class UserRepository{
         $data = null;
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id=?");
         $stmt->execute([$id]);
-        $data = $stmt->fetch(); 
+        $data = $stmt->fetch();
+        if ($data == false)
+        {
+            return false;
+        }
         $news = new User();
         $news->setId($data["id"]);
         $news->setName($data["name"]);

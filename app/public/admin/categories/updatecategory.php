@@ -5,8 +5,12 @@ require '../../../vendor/autoload.php';
 use Project\Repositories\CategoryRepository as CategoryRepository;
 use Project\Services\CategoriesService as CategoriesService;
 $service = new CategoriesService();
-$id = $_GET["id"];
-$data = $service->getCategoryById($id);
+$data = $service->getCategoryById();
+if($data == false)
+{
+    header('Location: /public/404/404.php');
+    die();
+}
 $message = '';
 //after post
 if (isset($_POST["update"]))

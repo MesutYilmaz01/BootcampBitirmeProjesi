@@ -9,68 +9,106 @@ use Project\Helper\Logging as Logging;
 class NewsService{
 
     public function addToDatabase(){
-        $imgPath = $this->saveImg();
-        if ($imgPath[0] == 1)
+        if (strlen($_POST["title"]) > 45)
         {
-            $data = new News();
-            $data->setTitle($_POST["title"]);
-            $data->setContent($_POST["content"]);
-            $data->setCategory($_POST["category"]);
-            $data->setCreatedAt(date('d-m-Y-h:i'));
-            $data->setUpdatedAt(date('d-m-Y-h:i'));
-            $data->setImg($imgPath[1]);
-            $repo = new NewsRepository();
-            $result = $repo->create($data);
-            if ($result[0] == 1)
+            if (strlen($_POST["content"]) > 150)
             {
-                Logging::info("Haber başarılı bir şekilde veritabanına eklendi");
+                $imgPath = $this->saveImg();
+                if ($imgPath[0] == 1)
+                {
+                    $data = new News();
+                    $data->setTitle($_POST["title"]);
+                    $data->setContent($_POST["content"]);
+                    $data->setCategory($_POST["category"]);
+                    $data->setCreatedAt(date('d-m-Y-h:i'));
+                    $data->setUpdatedAt(date('d-m-Y-h:i'));
+                    $data->setImg($imgPath[1]);
+                    $repo = new NewsRepository();
+                    $result = $repo->create($data);
+                    if ($result[0] == 1)
+                    {
+                        Logging::info($data->getId()." id'li Haber başarılı bir şekilde veritabanına eklendi");
+                    }
+                    else
+                    {
+                        Logging::emergency("Haber veritabanına eklenemedi");
+                    }
+                    return $result;
+                }
+                Logging::emergency("Haber resmi kayıt edilemedi");
+                return $imgPath;
             }
-            else
-            {
-                Logging::emergency("Haber veritabanına eklenemedi");
-            }
-            return $result;
+            return array(0,"Haber içeriği en az 150 karakter olmalı.");
         }
-        Logging::emergency("Haber resmi kayıt edilemedi");
-        return $imgPath;
+        return array(0,"Haber başlığı en az 45 karakter olmalı.");
         
     }
 
     public function updateNews(News $oldData){
-        $imgPath = $this->saveImg();
-        if ($imgPath[0] == 0 || $imgPath[0] == 1)
+        if (strlen($_POST["title"]) > 45)
         {
-            $data = new News();
-            $data->setId($oldData->getId());
-            $data->setTitle($_POST["title"]);
-            $data->setContent($_POST["content"]);
-            $data->setCategory($_POST["category"]);
-            $img = $_FILES["img"]["name"] == "" ? $oldData->getImg() :  $imgPath[1];
-            $data->setImg($img);
-            $data->setCreatedAt($oldData->getCreatedAt());
-            $data->setUpdatedAt(date('d-m-Y-h:i'));
-            $repo = new NewsRepository();
-            $result = $repo->update($data);
-            return $result;
+            if (strlen($_POST["content"]) > 150)
+            {
+                $imgPath = $this->saveImg();
+                if ($imgPath[0] == 0 || $imgPath[0] == 1)
+                {
+                    $data = new News();
+                    $data->setId($oldData->getId());
+                    $data->setTitle($_POST["title"]);
+                    $data->setContent($_POST["content"]);
+                    $data->setCategory($_POST["category"]);
+                    $img = $_FILES["img"]["name"] == "" ? $oldData->getImg() :  $imgPath[1];
+                    $data->setImg($img);
+                    $data->setCreatedAt($oldData->getCreatedAt());
+                    $data->setUpdatedAt(date('d-m-Y-h:i'));
+                    $repo = new NewsRepository();
+                    $result = $repo->update($data);
+                    if ($result[0] == 1)
+                    {
+                        Logging::info($data->getId()." id'li haber başarılı bir şekilde güncellendi");
+                    }
+                    else
+                    {
+                        Logging::emergency($data->getId()."Haber güncellenemedi");
+                    }
+                    return $result;
+                }
+                return $imgPath;
+            }
+            return array(0,"Haber içeriği en az 150 karakter olmalı.");
         }
-        return $imgPath;
+        return array(0,"Haber başlığı en az 45 karakter olmalı.");
     }
 
     public function getAllFromDatabase(){
         $repo = new NewsRepository();
         $data = $repo->select();
-        Logging::error("Veritabanından Tüm Haberler Çekildi");
+        Logging::info("Veritabanından Tüm Haberler Çekildi");
         return $data;
     }
 
     public function getNewsById(){
+        $id = $_GET["id"];
         $repo = new NewsRepository();
-        $data = $repo->selectById();
+        $data = $repo->selectById($id);
+        if ($data == false)
+        {
+            Logging::emergency($id." id'li haber veritabanından çekilemedi.");
+            return false;
+        }
+        Logging::info($id." id'li haber veritabanından çekildi.");
         return $data;
     }
     public function deleteNewById(){
-        $repo = new NewsRepository();
-        $data = $repo->delete();
+        $id = $_GET["id"];
+        $repo = new NewsRepository($id);
+        $data = $repo->delete($id);
+        if ($data == false)
+        {
+            Logging::emergency($id." id'li haber veritabanından silinemedi.");
+            return false;
+        }
+        Logging::info($id." id'li haber veritabanından silindi.");
         return $data;
     }
 

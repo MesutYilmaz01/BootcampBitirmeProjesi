@@ -5,32 +5,32 @@
   class Logging {
 
     public static function error($message) {
-      $message = "LOG DATE : [".date('d-m-Y:i')."]        Type: ERROR        Message:".$message."\n";
+      $message = "LOG DATE : [".date('d-m-Y:i')."]\t\tType : ERROR\t\t\tMessage : ".$message."\n";
       Logging::write($message);
     }
 
     public static function emergency($message) {
-      $message = "LOG DATE : [".date('d-m-Y:i')."]        Type: EMERGENCY        Message:".$message."\n";
+      $message = "LOG DATE : [".date('d-m-Y:i')."]\t\tType : EMERGENCY\t\t\tMessage : ".$message."\n";
       Logging::write($message);
     }
 
     public static function alert($message) {
-      $message = "LOG DATE : [".date('d-m-Y:i')."]        Type: ALERT        Message:".$message."\n";
+      $message = "LOG DATE : [".date('d-m-Y:i')."]\t\tType : ALERT\t\t\tMessage : ".$message."\n";
       Logging::write($message);
     }
 
     public static function critical($message) {
-      $message = "LOG DATE : [".date('d-m-Y:i')."]        Type: CRITICAL        Message:".$message."\n";
+      $message = "LOG DATE : [".date('d-m-Y:i')."]\t\tType : CRITICAL\t\\ttMessage : ".$message."\n";
       Logging::write($message);
     }
 
     public static function notice($message) {
-      $message = "LOG DATE : [".date('d-m-Y:i')."]        Type: NOTICE        Message:".$message."\n";
+      $message = "LOG DATE : [".date('d-m-Y:i')."]\t\tType : NOTICE\t\t\tMessage : ".$message."\n";
       Logging::write($message);
     }
 
     public static function info($message) {
-      $message = "LOG DATE : [".date('d-m-Y:i')."]        Type: INFO        Message:".$message."\n";
+      $message = "LOG DATE : [".date('d-m-Y:i')."]\t\tType : INFO\t\t\tMessage : ".$message."\n";
       Logging::write($message);
     }
 

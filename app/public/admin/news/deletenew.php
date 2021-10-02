@@ -5,8 +5,10 @@ use Project\Services\NewsService as NewsService;
 $service = new NewsService();
 $data = $service->deleteNewById();
 $message = '';
-if ($data == null){
+if ($data == false){
     $message = "Silme işlemi sırasında bir hata oluştu";
+    header('Location: /public/404/404.php');
+    die();
 }
 else
 {

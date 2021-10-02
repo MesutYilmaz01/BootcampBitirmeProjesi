@@ -7,8 +7,12 @@ $service = new NewsService();
 use Project\Services\CategoriesService as CategoriesService;
 $categoryService = new CategoriesService();
 $data = $service->getNewsById();
+if($data == false)
+{
+    header('Location: /public/404/404.php');
+    die();
+}
 $category = $categoryService->getCategoryById($data->getCategory());
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

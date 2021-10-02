@@ -4,6 +4,11 @@ require '../../../vendor/autoload.php';
 use Project\Services\UserService as UserService;
 $service = new UserService();
 $data = $service->getUserById();
+if ($data == false)
+{
+    header('Location: /public/404/404.php');
+    die();
+}
 $type = "";
 if ($data->getType() == 1)
 {

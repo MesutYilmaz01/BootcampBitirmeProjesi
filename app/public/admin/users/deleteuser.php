@@ -5,8 +5,10 @@ use Project\Services\UserService as UserService;
 $service = new UserService();
 $data = $service->deleteUserById();
 $message = '';
-if ($data == null){
-    $message = "Silme işlemi sırasında bir hata oluştu";
+if ($data == false){
+    $message = "Silme işlemi sırasında bir hata oluştu";  
+    header('Location: /public/404/404.php');
+    die();
 }
 else
 {
