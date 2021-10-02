@@ -2,13 +2,11 @@
 
 require '../../../vendor/autoload.php';
 
-use Project\Repositories\NewsRepository as NewsRepository;
-use Project\Services\NewsService as NewsService;
+use Project\Services\UserService as UserService;
  
-$service = new NewsService();
-$data = $service->getAllFromDatabase();
+$service = new UserService();
+$data = $service->getUsers();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +18,7 @@ $data = $service->getAllFromDatabase();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Haber Listesi</title>
+    <title>Kullanıcı Listesi</title>
 
     <!-- Custom fonts for this template-->
     <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -58,32 +56,32 @@ $data = $service->getAllFromDatabase();
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Haberler</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Kullanıcılar</h1>
 
                                         <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary text-center">Haber Listesi</h6>
+                            <h6 class="m-0 font-weight-bold text-primary text-center">Kullanıcı Listesi</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Haber Başlığı</th>
-                                            <th>Onaylayan</th>
-                                            <th>Tarih</th>
-                                            <th>Yorumlar</th>
+                                            <th>Adı</th>
+                                            <th>Email</th>
+                                            <th>Yetki</th>
+                                            <th>O. Tarih</th>
                                             <th>Sil</th>
                                             <th>Güncelle</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Haber Başlığı</th>
-                                            <th>Onaylayan</th>
-                                            <th>Tarih</th>
-                                            <th>Yorumlar</th>
+                                            <th>Adı</th>
+                                            <th>Email</th>
+                                            <th>Yetki</th>
+                                            <th>O. Tarih</th>
                                             <th>Sil</th>
                                             <th>Güncelle</th>
                                         </tr>
@@ -92,17 +90,34 @@ $data = $service->getAllFromDatabase();
                                         <?php
                                             foreach($data as $item)
                                             {
+                                                $type = "";
+                                                if ($item->getType() == 1)
+                                                {
+                                                    $type = "Admin";
+                                                }
+                                                if ($item->getType() == 2)
+                                                {
+                                                    $type = "Moderatör";
+                                                }
+                                                if ($item->getType() == 3)
+                                                {
+                                                    $type = "Editör";
+                                                }
+                                                if ($item->getType() == 4)
+                                                {
+                                                    $type = "Kullanıcı";
+                                                }
                                                 echo '<tr>
                                                         <td>
-                                                        <a href="newdetail.php?id='.$item->getId().'">
-                                                        '.$item->getTitle().'
+                                                        <a href="userdetail.php?id='.$item->getId().'">
+                                                        '.$item->getName().'  '.$item->getSurname().'
                                                         </a>
                                                         </td>
-                                                        <td>Düzenleyen</td>
-                                                        <td>'.$item->getUpdatedAt().'</td>
-                                                        <td><a href="#" class="btn btn-success btn-block">Yorumlar</a></td>
-                                                        <td><a href="deletenew.php?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>
-                                                        <td><a href="updatenew.php?id='.$item->getId().'" class="btn btn-warning btn-block">Güncelle</a></td>';
+                                                        <td>'.$item->getEmail().'</td>
+                                                        <td>'.$type.'</td>
+                                                        <td>'.$item->getCreatedAt().'</td>
+                                                        <td><a href="deleteuser.php?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>
+                                                        <td><a href="updateuser.php?id='.$item->getId().'" class="btn btn-warning btn-block">Güncelle</a></td>';
                                             }
                                         ?>
                                     </tbody>

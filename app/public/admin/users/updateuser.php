@@ -1,34 +1,31 @@
 <?php
 
-// require '../../../vendor/autoload.php';
+require '../../../vendor/autoload.php';
 
-// use Project\Repositories\NewsRepository as NewsRepository;
-// use Project\Services\NewsService as NewsService;
-// $service = new NewsService();
-// use Project\Services\CategoriesService as CategoriesService;
-// $categoryService = new CategoriesService();
-// $categories = $categoryService->getCategories();
-// $data = $service->getNewsById();
-// $message = '';
-// //after post
-// if (isset($_POST["update"]))
-// {
-//     $result = $service->updateNews($data);
-//     //Validationlar Henüz Yapılmadı !
-//     if ($result[0] == 1)
-//     {
-//          $message =  '<div class="alert alert-success" role="alert">
-//                       '.$result[1].'   
-//                      </div>';
-//     }
-//     else
-//     {
-//         $message =  '<div class="alert alert-danger" role="alert">
-//                      '.$result[1].'   
-//                      </div>';
-//     }
-//     $data = $service->getNewsById();
-// }
+use Project\Services\UserService as UserService;
+
+$service = new UserService();
+$data = $service->getUserById();
+$message = '';
+//after post
+if (isset($_POST["update"]))
+{
+    $result = $service->updateUser($data);
+    //Validationlar Henüz Yapılmadı !
+    if ($result[0] == 1)
+    {
+         $message =  '<div class="alert alert-success" role="alert">
+                      '.$result[1].'   
+                     </div>';
+    }
+    else
+    {
+        $message =  '<div class="alert alert-danger" role="alert">
+                     '.$result[1].'   
+                     </div>';
+    }
+    $data = $service->getUserById();
+}
 ?>
 
 <!DOCTYPE html>
@@ -97,18 +94,21 @@
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <input type="text" class="form-control" name="name"
+                                                            value="<?echo $data->getName()?>"
                                                             placeholder="Ad">
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <input type="text" class="form-control" name="surname"
+                                                            value="<?echo $data->getSurname()?>"
                                                             placeholder="Soyad">
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <input type="text" class="form-control" name="email"
+                                                            value="<?echo $data->getEmail()?>"
                                                             placeholder="Email">
                                                     </div>
                                                 </div>
@@ -128,16 +128,16 @@
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <label>Kullanıcı Tipi</label>    
                                                         <select class="form-control" name="type">
-                                                            <option value="1" selected>Admin</option>
-                                                            <option value="2">Moderatör</option>
-                                                            <option value="3">Editör</option>
-                                                            <option value="4">Kullanıcı</option>
+                                                            <option value="1" <? echo $data->getType() == 1 ? 'selected' : '' ?> >Admin</option>
+                                                            <option value="2" <? echo $data->getType() == 2 ? 'selected' : '' ?>>Moderatör</option>
+                                                            <option value="3" <? echo $data->getType() == 3 ? 'selected' : '' ?>>Editör</option>
+                                                            <option value="4" <? echo $data->getType() == 4 ? 'selected' : '' ?>>Kullanıcı</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-3 mb-3 mb-sm-0">
-                                                        <button type="submit" class="btn btn-block btn-primary"  name="save">
+                                                        <button type="submit" class="btn btn-block btn-primary"  name="update">
                                                             Kaydet
                                                         </button>
                                                     </div>

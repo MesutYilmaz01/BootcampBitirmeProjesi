@@ -1,9 +1,9 @@
 <?php
 require '../../../vendor/autoload.php';
 
-use Project\Services\NewsService as NewsService;
-$service = new NewsService();
-$data = $service->deleteNewById();
+use Project\Services\UserService as UserService;
+$service = new UserService();
+$data = $service->deleteUserById();
 $message = '';
 if ($data == null){
     $message = "Silme işlemi sırasında bir hata oluştu";

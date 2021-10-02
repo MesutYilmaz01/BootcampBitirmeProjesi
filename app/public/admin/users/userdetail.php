@@ -1,13 +1,26 @@
 <?php
 require '../../../vendor/autoload.php';
 
-use Project\Repositories\NewsRepository as NewsRepository;
-use Project\Services\NewsService as NewsService;
-$service = new NewsService();
-use Project\Services\CategoriesService as CategoriesService;
-$categoryService = new CategoriesService();
-$data = $service->getNewsById();
-$category = $categoryService->getCategoryById($data->getCategory());
+use Project\Services\UserService as UserService;
+$service = new UserService();
+$data = $service->getUserById();
+$type = "";
+if ($data->getType() == 1)
+{
+    $type = "Admin";
+}
+if ($data->getType() == 2)
+{
+    $type = "Moderatör";
+}
+if ($data->getType() == 3)
+{
+    $type = "Editör";
+}
+if ($data->getType() == 4)
+{
+    $type = "Kullanıcı";
+}
 
 ?>
 <!DOCTYPE html>
@@ -67,25 +80,19 @@ $category = $categoryService->getCategoryById($data->getCategory());
                                     </div>
                                     <div class="card-body mb-2">
                                         <div>
-                                            <img src="<?echo $data->getImg()?>" width="650px"/>
+                                            <div>Adı Soyadı : <? echo $data->getName()." ".$data->getSurname()?></div>
                                         </div>
-                                        <div class="mt-3 text-gray-900">
-                                            <h4><? echo $data->getTitle() ?></h4>
-                                            <div class="mt-3">
-                                                <? echo $data->getContent()?>
-                                            </div>
-                                            <div class="mt-3">
-                                                <h4 class="text-gray-900">Kategori</h4>
-                                                <div class="text-lg text-gray-600">
-                                                    <?
-                                                        echo $category->getCategory();
-                                                    ?>
-                                                </div>
-                                            </div>
-                                            <div class="mt-3">
-                                                <a href="updateuser.php?id=<?echo $data->getId()?>" class="btn btn-success">Güncelle</a>
-                                                <a href="deleteuser.php?id=<?echo $data->getId()?>" class="btn btn-danger">Sil</a>
-                                            </div>
+                                        <div>
+                                            <div>Email : <? echo $data->getEmail()?></div>
+                                        </div>
+                                        <div>
+                                            <div>Kullanıcı Türü : <? echo $type?></div>
+                                        </div>
+                                        <div>
+                                            <div>Hesap Oluşturulma : <? echo $data->getCreatedAt()?></div>
+                                        </div>
+                                        <div>
+                                            <div>Hesap Güncellenme : <? echo $data->getUpdatedAt()?></div>
                                         </div>
                                     </div>
                                 </div>

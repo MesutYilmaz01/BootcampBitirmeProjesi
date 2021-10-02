@@ -51,8 +51,8 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Kullanıcılar</h6>
-            <a class="collapse-item" href="utilities-color.html">Kullanıcı Ekle</a>
-            <a class="collapse-item" href="utilities-border.html">Kullanıcılar</a>
+            <a class="collapse-item" href="/public/admin/users/adduser.php"">Kullanıcı Ekle</a>
+            <a class="collapse-item" href="/public/admin/users/users.php">Kullanıcılar</a>
         </div>
     </div>
 </li>
