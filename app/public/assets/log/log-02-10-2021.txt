@@ -1,0 +1,7 @@
+LOG DATE : [02-10-2021:59]        Type: ERROR        Message:Veritabanından Tüm Haberler Çekildi
+LOG DATE : [02-10-2021:59]        Type: ERROR        Message:Veritabanından Tüm Haberler Çekildi
+LOG DATE : [02-10-2021:59]        Type: ERROR        Message:Veritabanından Tüm Haberler Çekildi
+LOG DATE : [02-10-2021:59]        Type: ERROR        Message:Veritabanından Tüm Haberler Çekildi
+LOG DATE : [02-10-2021:59]        Type: ERROR        Message:Veritabanından Tüm Haberler Çekildi
+LOG DATE : [02-10-2021:59]        Type: ERROR        Message:Veritabanından Tüm Haberler Çekildi
+LOG DATE : [02-10-2021:59]        Type: ERROR        Message:Veritabanından Tüm Haberler Çekildi

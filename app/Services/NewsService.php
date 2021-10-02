@@ -4,6 +4,7 @@ namespace Project\Services;
 
 use Project\Models\News;
 use Project\Repositories\NewsRepository as NewsRepository;
+use Project\Helper\Logging as Logging;
 
 class NewsService{
 
@@ -20,8 +21,17 @@ class NewsService{
             $data->setImg($imgPath[1]);
             $repo = new NewsRepository();
             $result = $repo->create($data);
+            if ($result[0] == 1)
+            {
+                Logging::info("Haber başarılı bir şekilde veritabanına eklendi");
+            }
+            else
+            {
+                Logging::emergency("Haber veritabanına eklenemedi");
+            }
             return $result;
         }
+        Logging::emergency("Haber resmi kayıt edilemedi");
         return $imgPath;
         
     }
@@ -49,6 +59,7 @@ class NewsService{
     public function getAllFromDatabase(){
         $repo = new NewsRepository();
         $data = $repo->select();
+        Logging::error("Veritabanından Tüm Haberler Çekildi");
         return $data;
     }
 

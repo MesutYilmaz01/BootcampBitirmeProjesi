@@ -57,14 +57,7 @@ services:
             - 8080:80
         networks: 
             - local-bridge
-    #composer
-    composer:
-        image: composer:latest
-        container_name: composer
-        tty: true
-        command: ['composer','install']
-        volumes:
-            - ./app:/app
+
     
 #network
 networks:
