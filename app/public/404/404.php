@@ -31,7 +31,7 @@
     <div class="error mx-auto" data-text="404">404</div>
     <p class="lead text-gray-800 mb-5">Sayfa Bulunamadı...</p>
     <p class="text-gray-500 mb-0">Erişim izniniz olmayan bir sayfaya erişmeye çalışıyor olabilirsiniz.</p>
-    <a href="../main/">&larr; Anasayfaya Dön</a>
+    <a href="../main/index">&larr; Anasayfaya Dön</a>
 </div>
 
 </div>

@@ -2,7 +2,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/public/admin/">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/index">
     <div class="sidebar-brand-text mx-3">Admin Paneli</div>
 </a>
 
@@ -11,7 +11,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
-    <a class="nav-link" href="/public/admin/">
+    <a class="nav-link" href="/admin/index">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Anasayfa</span></a>
 </li>
@@ -34,8 +34,8 @@
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Haberler</h6>
-            <a class="collapse-item" href="/public/admin/news/addnew.php">Haber Ekle</a>
-            <a class="collapse-item" href="/public/admin/news/news.php">Haberler</a>
+            <a class="collapse-item" href="/admin/news/addnew">Haber Ekle</a>
+            <a class="collapse-item" href="/admin/news/news">Haberler</a>
         </div>
     </div>
 </li>
@@ -51,8 +51,8 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Kullanıcılar</h6>
-            <a class="collapse-item" href="/public/admin/users/adduser.php"">Kullanıcı Ekle</a>
-            <a class="collapse-item" href="/public/admin/users/users.php">Kullanıcılar</a>
+            <a class="collapse-item" href="/admin/users/adduser">Kullanıcı Ekle</a>
+            <a class="collapse-item" href="/admin/users/users">Kullanıcılar</a>
         </div>
     </div>
 </li>
@@ -68,8 +68,8 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Kategoriler</h6>
-            <a class="collapse-item" href="/public/admin/categories/addcategory.php">Kategori Ekle</a>
-            <a class="collapse-item" href="/public/admin/categories/categories.php">Kategoriler</a>
+            <a class="collapse-item" href="/admin/categories/addcategory">Kategori Ekle</a>
+            <a class="collapse-item" href="/admin/categories/categories">Kategoriler</a>
         </div>
     </div>
 </li>

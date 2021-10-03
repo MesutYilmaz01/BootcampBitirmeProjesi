@@ -1,10 +1,5 @@
 <?php
 
-
-
-include '../../vendor/autoload.php';
-
-
 use \Project\Repositories\UserRepository as UserRepository;
 use \Project\Database\Database as Database;
 use \Project\Models\User as User;
@@ -25,13 +20,13 @@ use \Project\Models\User as User;
     <title>Admin Paneli - Anasayfa</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -39,9 +34,9 @@ use \Project\Models\User as User;
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
+    <? $dir = __DIR__;?>
         <!-- Sidebar -->
-        <? include './shared/sidebar.php' ?>
+        <? include $dir.'/shared/sidebar.php' ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -51,7 +46,7 @@ use \Project\Models\User as User;
             <div id="content">
 
                 <!-- Topbar -->
-                <? include './shared/topbar.php' ?>
+                <? include $dir.'/shared/topbar.php' ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -154,7 +149,7 @@ use \Project\Models\User as User;
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <? include './shared/footer.php' ?>
+            <? include $dir.'/shared/footer.php' ?>
             <!-- End of Footer -->
 
         </div>
@@ -169,18 +164,18 @@ use \Project\Models\User as User;
     </a>
 
     <!-- Logout Modal-->
-    <? include './shared/logoutmodel.php' ?>
+    <? include $dir.'/shared/logoutmodel.php' ?>
     <!-- Logout Modal End -->
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../assets/js/sb-admin-2.min.js"></script>
+    <script src="/assets/js/sb-admin-2.min.js"></script>
 
 </body>
 

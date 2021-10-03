@@ -12,7 +12,7 @@ class UserService{
         {
             if (strlen($_POST["surname"]) > 0)
             {
-                if (strlen($_POST["email"]) > 0 && (str_contains($_POST["email"],'@'))) 
+                if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) 
                 {
                     if ((strlen($_POST["password"]) > 7) && ($_POST["password"] == $_POST["password2"]))
                     {
@@ -50,7 +50,7 @@ class UserService{
         {
             if (strlen($_POST["surname"]) > 0)
             {
-                if (strlen($_POST["email"]) > 0 && (str_contains($_POST["email"],'@'))) 
+                if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) 
                 {
                     if (($_POST["password"] == "" && $_POST["password2"] == "") || 
                     (strlen($_POST["password"]) > 7) && ($_POST["password"] == $_POST["password2"]))

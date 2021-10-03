@@ -1,15 +1,14 @@
 <?php
-require '../../../vendor/autoload.php';
 
-use Project\Repositories\NewsRepository as NewsRepository;
 use Project\Services\NewsService as NewsService;
-$service = new NewsService();
 use Project\Services\CategoriesService as CategoriesService;
+
+$service = new NewsService();
 $categoryService = new CategoriesService();
 $data = $service->getNewsById();
 if($data == false)
 {
-    header('Location: /public/404/404.php');
+    header('Location: /404/404.php');
     die();
 }
 $category = $categoryService->getCategoryById($data->getCategory());
@@ -28,13 +27,13 @@ $category = $categoryService->getCategoryById($data->getCategory());
     <title>Haber Detay</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -42,9 +41,9 @@ $category = $categoryService->getCategoryById($data->getCategory());
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
+    <? $dir = __DIR__;?>
         <!-- Sidebar -->
-        <? include '../shared/sidebar.php' ?>
+        <? include $dir.'/../shared/sidebar.php' ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -54,7 +53,7 @@ $category = $categoryService->getCategoryById($data->getCategory());
             <div id="content">
 
                 <!-- Topbar -->
-                <? include '../shared/topbar.php' ?>
+                <? include $dir.'/../shared/topbar.php' ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -87,8 +86,8 @@ $category = $categoryService->getCategoryById($data->getCategory());
                                                 </div>
                                             </div>
                                             <div class="mt-3">
-                                                <a href="updatenew.php?id=<?echo $data->getId()?>" class="btn btn-success">Güncelle</a>
-                                                <a href="deletenew.php?id=<?echo $data->getId()?>" class="btn btn-danger">Sil</a>
+                                                <a href="updatenew?id=<?echo $data->getId()?>" class="btn btn-success">Güncelle</a>
+                                                <a href="deletenew?id=<?echo $data->getId()?>" class="btn btn-danger">Sil</a>
                                             </div>
                                         </div>
                                     </div>
@@ -103,7 +102,7 @@ $category = $categoryService->getCategoryById($data->getCategory());
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <? include '../shared/footer.php' ?>
+            <? include $dir.'/../shared/footer.php' ?>
             <!-- End of Footer -->
 
         </div>
@@ -118,18 +117,18 @@ $category = $categoryService->getCategoryById($data->getCategory());
     </a>
 
     <!-- Logout Modal-->
-    <? include '../shared/logoutmodel.php' ?>
+    <? include $dir.'/../shared/logoutmodel.php' ?>
     <!-- Logout Modal End -->
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../../assets/js/sb-admin-2.min.js"></script>
+    <script src="/assets/js/sb-admin-2.min.js"></script>
 
 </body>
 

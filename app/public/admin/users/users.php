@@ -1,7 +1,5 @@
 <?php
 
-require '../../../vendor/autoload.php';
-
 use Project\Services\UserService as UserService;
  
 $service = new UserService();
@@ -21,25 +19,26 @@ $data = $service->getUsers();
     <title>Kullanıcı Listesi</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="../../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
+    <? $dir = __DIR__;?>
 
         <!-- Sidebar -->
-        <? include '../shared/sidebar.php' ?>
+        <? include $dir.'/../shared/sidebar.php' ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -49,7 +48,7 @@ $data = $service->getUsers();
             <div id="content">
 
                 <!-- Topbar -->
-                <? include '../shared/topbar.php' ?>
+                <? include $dir.'/../shared/topbar.php' ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -109,15 +108,15 @@ $data = $service->getUsers();
                                                 }
                                                 echo '<tr>
                                                         <td>
-                                                        <a href="userdetail.php?id='.$item->getId().'">
+                                                        <a href="userdetail?id='.$item->getId().'">
                                                         '.$item->getName().'  '.$item->getSurname().'
                                                         </a>
                                                         </td>
                                                         <td>'.$item->getEmail().'</td>
                                                         <td>'.$type.'</td>
                                                         <td>'.$item->getCreatedAt().'</td>
-                                                        <td><a href="deleteuser.php?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>
-                                                        <td><a href="updateuser.php?id='.$item->getId().'" class="btn btn-warning btn-block">Güncelle</a></td>';
+                                                        <td><a href="deleteuser?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>
+                                                        <td><a href="updateuser?id='.$item->getId().'" class="btn btn-warning btn-block">Güncelle</a></td>';
                                             }
                                         ?>
                                     </tbody>
@@ -158,7 +157,7 @@ $data = $service->getUsers();
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <? include '../shared/footer.php' ?>
+            <? include $dir.'/../shared/footer.php' ?>
             <!-- End of Footer -->
 
         </div>
@@ -173,25 +172,25 @@ $data = $service->getUsers();
     </a>
 
     <!-- Logout Modal-->
-    <? include '../shared/logoutmodel.php' ?>
+    <? include $dir.'/../shared/logoutmodel.php' ?>
     <!-- Logout Modal End -->
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../../assets/js/sb-admin-2.min.js"></script>
+    <script src="/assets/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="../../js/demo/datatables-demo.js"></script>
+    <script src="/js/demo/datatables-demo.js"></script>
 </body>
 
 </html>

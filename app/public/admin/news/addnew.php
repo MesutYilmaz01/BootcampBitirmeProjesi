@@ -1,10 +1,10 @@
 <?php
 
-require '../../../vendor/autoload.php';
+require '../vendor/autoload.php';
 
-use Project\Repositories\NewsRepository as NewsRepository;
 use Project\Services\NewsService as NewsService;
 use Project\Services\CategoriesService as CategoriesService;
+
 $categoryService = new CategoriesService();
 $categories = $categoryService->getCategories();
 $message = '';
@@ -12,22 +12,15 @@ if (isset($_POST["save"]))
 {
     $service = new NewsService();
     $result = $service->addToDatabase();
-    //Validationlar Henüz Yapılmadı !
     if ($result[0] == 1)
     {
-        $message =  '<div class="alert alert-success" role="alert">
-                     '.$result[1].'   
-                    </div>';
+        $message =  '<div class="alert alert-success" role="alert">'.$result[1].'</div>';
     }
     else
     {
-        $message =  '<div class="alert alert-danger" role="alert">
-                     '.$result[1].'   
-                    </div>';
+        $message =  '<div class="alert alert-danger" role="alert">'.$result[1].'</div>';
     }
-
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -44,13 +37,13 @@ if (isset($_POST["save"]))
     <title>Haber Ekle</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -59,8 +52,10 @@ if (isset($_POST["save"]))
     <!-- Page Wrapper -->
     <div id="wrapper">
 
+    <? $dir = __DIR__;?>
+
         <!-- Sidebar -->
-        <? include '../shared/sidebar.php' ?>
+        <? include $dir.'/../shared/sidebar.php' ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -70,7 +65,7 @@ if (isset($_POST["save"]))
             <div id="content">
 
                 <!-- Topbar -->
-                <? include '../shared/topbar.php' ?>
+                <? include $dir.'/../shared/topbar.php' ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -151,7 +146,7 @@ if (isset($_POST["save"]))
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <? include '../shared/footer.php' ?>
+            <? include $dir.'/../shared/footer.php' ?>
             <!-- End of Footer -->
 
         </div>
@@ -166,7 +161,7 @@ if (isset($_POST["save"]))
     </a>
 
     <!-- Logout Modal-->
-    <? include '../shared/logoutmodel.php' ?>
+    <? include $dir.'/../shared/logoutmodel.php' ?>
     <!-- Logout Modal End -->
 
     <!-- Bootstrap core JavaScript-->
