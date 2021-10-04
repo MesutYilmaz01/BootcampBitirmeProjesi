@@ -82,4 +82,18 @@ class CategoryRepository{
         $news->setUpdatedAt($data["updated_at"]);
         return $news;
     }
+    public function selectAllWithLimit($pagesStarts, $limit){
+        $model = array();
+        $query = $this->db->query("SELECT * FROM categories order by id desc limit $pagesStarts, $limit");
+        while ($row = $query->fetch()) {
+            $tempNew = new Category();
+            $tempNew->setId($row["id"]);
+            $tempNew->setCategory($row["category"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+
+        return $model;
+    }
 }

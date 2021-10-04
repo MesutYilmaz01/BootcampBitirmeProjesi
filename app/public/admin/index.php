@@ -3,6 +3,17 @@
 use \Project\Repositories\UserRepository as UserRepository;
 use \Project\Database\Database as Database;
 use \Project\Models\User as User;
+use \Project\Services\NewsService;
+use \Project\Services\CategoriesService;
+use \Project\Services\UserService;
+
+$newsService = new NewsService();
+$categoriesService = new CategoriesService();
+$usersService= new UserService();
+$news = $newsService->getAllFromDatabase();
+$categories = $categoriesService->getCategories();
+$users = $usersService->getUsers();
+$paginated = $newsService->getByLimit(5);
 
 ?>
 
@@ -68,7 +79,7 @@ use \Project\Models\User as User;
                                         <div class="col mr-2">
                                             <div class="text-s font-weight-bold text-primary text-uppercase mb-1 text-center">
                                                 Haber Sayısı</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800 text-center">25</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800 text-center"><?echo count($news)?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +94,7 @@ use \Project\Models\User as User;
                                         <div class="col mr-2">
                                             <div class="text-s font-weight-bold text-success text-uppercase mb-1 text-center">
                                                 Kullanıcı Sayısı</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800 text-center">50</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800 text-center"><?echo count($users)?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +111,7 @@ use \Project\Models\User as User;
                                                 Kategori Sayısı
                                             </div>
                                                 <div class="col-auto text-center">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 text-center">15</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 text-center"><?echo count($categories)?></div>
                                                 </div>
                                         </div>
                                     </div>
@@ -132,11 +143,14 @@ use \Project\Models\User as User;
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-group">
-                                        <li class="list-group-item"><a href="#">What is Lorem Ipsum?</a></li>
-                                        <li class="list-group-item"><a href="#">What is Lorem Ipsum?</a></li>
-                                        <li class="list-group-item"><a href="#">What is Lorem Ipsum?</a></li>
-                                        <li class="list-group-item"><a href="#">What is Lorem Ipsum?</a></li>
-                                        <li class="list-group-item"><a href="#">What is Lorem Ipsum?</a></li>
+                                        <?
+                                            foreach ($paginated as $data)
+                                            {
+                                                echo '
+                                                    <li class="list-group-item"><a href="/admin/news/newdetail?id='.$data->getId().'">'.$data->getTitle().'</a></li>
+                                                ';
+                                            }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>

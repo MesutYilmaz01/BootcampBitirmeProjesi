@@ -2,8 +2,26 @@
 
 use Project\Services\NewsService as NewsService;
 
+$pageNumber = "";
+$isExist = isset($_GET["page"]);
+if ($isExist == true) 
+{
+    $pageNumber = $_GET["page"];
+}
+else
+{
+    $pageNumber = 1;
+}
 $service = new NewsService();
 $data = $service->getAllFromDatabase();
+if ($pageNumber > ceil(count($data) / 5) || $pageNumber < 1)
+{
+    header('Location: /admin/news/news');
+    die();
+}
+$paginated = $service->getByLimit($pageNumber);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +105,7 @@ $data = $service->getAllFromDatabase();
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                            foreach($data as $item)
+                                            foreach($paginated as $item)
                                             {
                                                 echo '<tr>
                                                         <td>
@@ -107,27 +125,42 @@ $data = $service->getAllFromDatabase();
                             </div>
                             <div class="d-flex justify-content-end">
                                 <ul class="pagination">
-                                    <li class="pagination_button page-item previous disabled">
-                                        <a href="#" class="page-link">Previous</a>
-                                    </li>
-                                    <li class="pagination_button page-item active">
-                                        <a href="#" class="page-link">1</a>
-                                    </li>
-                                    <li class="pagination_button page-item">
-                                        <a href="#" class="page-link">2</a>
-                                    </li>
-                                    <li class="pagination_button page-item">
-                                        <a href="#" class="page-link">3</a>
-                                    </li>
-                                    <li class="pagination_button page-item">
-                                        <a href="#" class="page-link">4</a>
-                                    </li>
-                                    <li class="pagination_button page-item">
-                                        <a href="#" class="page-link">5</a>
-                                    </li>
-                                    <li class="pagination_button page-item next">
-                                        <a href="#" class="page-link">Next</a>
-                                    </li>
+                                    <?
+                                        if ($pageNumber == 1)
+                                        {
+                                            echo '
+                                                <li class="pagination_button page-item previous disabled">
+                                                    <a href="#" class="page-link">Önceki</a>
+                                                </li>
+                                            ';
+                                        }
+                                        else if ($pageNumber > 1 && $pageNumber <= ceil(count($data) / 5))
+                                        {
+                                            $page = $pageNumber - 1;
+                                            echo '
+                                                <li class="pagination_button page-item previous">
+                                                    <a href="/admin/news/news?page='.$page.'" class="page-link">Önceki</a>
+                                                </li>
+                                            ';
+                                        }
+                                        if ($pageNumber > 1 && $pageNumber >= ceil(count($data) / 5))
+                                        {
+                                            echo '
+                                                <li class="pagination_button page-item next disabled">
+                                                    <a href="#" class="page-link">Sonraki</a>
+                                                </li>
+                                            ';
+                                        }
+                                        else if ($pageNumber < ceil(count($data) / 5))
+                                        {
+                                            $page = $pageNumber + 1;
+                                            echo '
+                                                <li class="pagination_button page-item next">
+                                                    <a href="/admin/news/news?page='.$page.'" class="page-link">Sonraki</a>
+                                                </li>
+                                            ';
+                                        }
+                                    ?>
                                 </ul>
                             </div>
                         </div>

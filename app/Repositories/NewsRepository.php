@@ -14,6 +14,7 @@ class NewsRepository{
         $this->db = $db->getDb();
 
     }
+
     public function create(News $data){
         $query = $this->db->prepare("INSERT INTO news 
         (title,content,category,img,created_at,updated_at)
@@ -31,6 +32,7 @@ class NewsRepository{
         return array(0,"Haber eklerken bir hata oluştu.");
         
     }
+
     public function update(News $data){
         $sql = "UPDATE news SET title=?, content=?, category=?, img=?, created_at=?, updated_at=? WHERE id=?";
         $stmt= $this->db->prepare($sql);
@@ -42,6 +44,7 @@ class NewsRepository{
         }
         return array(0,"Haber güncellenirken bir hata oluştu.");
     }
+
     public function delete($id){
         $isExist = $this->selectById($id);
         if ($isExist)
@@ -54,6 +57,7 @@ class NewsRepository{
         }
         return false;
     }
+
     public function select(){
         $model = array();
         $query = $this->db->query("SELECT * FROM news");
@@ -68,10 +72,10 @@ class NewsRepository{
             $tempNew->setUpdatedAt($row["updated_at"]);
             $model[] = $tempNew;
         }
-
         return $model;
         
     }
+
     public function selectById($id){
         $data = null;
         $stmt = $this->db->prepare("SELECT * FROM news WHERE id=?");
@@ -91,6 +95,23 @@ class NewsRepository{
         $news->setCreatedAt($data["created_at"]);
         $news->setUpdatedAt($data["updated_at"]);
         return $news;
+    }
+
+    public function selectAllWithLimit($pagesStarts, $limit){
+        $model = array();
+        $query = $this->db->query("SELECT * FROM news order by id desc limit $pagesStarts, $limit");
+        while ($row = $query->fetch()) {
+            $tempNew = new News();
+            $tempNew->setId($row["id"]);
+            $tempNew->setTitle($row["title"]);
+            $tempNew->setContent($row["content"]);
+            $tempNew->setCategory($row["category"]);
+            $tempNew->setImg($row["img"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+        return $model;
     }
 
 }

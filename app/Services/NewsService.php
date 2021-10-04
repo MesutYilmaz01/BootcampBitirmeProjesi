@@ -87,6 +87,26 @@ class NewsService{
         return $data;
     }
 
+    public function getByLimit($page){
+        if (empty($page) || !is_numeric($page))
+        {
+            $page = 1;
+        }
+        $limit = 5;
+        $repo = new NewsRepository();
+        $pageStarts = ($page*$limit) - $limit;
+        $data = $repo->selectAllWithLimit($pageStarts, $limit);
+        Logging::info("Veritabanından Haberler Sayfası İçin Haberler Çekildi");
+        return $data;
+    }
+
+    public function getForAdminIndex($limit){
+        $repo = new NewsRepository();
+        $data = $repo->selectAllWithLimit(0, $limit);
+        Logging::info("Veritabanından Index Sayfası İçin $limit kadar haber Çekildi");
+        return $data;
+    }
+
     public function getNewsById(){
         $id = $_GET["id"];
         $repo = new NewsRepository();

@@ -95,5 +95,37 @@ class UserRepository{
         return $news;
 
     }
+    public function selectByEmail($email){
+        $data = null;
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email=?");
+        $stmt->execute([$email]);
+        $data = $stmt->fetch();
+        if ($data != false)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
+    public function selectAllWithLimit($pagesStarts, $limit){
+        $model = array();
+        $query = $this->db->query("SELECT * FROM users order by id desc limit $pagesStarts, $limit");
+        while ($row = $query->fetch()) {
+            $tempNew = new User();
+            $tempNew->setId($row["id"]);
+            $tempNew->setName($row["name"]);
+            $tempNew->setSurname($row["surname"]);
+            $tempNew->setEmail($row["email"]);
+            $tempNew->setPassword($row["password"]);
+            $tempNew->setType($row["type"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+
+        return $model;
+    }
 }

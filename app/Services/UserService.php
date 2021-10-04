@@ -25,6 +25,10 @@ class UserService{
                         $data->setCreatedAt(date('d-m-Y-h:i'));
                         $data->setUpdatedAt(date('d-m-Y-h:i'));
                         $repo = new UserRepository();
+                        if (!$repo->selectByEmail($_POST["email"]))
+                        {
+                            return array(0,"Bu email adresi sistemde kayıtlı.");
+                        }
                         $result = $repo->create($data);
                         if ($result[0] == 1)
                         {
@@ -66,6 +70,10 @@ class UserService{
                         $data->setCreatedAt($user->getCreatedAt());
                         $data->setUpdatedAt(date('d-m-Y-h:i'));
                         $repo = new UserRepository();
+                        if (!$repo->selectByEmail($_POST["email"]))
+                        {
+                            return array(0,"Bu email adresi sistemde kayıtlı.");
+                        }
                         $result = $repo->update($data);
                         if ($result[0] == 1)
                         {
@@ -116,6 +124,19 @@ class UserService{
             return false;
         }
         Logging::info($id." id'li kullanıcı veritabanından silindi.");
+        return $data;
+    }
+
+    public function getPaginatedUsers($page){
+        if (empty($page) || !is_numeric($page))
+        {
+            $page = 1;
+        }
+        $limit = 5;
+        $repo = new UserRepository();
+        $pageStarts = ($page*$limit) - $limit;
+        $data = $repo->selectAllWithLimit($pageStarts, $limit);
+        Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
         return $data;
     }
 }

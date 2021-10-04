@@ -80,4 +80,17 @@ class CategoriesService{
         Logging::info($id."id'li kategori veritabanından çekildi.");
         return $result;
     }
+
+    public function getPaginatedCategories($page){
+        if (empty($page) || !is_numeric($page))
+        {
+            $page = 1;
+        }
+        $limit = 5;
+        $repo = new CategoryRepository();
+        $pageStarts = ($page*$limit) - $limit;
+        $data = $repo->selectAllWithLimit($pageStarts, $limit);
+        Logging::info("Veritabanından Kategoriler Sayfası İçin Kategoriler Çekildi");
+        return $data;
+    }
 }
