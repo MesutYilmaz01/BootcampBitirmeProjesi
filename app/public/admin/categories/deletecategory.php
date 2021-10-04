@@ -1,6 +1,14 @@
 <?php
 
 use Project\Services\CategoriesService as CategoriesService;
+use Project\Helper\Authorization;
+
+if (!Authorization::isAdmin())
+{
+    header('Location: /404/404');
+    die();
+}
+
 $service = new CategoriesService();
 $data = $service->deleteCategoryById();
 $message = '';

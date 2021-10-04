@@ -15,7 +15,8 @@ class Authentication{
         $stmt= $db->prepare($sql);
         $stmt->execute([$email, $password]);
         $result = $stmt->fetch();
-        if($result) {
+        if($result) 
+        {
             $user = new User();
             $user->setType($result["type"]);
             $user->setName($result["name"]);
@@ -28,7 +29,9 @@ class Authentication{
 
             return $user;
 
-        } else {
+        } 
+        else 
+        {
             return false;
         }
     }
@@ -38,10 +41,12 @@ class Authentication{
     }
 
     public  static function check(){
-        if(isset($_SESSION["user"]))
+        if (isset($_SESSION["user"]))
         {
             return $_SESSION["user"];
-        } else {
+        } 
+        else 
+        {
             return false;
         }
     }
@@ -50,7 +55,5 @@ class Authentication{
     {
         return $_SESSION["user"];
     }
-
-
 
 }

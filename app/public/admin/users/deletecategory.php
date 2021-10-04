@@ -1,7 +1,7 @@
 <?php
 
-use Project\Services\CategoriesService as CategoriesService;
-use Project\Helper\Authorization;
+use Project\Services\EditorCategoryService;
+use Project\Helper\Authorization; 
 
 if (!Authorization::isAdmin())
 {
@@ -9,22 +9,21 @@ if (!Authorization::isAdmin())
     die();
 }
 
-$message = '';
-if (isset($_POST["save"]))
-{
-    $service = new CategoriesService();
-    $result = $service->addToDatabase();
-    if ($result[0] == 1)
-    {
-        $message =  '<div class="alert alert-success" role="alert">'.$result[1].'</div>';
-    }
-    else
-    {
-        $message =  '<div class="alert alert-danger" role="alert">'.$result[1].'</div>';
-    }
-}
-?>
+$service = new EditorCategoryService();
+$data = $service->deleteCategory();
 
+$message = '';
+if ($data == false){
+    $message = "Silme işlemi sırasında bir hata oluştu";  
+    header('Location: /404/404');
+    die();
+}
+else
+{
+    $message = "Silme işlemi başarıyla gerçekleşti.";
+}
+header('refresh:3;url=/admin/users/userdetail?id='.$_GET["id"]); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,7 +35,7 @@ if (isset($_POST["save"]))
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kategori Ekle</title>
+    <title>Editör Kategorisi Sil</title>
 
     <!-- Custom fonts for this template-->
     <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -74,8 +73,7 @@ if (isset($_POST["save"]))
 
                     <!-- Page Heading -->
                     <div class="text-center">
-                        <h1 class="h3 mb-4 text-gray-800">Kategori Ekle</h1>
-                        <? if($message != '') echo $message;?>
+                        <h1 class="h3 mb-4 text-gray-800">Editör Kategorileri</h1>
                     </div>
 
                     <div class="row d-flex justify-content-center">
@@ -83,26 +81,15 @@ if (isset($_POST["save"]))
                                 <!-- Last News Card -->
                                 <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary text-center">Kategori Ekleme Formu</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary text-center">Editöre Kategorisi Silme Formu</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <form method="POST" action="" enctype="multipart/form-data">
-                                                <div class="form-group d-flex justify-content-center">
-                                                    <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="category"
-                                                            placeholder="Kategori Adı">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group d-flex justify-content-center">
-                                                    <div class="col-3 mb-3 mb-sm-0">
-                                                        <button type="submit" class="btn btn-block btn-primary"  name="save">
-                                                            Kaydet
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                            <div class="alert alert-warning" role="alert">
+                                                <? echo $message?></br>
+                                                Kullanıcının sayfasına yönlendiriliyorsunuz...
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

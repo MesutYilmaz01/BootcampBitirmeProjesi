@@ -1,6 +1,7 @@
 <?php
 
 use Project\Services\CategoriesService as CategoriesService;
+use Project\Services\EditorCategoryService;
 use Project\Helper\Authorization;
 
 if (!Authorization::isAdmin())
@@ -9,11 +10,13 @@ if (!Authorization::isAdmin())
     die();
 }
 
+$categoryService = new CategoriesService();
+$categories = $categoryService->getCategories();
 $message = '';
 if (isset($_POST["save"]))
 {
-    $service = new CategoriesService();
-    $result = $service->addToDatabase();
+    $service = new EditorCategoryService();
+    $result = $service->addCategory();
     if ($result[0] == 1)
     {
         $message =  '<div class="alert alert-success" role="alert">'.$result[1].'</div>';
@@ -36,7 +39,7 @@ if (isset($_POST["save"]))
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kategori Ekle</title>
+    <title>Editöre Kategori Ekle</title>
 
     <!-- Custom fonts for this template-->
     <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -74,7 +77,7 @@ if (isset($_POST["save"]))
 
                     <!-- Page Heading -->
                     <div class="text-center">
-                        <h1 class="h3 mb-4 text-gray-800">Kategori Ekle</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Editöre Kategori Ekle</h1>
                         <? if($message != '') echo $message;?>
                     </div>
 
@@ -83,22 +86,30 @@ if (isset($_POST["save"]))
                                 <!-- Last News Card -->
                                 <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary text-center">Kategori Ekleme Formu</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary text-center">Editöre Kategori Ekleme Formu</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <form method="POST" action="" enctype="multipart/form-data">
-                                                <div class="form-group d-flex justify-content-center">
+                                            <form method="POST" action="">
+                                            <div class="form-group d-flex justify-content-center">
                                                     <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="category"
-                                                            placeholder="Kategori Adı">
+                                                        <label>Kategoriler</label>    
+                                                        <select class="form-control" name="category">
+                                                            <?
+                                                                foreach ($categories as $category)
+                                                                {
+                                                                    echo '<option value='.$category->getId().'>'.$category->getCategory().'</option>';
+                                                                }
+                                                            ?>
+                                                        </select>
                                                     </div>
                                                 </div>
+                                                <input type="hidden" value="<?echo $_GET["id"]?>"name="id"/>
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-3 mb-3 mb-sm-0">
                                                         <button type="submit" class="btn btn-block btn-primary"  name="save">
-                                                            Kaydet
+                                                            Ekle
                                                         </button>
                                                     </div>
                                                 </div>

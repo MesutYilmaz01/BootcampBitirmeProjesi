@@ -1,28 +1,38 @@
 <?php
 
 use Project\Services\UserService as UserService;
+use Project\Services\EditorCategoryService;
+use Project\Helper\Authorization;
+
+if (!Authorization::isAdmin())
+{
+    header('Location: /404/404');
+    die();
+}
 
 $service = new UserService();
 $data = $service->getUserById();
-if ($data == false)
+$categoriesService = new EditorCategoryService();
+$user = $categoriesService->getCategoriesById($data);
+if ($user == false)
 {
     header('Location: /404/404');
     die();
 }
 $type = "";
-if ($data->getType() == 1)
+if ($user->getType() == 1)
 {
     $type = "Admin";
 }
-if ($data->getType() == 2)
+if ($user->getType() == 2)
 {
     $type = "Moderatör";
 }
-if ($data->getType() == 3)
+if ($user->getType() == 3)
 {
     $type = "Editör";
 }
-if ($data->getType() == 4)
+if ($user->getType() == 4)
 {
     $type = "Kullanıcı";
 }
@@ -86,19 +96,58 @@ if ($data->getType() == 4)
                                     </div>
                                     <div class="card-body mb-2">
                                         <div>
-                                            <div>Adı Soyadı : <? echo $data->getName()." ".$data->getSurname()?></div>
+                                            <div>Adı Soyadı : <? echo $user->getName()." ".$user->getSurname()?></div>
                                         </div>
                                         <div>
-                                            <div>Email : <? echo $data->getEmail()?></div>
+                                            <div>Email : <? echo $user->getEmail()?></div>
                                         </div>
                                         <div>
                                             <div>Kullanıcı Türü : <? echo $type?></div>
                                         </div>
                                         <div>
-                                            <div>Hesap Oluşturulma : <? echo $data->getCreatedAt()?></div>
+                                            <div>Hesap Oluşturulma : <? echo $user->getCreatedAt()?></div>
                                         </div>
                                         <div>
-                                            <div>Hesap Güncellenme : <? echo $data->getUpdatedAt()?></div>
+                                            <div>Hesap Güncellenme : <? echo $user->getUpdatedAt()?></div>
+                                        </div>
+                                        <div>
+                                            <?
+                                            if ($user->getType() == $user::EDITOR_ROLE)
+                                            {
+                                                echo "<div class='mt-5'>
+                                                    <h5>Yetkili Olduğu Kategoriler</h5>
+                                                </div>
+                                                <div>
+                                                    <div class='row'>";
+                                                                if ($user->getCategories() == null)
+                                                                {
+                                                                    echo "<div class='col'>Henüz kategori atanmamış.</div>";
+                                                                }
+                                                                else{
+                                                                    foreach ($user->getCategories() as $category)
+                                                                    {
+                                                                        echo '
+                                                                            <div class="col-md-6 mt-3">
+                                                                                '.$category->getCategory().'
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <a href="/admin/users/deletecategory?id='.$user->getId().'&category='.$category->getId().'"
+                                                                                 class="btn btn-danger">Sil</a>
+                                                                            </div>
+                                                                        ';
+                                                                    }
+                                                                }
+                                                            
+                                                echo "        
+                                                    </div>
+                                                </div>
+                                                <div class='mt-3'>
+                                                    <a href='/admin/users/addcategory?id=";
+                                                    echo $user->getId(); 
+                                                    echo "' class='btn btn-warning'>Kategori Ekle</a>
+                                                </div>";
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>

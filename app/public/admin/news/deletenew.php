@@ -1,6 +1,13 @@
 <?php
 
 use Project\Services\NewsService as NewsService;
+use Project\Helper\Authorization;
+
+if (!Authorization::isAdmin())
+{
+    header('Location: /404/404');
+    die();
+}
 
 $service = new NewsService();
 $data = $service->deleteNewById();

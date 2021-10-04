@@ -2,7 +2,13 @@
 
 
 use Project\Services\UserService as UserService;
+use Project\Helper\Authorization;
 
+if (!Authorization::isAdmin())
+{
+    header('Location: /404/404');
+    die();
+}
 $service = new UserService();
 $data = $service->getUserById();
 if ($data == false)

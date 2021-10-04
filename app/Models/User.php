@@ -16,6 +16,7 @@ class User{
     private $type;
     private $created_at;
     private $updated_at;
+    private $categories;
     public function getId(){
         return $this->id;
     }
@@ -63,5 +64,11 @@ class User{
     }
     public function setUpdatedAt($date){
         $this->updated_at = $date;
+    }
+    public function getCategories(){
+        return $this->categories;
+    }
+    public function setCategories($category){
+        $this->categories[] = $category;
     }
 }

@@ -1,9 +1,14 @@
 <?php
 
-require '../vendor/autoload.php';
-
 use Project\Services\NewsService as NewsService;
 use Project\Services\CategoriesService as CategoriesService;
+use Project\Helper\Authorization;
+
+if (!Authorization::isAdmin())
+{
+    header('Location: /404/404');
+    die();
+}
 
 $categoryService = new CategoriesService();
 $categories = $categoryService->getCategories();

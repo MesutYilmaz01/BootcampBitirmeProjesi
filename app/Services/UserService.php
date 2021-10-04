@@ -70,7 +70,7 @@ class UserService{
                         $data->setCreatedAt($user->getCreatedAt());
                         $data->setUpdatedAt(date('d-m-Y-h:i'));
                         $repo = new UserRepository();
-                        if (!$repo->selectByEmail($_POST["email"]))
+                        if (!$repo->selectByEmail($_POST["email"]) && $_POST["email"] != $user->getEmail())
                         {
                             return array(0,"Bu email adresi sistemde kayıtlı.");
                         }

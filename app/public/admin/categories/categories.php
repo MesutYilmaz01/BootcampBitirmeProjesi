@@ -1,6 +1,13 @@
 <?php
 
 use Project\Services\CategoriesService as CategoriesService;
+use Project\Helper\Authorization;
+
+if (!Authorization::isAdmin())
+{
+    header('Location: /404/404');
+    die();
+}
 
 $pageNumber = "";
 $isExist = isset($_GET["page"]);
@@ -12,11 +19,9 @@ else
 {
     $pageNumber = 1;
 }
-
 $service = new CategoriesService();
 $data = $service->getCategories();
-
-if ($pageNumber > ceil(count($data) / 5) || $pageNumber < 1)
+if ($pageNumber > ceil(count($data) / 5) + 1 || $pageNumber < 1)
 {
     header('Location: /admin/categories/categories');
     die();

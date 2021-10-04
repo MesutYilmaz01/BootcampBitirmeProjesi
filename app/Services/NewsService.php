@@ -102,7 +102,7 @@ class NewsService{
 
     public function getForAdminIndex($limit){
         $repo = new NewsRepository();
-        $data = $repo->selectAllWithLimit(0, $limit);
+        $data = $repo->selectAllWithLimit($limit);
         Logging::info("Veritabanından Index Sayfası İçin $limit kadar haber Çekildi");
         return $data;
     }
@@ -119,6 +119,7 @@ class NewsService{
         Logging::info($id." id'li haber veritabanından çekildi.");
         return $data;
     }
+
     public function deleteNewById(){
         $id = $_GET["id"];
         $repo = new NewsRepository($id);
@@ -158,6 +159,6 @@ class NewsService{
             return array(3,"Resim jpg veya png formatında olmalı.");
         }
         move_uploaded_file($tmp_name, $directory.''.$imgName);
-        return array(1,'/public/assets/img/'.$imgName);
+        return array(1,'/assets/img/'.$imgName);
     }
 }

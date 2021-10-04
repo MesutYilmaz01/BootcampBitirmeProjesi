@@ -1,6 +1,13 @@
 <?php
 
 use Project\Services\NewsService as NewsService;
+use Project\Helper\Authorization;
+
+if (!Authorization::isAdmin())
+{
+    header('Location: /404/404');
+    die();
+}
 
 $pageNumber = "";
 $isExist = isset($_GET["page"]);
@@ -14,7 +21,7 @@ else
 }
 $service = new NewsService();
 $data = $service->getAllFromDatabase();
-if ($pageNumber > ceil(count($data) / 5) || $pageNumber < 1)
+if ($pageNumber > ceil(count($data) / 5) + 1 || $pageNumber < 1)
 {
     header('Location: /admin/news/news');
     die();

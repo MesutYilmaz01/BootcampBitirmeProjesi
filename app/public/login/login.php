@@ -1,16 +1,21 @@
 <?php
-session_start();
-require './../../vendor/autoload.php';
 
+use Project\Helper\Authentication;
+use Project\Helper\Authorization;
 use Project\Services\LoginService;
 
 $login = new LoginService();
 if(isset($_POST["login"])){
-    $login->login();
-
+    $result = $login->login();
+    if (Authorization::isEditor())
+    {
+        header('Location: /main/index');
+    }
+    else
+    {
+        header('Location: /admin/index');
+    }
 }
-    
-
 ?>
 
 

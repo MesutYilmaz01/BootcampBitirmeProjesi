@@ -6,6 +6,13 @@ use \Project\Models\User as User;
 use \Project\Services\NewsService;
 use \Project\Services\CategoriesService;
 use \Project\Services\UserService;
+use \Project\Helper\Authorization;
+
+if (!Authorization::isAdmin())
+{
+    header('Location: /404/404');
+    die();
+}
 
 $newsService = new NewsService();
 $categoriesService = new CategoriesService();
@@ -13,7 +20,7 @@ $usersService= new UserService();
 $news = $newsService->getAllFromDatabase();
 $categories = $categoriesService->getCategories();
 $users = $usersService->getUsers();
-$paginated = $newsService->getByLimit(5);
+$paginated = $newsService->getForAdminIndex(5);
 
 ?>
 
