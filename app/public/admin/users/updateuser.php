@@ -134,8 +134,15 @@ if (isset($_POST["update"]))
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <label>Kullanıcı Tipi</label>    
                                                         <select class="form-control" name="type">
-                                                            <option value="1" <? echo $data->getType() == 1 ? 'selected' : '' ?> >Admin</option>
-                                                            <option value="2" <? echo $data->getType() == 2 ? 'selected' : '' ?>>Moderatör</option>
+                                                            <?
+                                                                if (Authorization::isAdmin())
+                                                                {
+                                                                    echo "         
+                                                                        <option value='1' <? echo $data->getType() == 1 ? 'selected' : '' ?>Admin</option>
+                                                                        <option value='2' <? echo $data->getType() == 2 ? 'selected' : '' ?>Moderatör</option>
+                                                                    ";
+                                                                }
+                                                            ?>
                                                             <option value="3" <? echo $data->getType() == 3 ? 'selected' : '' ?>>Editör</option>
                                                             <option value="4" <? echo $data->getType() == 4 ? 'selected' : '' ?>>Kullanıcı</option>
                                                         </select>

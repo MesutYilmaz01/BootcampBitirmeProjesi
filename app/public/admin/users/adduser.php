@@ -124,8 +124,15 @@ if (isset($_POST["save"]))
                                                     <div class="col-10 mb-3 mb-sm-0">
                                                         <label>Kullanıcı Tipi</label>    
                                                         <select class="form-control" name="type">
-                                                            <option value="1" selected>Admin</option>
-                                                            <option value="2">Moderatör</option>
+                                                        <?
+                                                                if (Authorization::isAdmin())
+                                                                {
+                                                                    echo "         
+                                                                        <option value='1' <? echo $data->getType() == 1 ? 'selected' : '' ?>Admin</option>
+                                                                        <option value='2' <? echo $data->getType() == 2 ? 'selected' : '' ?>Moderatör</option>
+                                                                    ";
+                                                                }
+                                                            ?>
                                                             <option value="3">Editör</option>
                                                             <option value="4">Kullanıcı</option>
                                                         </select>

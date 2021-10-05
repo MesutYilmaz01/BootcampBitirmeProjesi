@@ -26,8 +26,14 @@ class UserService{
                         $data->setCreatedAt(date('d-m-Y-h:i'));
                         $data->setUpdatedAt(date('d-m-Y-h:i'));
                         $repo = new UserRepository();
+                        if ($_POST["type"] == 1 || $_POST["type"] == 2)
+                        {
+                            Logging::alert("Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
+                            return array(0,"Admin değilseniz admin işlemleri yapmaya kalkmayınız.");
+                        }
                         if (!$repo->selectByEmail($_POST["email"]))
                         {
+                            Logging::alert("Kayıtlı email ile kayıt güncellenmeye çalışıldı.");
                             return array(0,"Bu email adresi sistemde kayıtlı.");
                         }
                         $result = $repo->create($data);
@@ -71,14 +77,20 @@ class UserService{
                         $data->setCreatedAt($user->getCreatedAt());
                         $data->setUpdatedAt(date('d-m-Y-h:i'));
                         $repo = new UserRepository();
+                        if ($_POST["type"] == 1 || $_POST["type"] == 2)
+                        {
+                            Logging::alert("Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
+                            return array(0,"Admin değilseniz admin işlemleri yapmaya kalkmayınız.");
+                        }
                         if (!$repo->selectByEmail($_POST["email"]) && $_POST["email"] != $user->getEmail())
                         {
+                            Logging::alert("Kayıtlı email ile kayıt güncellenmeye çalışıldı.");
                             return array(0,"Bu email adresi sistemde kayıtlı.");
                         }
                         $result = $repo->update($data);
                         if ($result[0] == 1)
                         {
-                            Logging::error("Veritabanında ".$data->getId()." id'li kullanıcı güncellendi ");
+                            Logging::info("Veritabanında ".$data->getId()." id'li kullanıcı güncellendi ");
                         }
                         else
                         {
