@@ -4,7 +4,7 @@ use Project\Services\UserService as UserService;
 use Project\Services\EditorCategoryService;
 use Project\Helper\Authorization;
 
-if (!Authorization::isAdmin())
+if (Authorization::isUser() || Authorization::isEditor())
 {
     header('Location: /404/404');
     die();
@@ -13,26 +13,26 @@ if (!Authorization::isAdmin())
 $service = new UserService();
 $data = $service->getUserById();
 $categoriesService = new EditorCategoryService();
-$user = $categoriesService->getCategoriesById($data);
-if ($user == false)
+$userDetail = $categoriesService->getCategoriesById($data);
+if ($userDetail == false)
 {
     header('Location: /404/404');
     die();
 }
 $type = "";
-if ($user->getType() == 1)
+if ($userDetail->getType() == 1)
 {
     $type = "Admin";
 }
-if ($user->getType() == 2)
+if ($userDetail->getType() == 2)
 {
     $type = "Moderatör";
 }
-if ($user->getType() == 3)
+if ($userDetail->getType() == 3)
 {
     $type = "Editör";
 }
-if ($user->getType() == 4)
+if ($userDetail->getType() == 4)
 {
     $type = "Kullanıcı";
 }
@@ -96,42 +96,42 @@ if ($user->getType() == 4)
                                     </div>
                                     <div class="card-body mb-2">
                                         <div>
-                                            <div>Adı Soyadı : <? echo $user->getName()." ".$user->getSurname()?></div>
+                                            <div>Adı Soyadı : <? echo $userDetail->getName()." ".$userDetail->getSurname()?></div>
                                         </div>
                                         <div>
-                                            <div>Email : <? echo $user->getEmail()?></div>
+                                            <div>Email : <? echo $userDetail->getEmail()?></div>
                                         </div>
                                         <div>
                                             <div>Kullanıcı Türü : <? echo $type?></div>
                                         </div>
                                         <div>
-                                            <div>Hesap Oluşturulma : <? echo $user->getCreatedAt()?></div>
+                                            <div>Hesap Oluşturulma : <? echo $userDetail->getCreatedAt()?></div>
                                         </div>
                                         <div>
-                                            <div>Hesap Güncellenme : <? echo $user->getUpdatedAt()?></div>
+                                            <div>Hesap Güncellenme : <? echo $userDetail->getUpdatedAt()?></div>
                                         </div>
                                         <div>
                                             <?
-                                            if ($user->getType() == $user::EDITOR_ROLE)
+                                            if ($userDetail->getType() == $userDetail::EDITOR_ROLE)
                                             {
                                                 echo "<div class='mt-5'>
                                                     <h5>Yetkili Olduğu Kategoriler</h5>
                                                 </div>
                                                 <div>
                                                     <div class='row'>";
-                                                                if ($user->getCategories() == null)
+                                                                if ($userDetail->getCategories() == null)
                                                                 {
                                                                     echo "<div class='col'>Henüz kategori atanmamış.</div>";
                                                                 }
                                                                 else{
-                                                                    foreach ($user->getCategories() as $category)
+                                                                    foreach ($userDetail->getCategories() as $category)
                                                                     {
                                                                         echo '
                                                                             <div class="col-md-6 mt-3">
                                                                                 '.$category->getCategory().'
                                                                             </div>
                                                                             <div class="col-md-6">
-                                                                                <a href="/admin/users/deletecategory?id='.$user->getId().'&category='.$category->getId().'"
+                                                                                <a href="/admin/users/deletecategory?id='.$userDetail->getId().'&category='.$category->getId().'"
                                                                                  class="btn btn-danger">Sil</a>
                                                                             </div>
                                                                         ';
@@ -143,7 +143,7 @@ if ($user->getType() == 4)
                                                 </div>
                                                 <div class='mt-3'>
                                                     <a href='/admin/users/addcategory?id=";
-                                                    echo $user->getId(); 
+                                                    echo $userDetail->getId(); 
                                                     echo "' class='btn btn-warning'>Kategori Ekle</a>
                                                 </div>";
                                             }

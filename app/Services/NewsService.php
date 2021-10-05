@@ -102,7 +102,7 @@ class NewsService{
 
     public function getForAdminIndex($limit){
         $repo = new NewsRepository();
-        $data = $repo->selectAllWithLimit($limit);
+        $data = $repo->selectAllWithLimit(0,$limit);
         Logging::info("Veritabanından Index Sayfası İçin $limit kadar haber Çekildi");
         return $data;
     }

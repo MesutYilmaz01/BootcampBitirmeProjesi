@@ -97,9 +97,9 @@ class NewsRepository{
         return $news;
     }
 
-    public function selectAllWithLimit( $limit){
+    public function selectAllWithLimit($pagestarts, $limit){
         $model = array();
-        $query = $this->db->query("SELECT * FROM news order by id desc limit $limit");
+        $query = $this->db->query("SELECT * FROM news order by id desc limit $pagestarts,$limit");
         while ($row = $query->fetch()) {
             $tempNew = new News();
             $tempNew->setId($row["id"]);

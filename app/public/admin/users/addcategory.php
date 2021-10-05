@@ -4,7 +4,7 @@ use Project\Services\CategoriesService as CategoriesService;
 use Project\Services\EditorCategoryService;
 use Project\Helper\Authorization;
 
-if (!Authorization::isAdmin())
+if (Authorization::isUser() || Authorization::isEditor())
 {
     header('Location: /404/404');
     die();

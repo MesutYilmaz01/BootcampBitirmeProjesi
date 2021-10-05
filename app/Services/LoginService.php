@@ -3,6 +3,7 @@
 namespace Project\Services;
 
 use Project\Helper\Authentication;
+use Project\Helper\Logging;
 
 class LoginService{
 
@@ -13,6 +14,11 @@ class LoginService{
         if (!Authentication::check())
         {
             $result = Authentication::login($email, $password);
+            if ($result[0] == 0)
+            {
+                Logging::alert($email. " kullanıcısı başarısız bir login girişiminde bulundu");
+            }
+            Logging::info($email. " kullanıcısı başarılı bir şekilde login oldu");
             return $result;
         }
     }

@@ -5,15 +5,23 @@ use Project\Helper\Authorization;
 use Project\Services\LoginService;
 
 $login = new LoginService();
+$message = '';
 if(isset($_POST["login"])){
     $result = $login->login();
-    if (Authorization::isEditor())
+    if($result[0] == 0)
     {
-        header('Location: /main/index');
+        $message =  '<div class="alert alert-danger" role="alert">'.$result[1].'</div>';
     }
     else
-    {
-        header('Location: /admin/index');
+    {        
+        if (Authorization::isEditor())
+        {
+            header('Location: /main/index');
+        }
+        else
+        {
+            header('Location: /admin/index');
+        }
     }
 }
 ?>
@@ -63,6 +71,14 @@ if(isset($_POST["login"])){
                                         <h1 class="h4 text-gray-900 mb-4">Hoşgeldiniz!</h1>
                                     </div>
                                     <form class="user" method="POST">
+                                        <div class="form-group">
+                                            <? 
+                                                if($message != '')
+                                                {
+                                                    echo $message;
+                                                }
+                                            ?>
+                                        </div>
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"

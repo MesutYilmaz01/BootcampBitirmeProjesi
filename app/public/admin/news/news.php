@@ -3,7 +3,7 @@
 use Project\Services\NewsService as NewsService;
 use Project\Helper\Authorization;
 
-if (!Authorization::isAdmin())
+if (Authorization::isUser() || Authorization::isEditor())
 {
     header('Location: /404/404');
     die();
@@ -27,7 +27,6 @@ if ($pageNumber > ceil(count($data) / 5) + 1 || $pageNumber < 1)
     die();
 }
 $paginated = $service->getByLimit($pageNumber);
-
 
 ?>
 
@@ -117,7 +116,7 @@ $paginated = $service->getByLimit($pageNumber);
                                                 echo '<tr>
                                                         <td>
                                                         <a href="newdetail?id='.$item->getId().'">
-                                                        '.$item->getTitle().'
+                                                        '.substr($item->getTitle(),0,45).'...
                                                         </a>
                                                         </td>
                                                         <td>Düzenleyen</td>

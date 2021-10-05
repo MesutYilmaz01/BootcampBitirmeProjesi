@@ -2,14 +2,17 @@
 
 use \Project\Repositories\UserRepository as UserRepository;
 use \Project\Database\Database as Database;
+use Project\Helper\Authentication;
 use \Project\Models\User as User;
 use \Project\Services\NewsService;
 use \Project\Services\CategoriesService;
 use \Project\Services\UserService;
 use \Project\Helper\Authorization;
 
-if (!Authorization::isAdmin())
+
+if (Authorization::isUser() ||Authorization::isEditor())
 {
+    var_dump(Authorization::isAdmin());exit;
     header('Location: /404/404');
     die();
 }

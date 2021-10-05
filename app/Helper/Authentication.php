@@ -27,12 +27,12 @@ class Authentication{
 
             $_SESSION["user"] = $user;
 
-            return $user;
+            return array(1,$user);
 
         } 
         else 
         {
-            return false;
+            return array(0,"Email ile şifre eşleşmiyor...");
         }
     }
 
