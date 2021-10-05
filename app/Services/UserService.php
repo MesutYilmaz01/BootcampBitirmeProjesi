@@ -2,6 +2,7 @@
 
 namespace Project\Services;
 
+use Project\Helper\Authentication;
 use Project\Helper\Authorization;
 use Project\Models\User;
 use Project\Repositories\UserRepository;
@@ -26,7 +27,7 @@ class UserService{
                         $data->setCreatedAt(date('d-m-Y-h:i'));
                         $data->setUpdatedAt(date('d-m-Y-h:i'));
                         $repo = new UserRepository();
-                        if ($_POST["type"] == 1 || $_POST["type"] == 2)
+                        if (Authorization::isModerator() && ($_POST["type"] == 1 || $_POST["type"] == 2))
                         {
                             Logging::alert("Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
                             return array(0,"Admin değilseniz admin işlemleri yapmaya kalkmayınız.");
@@ -77,7 +78,7 @@ class UserService{
                         $data->setCreatedAt($user->getCreatedAt());
                         $data->setUpdatedAt(date('d-m-Y-h:i'));
                         $repo = new UserRepository();
-                        if ($_POST["type"] == 1 || $_POST["type"] == 2)
+                        if (Authorization::isModerator() && ($_POST["type"] == 1 || $_POST["type"] == 2))
                         {
                             Logging::alert("Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
                             return array(0,"Admin değilseniz admin işlemleri yapmaya kalkmayınız.");
