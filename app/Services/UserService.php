@@ -2,6 +2,7 @@
 
 namespace Project\Services;
 
+use Project\Helper\Authorization;
 use Project\Models\User;
 use Project\Repositories\UserRepository;
 use Project\Helper\Logging;
@@ -96,8 +97,16 @@ class UserService{
 
     public function getUsers(){
         $repo = new UserRepository();
+        //Moderatör için
+        if (Authorization::isModerator())
+        {
+            $data = $repo->getCountForModerator();
+            Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
+            return $data;
+        }
+        //Admin için
         $data = $repo->select();
-        Logging::error("Veritabanından Tüm Kullanıcılar Çekildi");
+        Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
         return $data;
     }
 
@@ -135,8 +144,16 @@ class UserService{
         $limit = 5;
         $repo = new UserRepository();
         $pageStarts = ($page*$limit) - $limit;
-        $data = $repo->selectAllWithLimit($pageStarts, $limit);
-        Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
+        //Moderatör İçin
+        if (Authorization::isModerator())
+        {
+            $data = $repo->getAllForModerator($pageStarts, $limit);
+            Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
+            return $data;
+        }
+        //Admin için
+            $data = $repo->selectAllWithLimit($pageStarts, $limit);
+            Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
         return $data;
     }
 }

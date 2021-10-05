@@ -128,4 +128,40 @@ class UserRepository{
 
         return $model;
     }
+
+    public function getAllForModerator($pagesStarts, $limit){
+        $model = array();
+        $query = $this->db->query("SELECT * FROM users WHERE type=3 OR type=4 order by id desc limit $pagesStarts, $limit");
+        while ($row = $query->fetch()) {
+            $tempNew = new User();
+            $tempNew->setId($row["id"]);
+            $tempNew->setName($row["name"]);
+            $tempNew->setSurname($row["surname"]);
+            $tempNew->setEmail($row["email"]);
+            $tempNew->setPassword($row["password"]);
+            $tempNew->setType($row["type"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+        return $model;
+    }
+
+    public function getCountForModerator(){
+        $model = array();
+        $query = $this->db->query("SELECT * FROM users WHERE type=3 OR type=4 order by id desc");
+        while ($row = $query->fetch()) {
+            $tempNew = new User();
+            $tempNew->setId($row["id"]);
+            $tempNew->setName($row["name"]);
+            $tempNew->setSurname($row["surname"]);
+            $tempNew->setEmail($row["email"]);
+            $tempNew->setPassword($row["password"]);
+            $tempNew->setType($row["type"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+        return $model;
+    }
 }

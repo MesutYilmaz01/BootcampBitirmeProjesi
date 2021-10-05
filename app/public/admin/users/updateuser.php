@@ -4,14 +4,14 @@
 use Project\Services\UserService as UserService;
 use Project\Helper\Authorization;
 
-if (Authorization::isUser() || Authorization::isEditor())
-{
-    header('Location: /404/404');
-    die();
-}
 $service = new UserService();
 $data = $service->getUserById();
-if ($data == false)
+//Kullanıcı veritabanında yoksa
+//veya kulanıcı moderatör ve güncellenmek istenen kullanıcı aynı veya üst seviye ise.
+//Veya kullanıcı admin veya moderatör değilse.
+if ($data == false || 
+    (Authorization::isModerator() && ($data->getType() == 1 || $data->getType()==2)) ||
+    (Authorization::isUser() || Authorization::isEditor()))
 {
     header('Location: /404/404');
     die();
@@ -21,7 +21,6 @@ $message = '';
 if (isset($_POST["update"]))
 {
     $result = $service->updateUser($data);
-    //Validationlar Henüz Yapılmadı !
     if ($result[0] == 1)
     {
          $message =  '<div class="alert alert-success" role="alert">'.$result[1].'</div>';

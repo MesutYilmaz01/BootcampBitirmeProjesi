@@ -4,17 +4,16 @@ use Project\Services\UserService as UserService;
 use Project\Services\EditorCategoryService;
 use Project\Helper\Authorization;
 
-if (Authorization::isUser() || Authorization::isEditor())
-{
-    header('Location: /404/404');
-    die();
-}
-
 $service = new UserService();
 $data = $service->getUserById();
 $categoriesService = new EditorCategoryService();
 $userDetail = $categoriesService->getCategoriesById($data);
-if ($userDetail == false)
+//Kullanıcı veritabanında yoksa
+//veya kulanıcı moderatör ve güncellenmek istenen kullanıcı aynı veya üst seviye ise.
+//Veya kullanıcı admin veya moderatör değilse.
+if ($userDetail == false || 
+    (Authorization::isModerator() && ($userDetail->getType() == 1 || $userDetail->getType()==2)) ||
+    (Authorization::isUser() || Authorization::isEditor()))
 {
     header('Location: /404/404');
     die();
