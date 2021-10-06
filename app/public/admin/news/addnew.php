@@ -129,6 +129,14 @@ if (isset($_POST["save"]))
                                                     </div>
                                                 </div>
                                                 <div class="form-group d-flex justify-content-center">
+                                                    <div class="col-10 mb-3 mb-sm-0">
+                                                        <div class="mb-3 ml-4">
+                                                            <input class="custom-control-input" type="checkbox" id="costumCheck" name="publish">
+                                                            <label for="costumCheck" class="custom-control-label">Yayınla</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex justify-content-center">
                                                     <div class="col-3 mb-3 mb-sm-0">
                                                         <button type="submit" class="btn btn-block btn-primary"  name="save">
                                                             Kaydet

@@ -3,7 +3,7 @@
 use Project\Services\NewsService as NewsService;
 use Project\Helper\Authorization;
 
-if (Authorization::isUser() || Authorization::isEditor())
+if (Authorization::isUser())
 {
     header('Location: /404/404');
     die();
@@ -92,20 +92,54 @@ $paginated = $service->getByLimit($pageNumber);
                                     <thead>
                                         <tr>
                                             <th>Haber Başlığı</th>
-                                            <th>Onaylayan</th>
-                                            <th>Tarih</th>
-                                            <th>Yorumlar</th>
-                                            <th>Sil</th>
+                                            <th>Ekleyen</th>
+                                            <th><?
+                                                if (!Authorization::isEditor())
+                                                {
+                                                    echo 'Güncellenme Tarihi';
+                                                }
+                                                else
+                                                {
+                                                    echo 'Oluşturulma Tarihi';
+                                                }
+                                            ?></th>
+                                            <th>Yayında</th>
+                                            <?
+                                            if(!Authorization::isEditor())
+                                                {
+                                                    echo '
+                                                    <th>Yorumlar</th>
+                                                    <th>Sil</th>
+                                                    ';
+                                                }
+                                            ?>
                                             <th>Güncelle</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Haber Başlığı</th>
-                                            <th>Onaylayan</th>
-                                            <th>Tarih</th>
-                                            <th>Yorumlar</th>
-                                            <th>Sil</th>
+                                            <th>Ekleyen</th>
+                                            <th><?
+                                                if (!Authorization::isEditor())
+                                                {
+                                                    echo 'Güncellenme Tarihi';
+                                                }
+                                                else
+                                                {
+                                                    echo 'Oluşturulma Tarihi';
+                                                }
+                                            ?></th>
+                                            <th>Yayında</th>
+                                            <? 
+                                                if(!Authorization::isEditor())
+                                                {
+                                                    echo '
+                                                    <th>Yorumlar</th>
+                                                    <th>Sil</th>
+                                                    ';
+                                                }
+                                            ?>
                                             <th>Güncelle</th>
                                         </tr>
                                     </tfoot>
@@ -113,17 +147,31 @@ $paginated = $service->getByLimit($pageNumber);
                                         <?php
                                             foreach($paginated as $item)
                                             {
+                                                $publish = $item->getPublish() == 1 ? 'Yayında' : 'Yayınlanmamış';
                                                 echo '<tr>
                                                         <td>
                                                         <a href="newdetail?id='.$item->getId().'">
                                                         '.substr($item->getTitle(),0,45).'...
                                                         </a>
                                                         </td>
-                                                        <td>Düzenleyen</td>
-                                                        <td>'.$item->getUpdatedAt().'</td>
-                                                        <td><a href="#" class="btn btn-success btn-block">Yorumlar</a></td>
-                                                        <td><a href="deletenew?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>
-                                                        <td><a href="updatenew?id='.$item->getId().'" class="btn btn-warning btn-block">Güncelle</a></td>';
+                                                        <td><a href="/admin/users/userdetail?id='.$item->getUSerId().'">'.$item->getUSerId().'</a></td>';
+                                                if (!Authorization::isEditor())
+                                                {
+                                                    echo '<td>'.$item->getUpdatedAt().'</td>';
+                                                }
+                                                else
+                                                {
+                                                    echo '<td>'.$item->getCreatedAt().'</td>';
+                                                }       
+                                                echo '<td>'.$publish.'</td>';
+                                                if (!Authorization::isEditor())
+                                                {
+                                                    echo '
+                                                    <td><a href="#" class="btn btn-success btn-block">Yorumlar</a></td>
+                                                    <td><a href="deletenew?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>
+                                                    ';
+                                                }
+                                                echo '<td><a href="updatenew?id='.$item->getId().'" class="btn btn-warning btn-block">Güncelle</a></td>';
                                             }
                                         ?>
                                     </tbody>

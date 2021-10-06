@@ -4,10 +4,12 @@ namespace Project\Models;
 
 class News{
     private $id;
+    private $user_id;
     private $title;
     private $content;
     private $category;
     private $img;
+    private $publish;
     private $created_at;
     private $updated_at;
     public function __construct()
@@ -36,6 +38,12 @@ class News{
     public function setImg(string $img){
         $this->img = $img;
     }
+    public function getPublish(){
+        return $this->publish;
+    }
+    public function setPublish($number){
+        $this->publish = $number;
+    }
     public function getCreatedAt(){
         return $this->created_at;
     }
@@ -53,5 +61,11 @@ class News{
     }
     public function setId($number){
         $this->id = $number;
+    }
+    public function getUserId(){
+        return $this->user_id;
+    }
+    public function setUserId($id){
+        $this->user_id = $id;
     }
 }

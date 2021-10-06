@@ -67,4 +67,27 @@ class EditorCategoryRepository{
         }
         return true;
     }
+
+    public function updateTime($time){
+        $sql = "UPDATE editor_update_time SET time=? WHERE id=?";
+        $stmt= $this->db->prepare($sql);
+        $result = $stmt->execute([$time, 1]);
+        if ($result) 
+        {
+            return array(1,"Editör düzenleme zamanı başarı ile güncellendi.");
+        }
+        return array(0,"Editör düzenleme zamanı güncellenirken bir hata oluştu.");
+    }
+
+    public function getEditorUpdateTime(){
+        $data = null;
+        $stmt = $this->db->prepare("SELECT * FROM editor_update_time WHERE id=?");
+        $stmt->execute([1]);
+        $data = $stmt->fetch();
+        if ($data == false)
+        {
+            return false;
+        }
+        return $data;
+    }
 }

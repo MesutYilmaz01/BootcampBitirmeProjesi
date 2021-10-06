@@ -1,6 +1,7 @@
 <?php 
 
   namespace Project\Helper;
+  
 
   class Logging {
 
@@ -80,6 +81,7 @@
             return array(0,"Dosya okumada bir hata oluştu.");
         } 
       }
+      self::info(Authentication::getUser()," Loglar çekildi.");
       return array(1,$data);
 
     }

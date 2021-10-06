@@ -5,6 +5,7 @@ namespace Project\Repositories;
 use DateTime;
 use Project\Models\News as News;
 use Project\Database\Database as Database;
+use Project\Helper\Authentication;
 
 class NewsRepository{
     private $db;
@@ -17,12 +18,11 @@ class NewsRepository{
 
     public function create(News $data){
         $query = $this->db->prepare("INSERT INTO news 
-        (title,content,category,img,created_at,updated_at)
-        VALUES (?,?,?,?,?,?)");
-
+        (user_id,title,content,category,img,published,created_at,updated_at)
+        VALUES (?,?,?,?,?,?,?,?)");
         $insert = $query->execute(array(
-            $data->getTitle(), $data->getContent(), $data->getCategory(), 
-            $data->getImg(), $data->getCreatedAt(), $data->getUpdatedAt()
+            $data->getUserId(), $data->getTitle(), $data->getContent(), $data->getCategory(), 
+            $data->getImg(), $data->getPublish(), $data->getCreatedAt(), $data->getUpdatedAt()
         ));
         if ($insert)
         {
@@ -34,10 +34,10 @@ class NewsRepository{
     }
 
     public function update(News $data){
-        $sql = "UPDATE news SET title=?, content=?, category=?, img=?, created_at=?, updated_at=? WHERE id=?";
+        $sql = "UPDATE news SET title=?, content=?, category=?, img=?, published=?, created_at=?, updated_at=? WHERE id=?";
         $stmt= $this->db->prepare($sql);
-        $result = $stmt->execute([$data->getTitle(), $data->getContent(), $data->getCategory(), 
-                                $data->getImg(), $data->getCreatedAt(), $data->getUpdatedAt(), $data->getId()]);
+        $result = $stmt->execute([$data->getTitle(), $data->getContent(), $data->getCategory(), $data->getImg(),
+                 $data->getPublish(), $data->getCreatedAt(), $data->getUpdatedAt(), $data->getId()]);
         if ($result) 
         {
             return array(1,"Haber başarı ile güncellendi.");
@@ -64,6 +64,7 @@ class NewsRepository{
         while ($row = $query->fetch()) {
             $tempNew = new News();
             $tempNew->setId($row["id"]);
+            $tempNew->setUserId($row["user_id"]);
             $tempNew->setTitle($row["title"]);
             $tempNew->setContent($row["content"]);
             $tempNew->setCategory($row["category"]);
@@ -88,10 +89,12 @@ class NewsRepository{
 
         $news = new News();
         $news->setId($data["id"]);
+        $news->setUserId($data["user_id"]);
         $news->setTitle($data["title"]);
         $news->setContent($data["content"]);
         $news->setCategory($data["category"]);
         $news->setImg($data["img"]);
+        $news->setPublish($data["published"]);
         $news->setCreatedAt($data["created_at"]);
         $news->setUpdatedAt($data["updated_at"]);
         return $news;
@@ -103,15 +106,70 @@ class NewsRepository{
         while ($row = $query->fetch()) {
             $tempNew = new News();
             $tempNew->setId($row["id"]);
+            $tempNew->setUserId($row["user_id"]);
+            $tempNew->setTitle($row["title"]);
+            $tempNew->setContent($row["content"]);
+            $tempNew->setCategory($row["category"]);
+            $tempNew->setImg($row["img"]);
+            $tempNew->setPublish($row["published"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+        return $model;
+    }
+
+    public function selectAllForEditor($time){
+        $user_id =  Authentication::getUser()->getId();
+        $model = array();
+        $query = $this->db->query("SELECT * FROM news  order by id desc");
+        while ($row = $query->fetch()) {
+            $tempNew = new News();
+            $tempNew->setId($row["id"]);
+            $tempNew->setUserId($row["user_id"]);
+            $tempNew->setTitle($row["title"]);
+            $tempNew->setContent($row["content"]);
+            $tempNew->setCategory($row["category"]);
+            $tempNew->setImg($row["img"]);
+            $tempNew->setPublish($row["published"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $now = time();
+            $your_date = strtotime($row["created_at"]);
+            $datediff = $now - $your_date;
+            $days = round($datediff / (60 * 60 * 24));
+            if ($days >= $time["time"] || $row["user_id"] == $user_id || $row["published"] == 0)
+            {
+                $model[] = $tempNew;
+            }
+        }
+        return $model;   
+    }
+
+    public function selectCountForEditor($time){
+        $user_id =  Authentication::getUser()->getId();
+        $model = array();
+        $query = $this->db->query("SELECT * FROM news");
+        while ($row = $query->fetch()) {
+            $tempNew = new News();
+            $tempNew->setId($row["id"]);
+            $tempNew->setUserId($row["user_id"]);
             $tempNew->setTitle($row["title"]);
             $tempNew->setContent($row["content"]);
             $tempNew->setCategory($row["category"]);
             $tempNew->setImg($row["img"]);
             $tempNew->setCreatedAt($row["created_at"]);
             $tempNew->setUpdatedAt($row["updated_at"]);
-            $model[] = $tempNew;
+            $now = time();
+            $your_date = strtotime($row["created_at"]);
+            $datediff = $now - $your_date;
+            $days = round($datediff / (60 * 60 * 24));
+            if($days >= $time["time"] || $row["user_id"] == Authentication::getUser()->getId() || $row["published"] == 0)
+            {
+                $model[] = $tempNew;
+            }
         }
-        return $model;
+        return $model;   
     }
 
 }

@@ -42,6 +42,7 @@ if ($pageNumber > ceil(count($data) / 20) + 1 || $pageNumber < 1)
 }
 $limit = 20;
 $pageStarts = ($pageNumber*$limit) - $limit;
+$data = array_reverse($data);
 $finalData = array_slice($data,$pageStarts,20);
 ?>
 

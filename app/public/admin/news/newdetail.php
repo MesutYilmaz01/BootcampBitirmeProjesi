@@ -92,6 +92,15 @@ $category = $categoryService->getCategoryById($data->getCategory());
                                                     ?>
                                                 </div>
                                             </div>
+                                            <?$publish = $data->getPublish() == 1 ? 'Yayında' : 'Yayınlanmamış';?>
+                                            <div class="mt-3">
+                                                <h4 class="text-gray-900">Yayında mı?</h4>
+                                                <div class="text-lg text-gray-600">
+                                                    <?
+                                                        echo $publish;
+                                                    ?>
+                                                </div>
+                                            </div>
                                             <div class="mt-3">
                                                 <a href="updatenew?id=<?echo $data->getId()?>" class="btn btn-success">Güncelle</a>
                                                 <a href="deletenew?id=<?echo $data->getId()?>" class="btn btn-danger">Sil</a>

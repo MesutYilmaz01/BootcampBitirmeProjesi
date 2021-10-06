@@ -55,6 +55,33 @@ class EditorCategoryService{
         return true;
     }
 
+    public function updateTime(){
+        $time = $_GET["time"];
+        if (strlen($time) < 1)
+        {
+            return array(0,"Alan boş bırakılamaz.");
+        }
+        $repo = new EditorCategoryRepository();
+        $result = $repo->updateTime($time);
+        if($result == false){
+            Logging::emergency(Authentication::getUser(),"Editör güncelleme zamanı güncellenirken bir hata oluştu.");
+            return $result;
+        }
+        Logging::info(Authentication::getUser(),"Editör güncelleme zamanı başarıyla güncellendi.");
+        return $result;
+    }
+
+    public function getUpdateTime(){
+        $repo = new EditorCategoryRepository();
+        $result = $repo->getEditorUpdateTime();
+        if($result == false){
+            Logging::emergency(Authentication::getUser(),"Editör güncelleme zamanı veritabanından çekilirken bir hata oluştu.");
+            return false;
+        }
+        Logging::info(Authentication::getUser(),"Editör güncelleme zamanı başarıyla veritabanından çekildi.");
+        return $result;
+    }
+
     private function checkCategory($array, $category_id){
         if ($array == null)
         {

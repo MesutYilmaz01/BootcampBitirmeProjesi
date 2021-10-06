@@ -10,11 +10,8 @@ use \Project\Services\UserService;
 use \Project\Helper\Authorization;
 use Project\Helper\Logging;
 
-Logging::getLogs();
-
 if (Authorization::isUser() ||Authorization::isEditor())
 {
-    var_dump(Authorization::isAdmin());exit;
     header('Location: /404/404');
     die();
 }

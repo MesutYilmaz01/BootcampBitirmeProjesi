@@ -4,21 +4,22 @@ use Project\Services\NewsService as NewsService;
 use Project\Services\CategoriesService as CategoriesService;
 use Project\Helper\Authorization;
 
-if (Authorization::isUser() || Authorization::isEditor())
-{
-    header('Location: /404/404');
-    die();
-}
 
 $service = new NewsService();
 $categoryService = new CategoriesService();
 $categories = $categoryService->getCategories();
 $data = $service->getNewsById();
-if($data == false)
+$control = "";
+if (Authorization::isEditor())
 {
-    header('Location: /404/404.php');
+    $control = $service->validationForEditor($data);
+}
+if (Authorization::isUser() || $data == false || $control == false)
+{
+    header('Location: /404/404');
     die();
 }
+
 $message = '';
 //after post
 if (isset($_POST["update"]))
@@ -137,6 +138,21 @@ if (isset($_POST["update"]))
                                                             <label class="form-label">Not : Resim güncellenmesini istemiyorsanız resim seçmeyiniz.</label></br>
                                                             <label for="formFile" class="form-label">Resim Seçiniz</label>
                                                             <input class="form-control" type="file" id="formFile" name="img">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex justify-content-center">
+                                                    <div class="col-10 mb-3 mb-sm-0">
+                                                        <div class="mb-3 ml-4">
+                                                            <input class="custom-control-input" 
+                                                            <?
+                                                                if($data->getPublish() == 1)
+                                                                {
+                                                                    echo 'checked';
+                                                                }
+                                                            ?>
+                                                            type="checkbox" id="costumCheck" name="publish">
+                                                            <label for="costumCheck" class="custom-control-label">Yayınla</label>
                                                         </div>
                                                     </div>
                                                 </div>

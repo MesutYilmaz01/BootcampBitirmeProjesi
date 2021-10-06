@@ -105,6 +105,13 @@
 </li>
 <!-- Nav Item - Logs  Menu -->
 <li class="nav-item">
+    <a class="nav-link collapsed" href="/admin/updatetime/updatetime">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Editör Güncelleme Süresi</span>
+    </a>
+</li>
+<!-- Nav Item - Logs  Menu -->
+<li class="nav-item">
     <a class="nav-link collapsed" href="/admin/logs/log">
         <i class="fas fa-fw fa-cog"></i>
         <span>Loglar</span>

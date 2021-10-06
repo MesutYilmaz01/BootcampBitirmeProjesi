@@ -6,6 +6,8 @@ use Project\Models\News;
 use Project\Repositories\NewsRepository as NewsRepository;
 use Project\Helper\Logging as Logging;
 use Project\Helper\Authentication;
+use Project\Helper\Authorization;
+use Project\Services\EditorCategoryService;
 
 class NewsService{
 
@@ -17,13 +19,20 @@ class NewsService{
                 $imgPath = $this->saveImg();
                 if ($imgPath[0] == 1)
                 {
+                    $published = 0;
+                    if(isset($_POST["publish"]))
+                    {
+                        $published = 1;
+                    }
                     $data = new News();
                     $data->setTitle($_POST["title"]);
+                    $data->setUserId(Authentication::getUser()->getId());
                     $data->setContent($_POST["content"]);
                     $data->setCategory($_POST["category"]);
                     $data->setCreatedAt(date('d-m-Y-h:i'));
                     $data->setUpdatedAt(date('d-m-Y-h:i'));
                     $data->setImg($imgPath[1]);
+                    $data->setPublish($published);
                     $repo = new NewsRepository();
                     $result = $repo->create($data);
                     if ($result[0] == 1)
@@ -53,6 +62,11 @@ class NewsService{
                 $imgPath = $this->saveImg();
                 if ($imgPath[0] == 0 || $imgPath[0] == 1)
                 {
+                    $published = 0;
+                    if(isset($_POST["publish"]))
+                    {
+                        $published = 1;
+                    }
                     $data = new News();
                     $data->setId($oldData->getId());
                     $data->setTitle($_POST["title"]);
@@ -60,6 +74,7 @@ class NewsService{
                     $data->setCategory($_POST["category"]);
                     $img = $_FILES["img"]["name"] == "" ? $oldData->getImg() :  $imgPath[1];
                     $data->setImg($img);
+                    $data->setPublish($published);
                     $data->setCreatedAt($oldData->getCreatedAt());
                     $data->setUpdatedAt(date('d-m-Y-h:i'));
                     $repo = new NewsRepository();
@@ -83,6 +98,14 @@ class NewsService{
 
     public function getAllFromDatabase(){
         $repo = new NewsRepository();
+        if (Authorization::isEditor())
+        {            
+            $service = new EditorCategoryService();
+            $time = $service->getUpdateTime();
+            $data = $repo->selectCountForEditor($time);
+            Logging::info(Authentication::getUser(),"Veritabanından Tüm Haberler Çekildi");
+            return $data;
+        }
         $data = $repo->select();
         Logging::info(Authentication::getUser(),"Veritabanından Tüm Haberler Çekildi");
         return $data;
@@ -96,6 +119,15 @@ class NewsService{
         $limit = 5;
         $repo = new NewsRepository();
         $pageStarts = ($page*$limit) - $limit;
+        if (Authorization::isEditor())
+        {
+            $service = new EditorCategoryService();
+            $time = $service->getUpdateTime();
+            $data = $repo->selectAllForEditor($time);
+            $finalData = array_slice($data,$pageStarts,5);
+            Logging::info(Authentication::getUser(),"Veritabanından Haberler Sayfası İçin Haberler Çekildi");
+            return $finalData;
+        }
         $data = $repo->selectAllWithLimit($pageStarts, $limit);
         Logging::info(Authentication::getUser(),"Veritabanından Haberler Sayfası İçin Haberler Çekildi");
         return $data;
@@ -161,5 +193,25 @@ class NewsService{
         }
         move_uploaded_file($tmp_name, $directory.''.$imgName);
         return array(1,'/assets/img/'.$imgName);
+    }
+
+    public function validationForEditor(News $oldData)
+    {
+        //Moderatörün belirlediği azman
+        $editorService = new EditorCategoryService();
+        $time = $editorService->getUpdateTime();
+        //Aralarındaki fark                    
+        $now = time();
+        $your_date = strtotime($oldData->getCreatedAt());
+        $datediff = $now - $your_date;
+        $days = round($datediff / (60 * 60 * 24));
+        if ($days >= $time["time"] || 
+            $oldData->getUserId() == Authentication::getUser()->getId() || 
+            $oldData->getPublish() == 0)
+        {
+            return true;
+        }
+        Logging::alert(Authentication::getUser(),$oldData->getId()." id'li habere yetkisiz erişilmeye çalışıldı");
+        return false;  
     }
 }
