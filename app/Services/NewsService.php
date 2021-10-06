@@ -34,6 +34,12 @@ class NewsService{
                     $data->setImg($imgPath[1]);
                     $data->setPublish($published);
                     $repo = new NewsRepository();
+                    //Kategori kullanıcıda ekli ise ekleme yapabilir. Yetkisi olmayan idyi eklememeli.
+                    $control = $this->isExistInUser();
+                    if($_POST["category"] == null || $control == false)
+                    {
+                        return array(0,"Kategori alanınını kontrol ediniz.");
+                    }
                     $result = $repo->create($data);
                     if ($result[0] == 1)
                     {
@@ -66,6 +72,10 @@ class NewsService{
                     if(isset($_POST["publish"]))
                     {
                         $published = 1;
+                    }
+                    if($_POST["category"] == null)
+                    {
+                        return array(0,"Lütfen kategori seçiminizi kontrol ediniz.");
                     }
                     $data = new News();
                     $data->setId($oldData->getId());
@@ -213,5 +223,17 @@ class NewsService{
         }
         Logging::alert(Authentication::getUser(),$oldData->getId()." id'li habere yetkisiz erişilmeye çalışıldı");
         return false;  
+    }
+
+    private function isExistInUser(){
+        foreach(Authentication::getUser()->getCategories() as $category)
+        {
+            
+            if ($_POST["category"] == $category->getId())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

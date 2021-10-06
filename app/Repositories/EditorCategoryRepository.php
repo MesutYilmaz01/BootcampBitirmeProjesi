@@ -37,7 +37,14 @@ class EditorCategoryRepository{
             $temp = new Category();
             $temp->setId($row["id"]);
             $temp->setCategory($row["category"]);
-            $user->setCategories($temp);
+            if ( $user->getCategories() == null)
+            {
+                $user->setCategories($temp);
+            }
+            else if(!in_array($temp, $user->getCategories()))
+            {
+                $user->setCategories($temp);
+            }
         }
         return $user;
     }

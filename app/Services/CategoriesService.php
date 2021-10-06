@@ -3,9 +3,11 @@
 namespace Project\Services;
 
 use Project\Helper\Authentication;
+use Project\Helper\Authorization;
 use Project\Models\Category as Category;
 use Project\Repositories\CategoryRepository as CategoryRepository;
 use Project\Helper\Logging;
+use Project\Services\EditorCategoryService;
 
 class CategoriesService{
     public function addToDatabase(){
@@ -66,8 +68,15 @@ class CategoriesService{
     }
     public function getCategories(){
         $repo = new CategoryRepository();
+        if(Authorization::isEditor())
+        {
+            $service = new EditorCategoryService();
+            $result = $service->getCategoriesById(Authentication::getUser());
+            Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi");      
+            return $result->getCategories();
+        }
+        Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi");        
         $result = $repo->select();
-        Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi");
         return $result;
     }
     public function getCategoryById($id){

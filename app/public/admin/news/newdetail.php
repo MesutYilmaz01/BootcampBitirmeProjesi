@@ -4,18 +4,14 @@ use Project\Services\NewsService as NewsService;
 use Project\Services\CategoriesService as CategoriesService;
 use Project\Helper\Authorization;
 
-if (Authorization::isUser() || Authorization::isEditor())
-{
-    header('Location: /404/404');
-    die();
-}
 
 $service = new NewsService();
 $categoryService = new CategoriesService();
 $data = $service->getNewsById();
-if($data == false)
+$control= $service->validationForEditor($data);
+if (Authorization::isUser() || $data == false || $control == false)
 {
-    header('Location: /404/404.php');
+    header('Location: /404/404');
     die();
 }
 $category = $categoryService->getCategoryById($data->getCategory());
@@ -103,7 +99,14 @@ $category = $categoryService->getCategoryById($data->getCategory());
                                             </div>
                                             <div class="mt-3">
                                                 <a href="updatenew?id=<?echo $data->getId()?>" class="btn btn-success">Güncelle</a>
-                                                <a href="deletenew?id=<?echo $data->getId()?>" class="btn btn-danger">Sil</a>
+                                                <?
+                                                    if(!Authorization::isEditor())
+                                                    {
+                                                        echo '
+                                                            <a href="deletenew?id='.$data->getId().'" class="btn btn-danger">Sil</a>
+                                                        ';
+                                                    }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
