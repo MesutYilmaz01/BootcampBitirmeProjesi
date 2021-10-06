@@ -29,22 +29,22 @@ class UserService{
                         $repo = new UserRepository();
                         if (Authorization::isModerator() && ($_POST["type"] == 1 || $_POST["type"] == 2))
                         {
-                            Logging::alert("Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
+                            Logging::emergency(Authentication::getUser(),"Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
                             return array(0,"Admin değilseniz admin işlemleri yapmaya kalkmayınız.");
                         }
                         if (!$repo->selectByEmail($_POST["email"]))
                         {
-                            Logging::alert("Kayıtlı email ile kayıt güncellenmeye çalışıldı.");
+                            Logging::alert(Authentication::getUser(),"Kayıtlı email ile kayıt güncellenmeye çalışıldı.");
                             return array(0,"Bu email adresi sistemde kayıtlı.");
                         }
                         $result = $repo->create($data);
                         if ($result[0] == 1)
                         {
-                            Logging::error("Veritabanına ".$data->getId()." id'li yeni bir kullanıcı eklendi ");
+                            Logging::info(Authentication::getUser(),"Veritabanına ".$data->getId()." id'li yeni bir kullanıcı eklendi ");
                         }
                         else
                         {
-                            Logging::error("Veritabanına kullanıcı eklerken bir hata oluştu ");
+                            Logging::emergency(Authentication::getUser(),"Veritabanına kullanıcı eklerken bir hata oluştu ");
                         }
                         return $result;
                     }
@@ -80,22 +80,22 @@ class UserService{
                         $repo = new UserRepository();
                         if (Authorization::isModerator() && ($_POST["type"] == 1 || $_POST["type"] == 2))
                         {
-                            Logging::alert("Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
+                            Logging::emergency(Authentication::getUser(),"Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
                             return array(0,"Admin değilseniz admin işlemleri yapmaya kalkmayınız.");
                         }
                         if (!$repo->selectByEmail($_POST["email"]) && $_POST["email"] != $user->getEmail())
                         {
-                            Logging::alert("Kayıtlı email ile kayıt güncellenmeye çalışıldı.");
+                            Logging::alert(Authentication::getUser(),"Kayıtlı email ile kayıt güncellenmeye çalışıldı.");
                             return array(0,"Bu email adresi sistemde kayıtlı.");
                         }
                         $result = $repo->update($data);
                         if ($result[0] == 1)
                         {
-                            Logging::info("Veritabanında ".$data->getId()." id'li kullanıcı güncellendi ");
+                            Logging::info(Authentication::getUser(),"Veritabanında ".$data->getId()." id'li kullanıcı güncellendi ");
                         }
                         else
                         {
-                            Logging::error("Veritabanına ".$data->getId()." id'li kullanıcı güncellenirken bir hata oluştu ");
+                            Logging::emergency(Authentication::getUser(),"Veritabanına ".$data->getId()." id'li kullanıcı güncellenirken bir hata oluştu ");
                         }
                         return $result;
                         }
@@ -114,12 +114,12 @@ class UserService{
         if (Authorization::isModerator())
         {
             $data = $repo->getCountForModerator();
-            Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
+            Logging::info(Authentication::getUser(),"Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
             return $data;
         }
         //Admin için
         $data = $repo->select();
-        Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
+        Logging::info(Authentication::getUser(),"Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
         return $data;
     }
 
@@ -129,10 +129,10 @@ class UserService{
         $data = $repo->selectById($id);
         if ($data == false)
         {
-            Logging::emergency($id." id'li kullanıcı veritabanından çekilemedi.");
+            Logging::emergency(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekilemedi.");
             return false;
         }
-        Logging::info($id." id'li kullanıcı veritabanından çekildi.");
+        Logging::info(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekildi.");
         return $data;
     }
 
@@ -142,10 +142,10 @@ class UserService{
         $data = $repo->delete($id);
         if ($data == false)
         {
-            Logging::emergency($id." id'li kullanıcı veritabanından silinemedi.");
+            Logging::emergency(Authentication::getUser(),$id." id'li kullanıcı veritabanından silinemedi.");
             return false;
         }
-        Logging::info($id." id'li kullanıcı veritabanından silindi.");
+        Logging::info(Authentication::getUser(),$id." id'li kullanıcı veritabanından silindi.");
         return $data;
     }
 
@@ -161,12 +161,12 @@ class UserService{
         if (Authorization::isModerator())
         {
             $data = $repo->getAllForModerator($pageStarts, $limit);
-            Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
+            Logging::info(Authentication::getUser(),"Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
             return $data;
         }
         //Admin için
             $data = $repo->selectAllWithLimit($pageStarts, $limit);
-            Logging::info("Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
+            Logging::info(Authentication::getUser(),"Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
         return $data;
     }
 }

@@ -6,6 +6,7 @@ use Project\Repositories\EditorCategoryRepository;
 use Project\Helper\Logging;
 use Project\Models\User;
 use Project\Services\UserService;
+use Project\Helper\Authentication;
 
 class EditorCategoryService{
     public function addCategory(){
@@ -23,11 +24,11 @@ class EditorCategoryService{
         $result = $repo->create($editor_id, $category_id);
         if ($result[0] == 1)
         {
-            Logging::info($editor_id." id'li Editöre kategori eklendi");
+            Logging::info(Authentication::getUser(),$editor_id." id'li Editöre kategori eklendi");
         }
         else
         {
-            Logging::info($editor_id." id'li Editöre kategori eklerken hata oluştu");
+            Logging::emergency(Authentication::getUser(),$editor_id." id'li Editöre kategori eklerken hata oluştu");
         }
         return $result;
     }
@@ -35,7 +36,7 @@ class EditorCategoryService{
     public function getCategoriesById(User $user){
         $repo = new EditorCategoryRepository();
         $result = $repo->getAllById($user);
-        Logging::info($user->getId()." id'li kullanıcının kategorileri çekildi");
+        Logging::info(Authentication::getUser(),$user->getId()." id'li kullanıcının kategorileri çekildi");
         return $result;
 
     }
@@ -47,10 +48,10 @@ class EditorCategoryService{
         $result = $repo->deleteEditorCategoryById($editor_id, $category_id);
         
         if($result == false){
-            Logging::emergency("Editör kategorisi silinirken bir hata oluştu.");
+            Logging::emergency(Authentication::getUser(),"Editör kategorisi silinirken bir hata oluştu.");
             return false;
         }
-        Logging::emergency("Editör kategorisi başarıyla silindi.");
+        Logging::info(Authentication::getUser(),"Editör kategorisi başarıyla silindi.");
         return true;
     }
 

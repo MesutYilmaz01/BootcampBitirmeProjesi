@@ -2,6 +2,7 @@
 
 namespace Project\Services;
 
+use Project\Helper\Authentication;
 use Project\Models\Category as Category;
 use Project\Repositories\CategoryRepository as CategoryRepository;
 use Project\Helper\Logging;
@@ -18,11 +19,11 @@ class CategoriesService{
             $result = $repo->create($data);
             if ($result[0] == 1)
             {
-                Logging::info($data->getId()." Id'li kategori başarılı bir şekilde veritabanına eklendi");
+                Logging::info(Authentication::getUser(),$data->getId()." Id'li kategori başarılı bir şekilde veritabanına eklendi");
             }
             else
             {
-                Logging::emergency("Veritabanına kategori eklenirken bir hata oluştu.");
+                Logging::emergency(Authentication::getUser(),"Veritabanına kategori eklenirken bir hata oluştu.");
             }
             return $result;
         }
@@ -40,11 +41,11 @@ class CategoriesService{
             $result = $repo->update($data);
             if ($result[0] == 1)
             {
-                Logging::info($data->getId()." Id'li kategori başarılı bir şekilde güncellendi");
+                Logging::info(Authentication::getUser(),$data->getId()." Id'li kategori başarılı bir şekilde güncellendi");
             }
             else
             {
-                Logging::emergency($data->getId()." Id'li kategori veritabanına eklenirken bir hata oluştu.");
+                Logging::emergency(Authentication::getUser(),$data->getId()." Id'li kategori veritabanına eklenirken bir hata oluştu.");
             }
             return $result;
         }
@@ -57,16 +58,16 @@ class CategoriesService{
         $result = $repo->delete($id);
         if ($result == false)
         {
-            Logging::emergency($id."id'li kategori veritabanından silinemedi.");
+            Logging::emergency(Authentication::getUser(),$id." id'li kategori veritabanından silinemedi.");
             return false;
         }
-        Logging::info($id."id'li kategori veritabanından silindi.");
+        Logging::info(Authentication::getUser(),$id." id'li kategori veritabanından silindi.");
         return $result;
     }
     public function getCategories(){
         $repo = new CategoryRepository();
         $result = $repo->select();
-        Logging::info("Veritabanından tüm kategoriler çekildi");
+        Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi");
         return $result;
     }
     public function getCategoryById($id){
@@ -74,10 +75,10 @@ class CategoriesService{
         $result = $repo->selectById($id);
         if ($result == false)
         {
-            Logging::emergency($id."id'li kategori veritabanından çekilemedi.");
+            Logging::emergency(Authentication::getUser(),$id." id'li kategori veritabanından çekilemedi.");
             return false;
         }
-        Logging::info($id."id'li kategori veritabanından çekildi.");
+        Logging::info(Authentication::getUser(),$id." id'li kategori veritabanından çekildi.");
         return $result;
     }
 
@@ -90,7 +91,7 @@ class CategoriesService{
         $repo = new CategoryRepository();
         $pageStarts = ($page*$limit) - $limit;
         $data = $repo->selectAllWithLimit($pageStarts, $limit);
-        Logging::info("Veritabanından Kategoriler Sayfası İçin Kategoriler Çekildi");
+        Logging::info(Authentication::getUser(),"Veritabanından Kategoriler Sayfası İçin Kategoriler Çekildi");
         return $data;
     }
 }

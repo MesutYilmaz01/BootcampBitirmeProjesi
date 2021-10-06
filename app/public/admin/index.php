@@ -8,7 +8,9 @@ use \Project\Services\NewsService;
 use \Project\Services\CategoriesService;
 use \Project\Services\UserService;
 use \Project\Helper\Authorization;
+use Project\Helper\Logging;
 
+Logging::getLogs();
 
 if (Authorization::isUser() ||Authorization::isEditor())
 {

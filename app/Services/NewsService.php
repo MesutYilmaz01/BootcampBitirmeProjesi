@@ -5,6 +5,7 @@ namespace Project\Services;
 use Project\Models\News;
 use Project\Repositories\NewsRepository as NewsRepository;
 use Project\Helper\Logging as Logging;
+use Project\Helper\Authentication;
 
 class NewsService{
 
@@ -27,15 +28,15 @@ class NewsService{
                     $result = $repo->create($data);
                     if ($result[0] == 1)
                     {
-                        Logging::info($data->getId()." id'li Haber başarılı bir şekilde veritabanına eklendi");
+                        Logging::info(Authentication::getUser(),$data->getId()." id'li Haber başarılı bir şekilde veritabanına eklendi");
                     }
                     else
                     {
-                        Logging::emergency("Haber veritabanına eklenemedi");
+                        Logging::emergency(Authentication::getUser(),"Haber veritabanına eklenemedi");
                     }
                     return $result;
                 }
-                Logging::emergency("Haber resmi kayıt edilemedi");
+                Logging::emergency(Authentication::getUser(),"Haber resmi kayıt edilemedi");
                 return $imgPath;
             }
             return array(0,"Haber içeriği en az 150 karakter olmalı.");
@@ -65,11 +66,11 @@ class NewsService{
                     $result = $repo->update($data);
                     if ($result[0] == 1)
                     {
-                        Logging::info($data->getId()." id'li haber başarılı bir şekilde güncellendi");
+                        Logging::info(Authentication::getUser(),$data->getId()." id'li haber başarılı bir şekilde güncellendi");
                     }
                     else
                     {
-                        Logging::emergency($data->getId()."Haber güncellenemedi");
+                        Logging::emergency(Authentication::getUser(),$data->getId()."Haber güncellenemedi");
                     }
                     return $result;
                 }
@@ -83,7 +84,7 @@ class NewsService{
     public function getAllFromDatabase(){
         $repo = new NewsRepository();
         $data = $repo->select();
-        Logging::info("Veritabanından Tüm Haberler Çekildi");
+        Logging::info(Authentication::getUser(),"Veritabanından Tüm Haberler Çekildi");
         return $data;
     }
 
@@ -96,14 +97,14 @@ class NewsService{
         $repo = new NewsRepository();
         $pageStarts = ($page*$limit) - $limit;
         $data = $repo->selectAllWithLimit($pageStarts, $limit);
-        Logging::info("Veritabanından Haberler Sayfası İçin Haberler Çekildi");
+        Logging::info(Authentication::getUser(),"Veritabanından Haberler Sayfası İçin Haberler Çekildi");
         return $data;
     }
 
     public function getForAdminIndex($limit){
         $repo = new NewsRepository();
         $data = $repo->selectAllWithLimit(0,$limit);
-        Logging::info("Veritabanından Index Sayfası İçin $limit kadar haber Çekildi");
+        Logging::info(Authentication::getUser(),"Veritabanından Index Sayfası İçin $limit kadar haber Çekildi");
         return $data;
     }
 
@@ -113,10 +114,10 @@ class NewsService{
         $data = $repo->selectById($id);
         if ($data == false)
         {
-            Logging::emergency($id." id'li haber veritabanından çekilemedi.");
+            Logging::emergency(Authentication::getUser(),$id." id'li haber veritabanından çekilemedi.");
             return false;
         }
-        Logging::info($id." id'li haber veritabanından çekildi.");
+        Logging::info(Authentication::getUser(),$id." id'li haber veritabanından çekildi.");
         return $data;
     }
 
@@ -126,10 +127,10 @@ class NewsService{
         $data = $repo->delete($id);
         if ($data == false)
         {
-            Logging::emergency($id." id'li haber veritabanından silinemedi.");
+            Logging::emergency(Authentication::getUser(),$id." id'li haber veritabanından silinemedi.");
             return false;
         }
-        Logging::info($id." id'li haber veritabanından silindi.");
+        Logging::info(Authentication::getUser(),$id." id'li haber veritabanından silindi.");
         return $data;
     }
 

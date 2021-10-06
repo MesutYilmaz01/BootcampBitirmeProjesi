@@ -16,14 +16,15 @@ class LoginService{
             $result = Authentication::login($email, $password);
             if ($result[0] == 0)
             {
-                Logging::alert($email. " kullanıcısı başarısız bir login girişiminde bulundu");
+                //Logging::alert(Authentication::getUser(),$email. " kullanıcısı başarısız bir login girişiminde bulundu");
             }
-            Logging::info($email. " kullanıcısı başarılı bir şekilde login oldu");
+            Logging::info(Authentication::getUser(),$email. " kullanıcısı başarılı bir şekilde login oldu");
             return $result;
         }
     }
 
     public function logout() {
+        Logging::info(Authentication::getUser(), Authentication::getUser()->getEmail()," kullanıcısı başarılı bir şekilde çıkış yaptı");
         Authentication::logOut();
     } 
 

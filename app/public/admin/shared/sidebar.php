@@ -72,6 +72,43 @@
             <a class="collapse-item" href="/admin/categories/categories">Kategoriler</a>
         </div>
     </div>
+</li><!-- Nav Item - Comments Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseComments"
+        aria-expanded="true" aria-controls="collapseUtilities">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Yorumlar</span>
+    </a>
+    <div id="collapseComments" class="collapse" aria-labelledby="headingUtilities"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Yorumlar</h6>
+            <a class="collapse-item" href="/admin/categories/addcategory">Yorumları Onayla</a>
+            <a class="collapse-item" href="/admin/categories/categories">Yorumlar</a>
+        </div>
+    </div>
+</li><!-- Nav Item - Categories Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWaitings"
+        aria-expanded="true" aria-controls="collapseUtilities">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Silinme Bekleyenler</span>
+    </a>
+    <div id="collapseWaitings" class="collapse" aria-labelledby="headingUtilities"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Bekleyen Kullanıcılar</h6>
+            <a class="collapse-item" href="/admin/categories/addcategory">Silinenler</a>
+            <a class="collapse-item" href="/admin/categories/categories">Bekleyenler</a>
+        </div>
+    </div>
+</li>
+<!-- Nav Item - Logs  Menu -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="/admin/logs/log">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Loglar</span>
+    </a>
 </li>
 
 <!-- Divider -->
