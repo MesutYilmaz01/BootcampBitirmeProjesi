@@ -24,6 +24,7 @@ class UserService{
                         $data->setEmail($_POST["email"]);
                         $data->setPassword($_POST["password"]);
                         $data->setType($_POST["type"]);
+                        $data->setToken(strval(time()));
                         $data->setCreatedAt(date('d-m-Y-h:i'));
                         $data->setUpdatedAt(date('d-m-Y-h:i'));
                         $repo = new UserRepository();

@@ -1,16 +1,12 @@
 <?php
 
-use \Project\Repositories\UserRepository as UserRepository;
-use \Project\Database\Database as Database;
-use Project\Helper\Authentication;
-use \Project\Models\User as User;
 use \Project\Services\NewsService;
 use \Project\Services\CategoriesService;
 use \Project\Services\UserService;
 use \Project\Helper\Authorization;
-use Project\Helper\Logging;
+use \Project\Helper\Authentication;
 
-if (Authorization::isUser() ||Authorization::isEditor())
+if (Authentication::check() == false || Authorization::isUser() ||Authorization::isEditor())
 {
     header('Location: /404/404');
     die();

@@ -3,8 +3,9 @@
 use Project\Services\NewsService as NewsService;
 use Project\Services\CategoriesService as CategoriesService;
 use Project\Helper\Authorization;
+use Project\Helper\Authentication;
 
-if (Authorization::isUser())
+if (Authentication::check() == false || Authorization::isUser())
 {
     header('Location: /404/404');
     die();

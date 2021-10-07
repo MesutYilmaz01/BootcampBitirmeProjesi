@@ -14,6 +14,7 @@ class User{
     private $email;
     private $password;
     private $type;
+    private $token;
     private $created_at;
     private $updated_at;
     private $categories;
@@ -52,6 +53,12 @@ class User{
     }
     public function setType($type){
         $this->type = $type;
+    }
+    public function getToken(){
+        return $this->token;
+    }
+    public function setToken($token){
+        $this->token = $token;
     }
     public function getCreatedAt(){
         return $this->created_at;

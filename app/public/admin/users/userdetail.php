@@ -3,6 +3,7 @@
 use Project\Services\UserService as UserService;
 use Project\Services\EditorCategoryService;
 use Project\Helper\Authorization;
+use Project\Helper\Authentication;
 
 $service = new UserService();
 $data = $service->getUserById();
@@ -11,7 +12,7 @@ $userDetail = $categoriesService->getCategoriesById($data);
 //Kullanıcı veritabanında yoksa
 //veya kulanıcı moderatör ve güncellenmek istenen kullanıcı aynı veya üst seviye ise.
 //Veya kullanıcı admin veya moderatör değilse.
-if ($userDetail == false || 
+if ($userDetail == false || Authentication::check() == false ||
     (Authorization::isModerator() && ($userDetail->getType() == 1 || $userDetail->getType()==2)) ||
     (Authorization::isUser() || Authorization::isEditor()))
 {

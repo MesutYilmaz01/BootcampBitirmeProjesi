@@ -10,13 +10,28 @@ $file = '.'.$pieces[0].'.php';
 $maintance = __DIR__."/assets/maintance/maintance.txt";
 if (file_exists($maintance))
 {
-    include  __DIR__.'/maintance/outofservice.php';
+    if($pieces[0] == "/maintance/login")
+    {
+        include  __DIR__.'/maintance/login.php';
+    }
+    else
+    {
+        include  __DIR__.'/maintance/outofservice.php';
+    }
+    
 }
 else
 {
     if (file_exists($file))
     {
-        include '.'.$pieces[0].'.php';
+        if($pieces[0] == "/maintance/login")
+        {
+            header('Location: /404/404');
+        }
+        else
+        {
+            include '.'.$pieces[0].'.php';
+        }
     }
     else
     {

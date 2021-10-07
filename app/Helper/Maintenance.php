@@ -11,4 +11,9 @@ class Maintenance{
         fclose($dosya);
     }
 
+    public static function endMaintenance(){
+        $file = __DIR__."/../public/assets/maintance/maintance.txt";
+        $sonuc = unlink($file);
+    }
+
 }

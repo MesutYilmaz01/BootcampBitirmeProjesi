@@ -1,9 +1,10 @@
 <?php
 
+use Project\Helper\Authentication;
 use Project\Services\NewsService as NewsService;
 use Project\Helper\Authorization;
 
-if (Authorization::isUser())
+if (Authentication::check() == false || Authorization::isUser())
 {
     header('Location: /404/404');
     die();

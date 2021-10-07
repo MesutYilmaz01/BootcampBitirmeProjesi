@@ -2,10 +2,11 @@
 
 use Project\Helper\Authorization;
 use Project\Services\EditorCategoryService;
+use Project\Helper\Authentication;
 
 $service = new EditorCategoryService();
 $data = $service->getUpdateTime();
-if ($data == false || (Authorization::isUser() || Authorization::isEditor()))
+if (Authentication::check() == false || $data == false || (Authorization::isUser() || Authorization::isEditor()))
 {
     header('Location: /404/404');
     die();

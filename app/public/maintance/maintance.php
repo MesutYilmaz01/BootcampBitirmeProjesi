@@ -5,7 +5,7 @@ use Project\Helper\Authorization;
 use Project\Helper\Logging;
 use Project\Helper\Maintenance;
 
-if (!Authorization::isAdmin())
+if (Authentication::check() == false || !Authorization::isAdmin())
 {
     header('Location: /404/404');
     die();
@@ -86,7 +86,7 @@ if (isset($_POST["maintance"]))
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <label>Bakım Moduna Aldığınızda public/assets/maintance içerisinde oluşan txt dosyasını silene kadar sistem bakım modunda kalacaktır.</label>
+                                            <label>Bakım Moduna Aldığınızda maintance/login sayfasından login olana kadar sistem bakım modunda kalacaktır.</label>
                                         </div>
                                         <div class="col mt-4">
                                             <form method="POST" action="">

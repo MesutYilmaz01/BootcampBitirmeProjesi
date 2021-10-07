@@ -1,5 +1,6 @@
 <?php
 
+use Project\Helper\Authentication;
 use Project\Services\NewsService as NewsService;
 use Project\Services\CategoriesService as CategoriesService;
 use Project\Helper\Authorization;
@@ -9,7 +10,7 @@ $service = new NewsService();
 $categoryService = new CategoriesService();
 $data = $service->getNewsById();
 $control= $service->validationForEditor($data);
-if (Authorization::isUser() || $data == false || $control == false)
+if (Authentication::check() == false || Authorization::isUser() || $data == false || $control == false)
 {
     header('Location: /404/404');
     die();

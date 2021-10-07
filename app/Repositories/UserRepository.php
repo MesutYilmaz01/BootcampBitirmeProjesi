@@ -15,11 +15,11 @@ class UserRepository{
 
     public function create(User $user){
         $query = $this->db->prepare("INSERT INTO users 
-        (name,surname,email,password,type,created_at,updated_at)
-        VALUES (?,?,?,?,?,?,?)");
+        (name,surname,email,password,type,token,created_at,updated_at)
+        VALUES (?,?,?,?,?,?,?,?)");
         $insert = $query->execute(array(
-            $user->getName(), $user->getSurname(), $user->getEmail(), 
-            $user->getPassword(), $user->getType(), $user->getCreatedAt(), $user->getUpdatedAt()
+            $user->getName(), $user->getSurname(), $user->getEmail(), $user->getPassword(), 
+            $user->getType(), $user->getToken(), $user->getCreatedAt(), $user->getUpdatedAt()
         ));
         if ($insert)
         {
@@ -66,6 +66,7 @@ class UserRepository{
             $tempNew->setEmail($row["email"]);
             $tempNew->setPassword($row["password"]);
             $tempNew->setType($row["type"]);
+            $tempNew->setToken($row["token"]);
             $tempNew->setCreatedAt($row["created_at"]);
             $tempNew->setUpdatedAt($row["updated_at"]);
             $model[] = $tempNew;
@@ -90,6 +91,7 @@ class UserRepository{
         $news->setEmail($data["email"]);
         $news->setPassword($data["password"]);
         $news->setType($data["type"]);
+        $news->setToken($data["token"]);
         $news->setCreatedAt($data["created_at"]);
         $news->setUpdatedAt($data["updated_at"]);
         return $news;
@@ -121,6 +123,7 @@ class UserRepository{
             $tempNew->setEmail($row["email"]);
             $tempNew->setPassword($row["password"]);
             $tempNew->setType($row["type"]);
+            $tempNew->setToken($row["token"]);
             $tempNew->setCreatedAt($row["created_at"]);
             $tempNew->setUpdatedAt($row["updated_at"]);
             $model[] = $tempNew;
@@ -140,6 +143,7 @@ class UserRepository{
             $tempNew->setEmail($row["email"]);
             $tempNew->setPassword($row["password"]);
             $tempNew->setType($row["type"]);
+            $tempNew->setToken($row["token"]);
             $tempNew->setCreatedAt($row["created_at"]);
             $tempNew->setUpdatedAt($row["updated_at"]);
             $model[] = $tempNew;
@@ -158,6 +162,7 @@ class UserRepository{
             $tempNew->setEmail($row["email"]);
             $tempNew->setPassword($row["password"]);
             $tempNew->setType($row["type"]);
+            $tempNew->setToken($row["token"]);
             $tempNew->setCreatedAt($row["created_at"]);
             $tempNew->setUpdatedAt($row["updated_at"]);
             $model[] = $tempNew;

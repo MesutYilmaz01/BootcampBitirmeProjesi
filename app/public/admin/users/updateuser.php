@@ -3,13 +3,14 @@
 
 use Project\Services\UserService as UserService;
 use Project\Helper\Authorization;
+use Project\Helper\Authentication;
 
 $service = new UserService();
 $data = $service->getUserById();
 //Kullanıcı veritabanında yoksa
 //veya kulanıcı moderatör ve güncellenmek istenen kullanıcı aynı veya üst seviye ise.
 //Veya kullanıcı admin veya moderatör değilse.
-if ($data == false || 
+if ($data == false || Authentication::check() == false ||
     (Authorization::isModerator() && ($data->getType() == 1 || $data->getType()==2)) ||
     (Authorization::isUser() || Authorization::isEditor()))
 {

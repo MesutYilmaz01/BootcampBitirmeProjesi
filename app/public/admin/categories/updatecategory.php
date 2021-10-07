@@ -2,10 +2,11 @@
 
 use Project\Services\CategoriesService as CategoriesService;
 use Project\Helper\Authorization;
+use Project\Helper\Authentication;
 
 $service = new CategoriesService();
 $data = $service->getCategoryById($_GET["id"]);
-if (Authorization::isUser() || Authorization::isEditor() || $data == false)
+if (Authentication::check() == false || Authorization::isUser() || Authorization::isEditor() || $data == false)
 {
     header('Location: /404/404');
     die();

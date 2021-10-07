@@ -1,10 +1,10 @@
 <?php
 
-use Project\Services\CategoriesService as CategoriesService;
 use Project\Helper\Authorization;
 use Project\Helper\Logging;
+use Project\Helper\Authentication;
 
-if (Authorization::isUser() || Authorization::isEditor())
+if (Authentication::check() == false || Authorization::isUser() || Authorization::isEditor())
 {
     header('Location: /404/404');
     die();

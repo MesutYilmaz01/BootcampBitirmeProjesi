@@ -2,8 +2,9 @@
 
 use Project\Services\EditorCategoryService;
 use Project\Helper\Authorization; 
+use Project\Helper\Authentication;
 
-if (Authorization::isUser() || Authorization::isEditor())
+if (Authentication::check() == false || Authorization::isUser() || Authorization::isEditor())
 {
     header('Location: /404/404');
     die();
