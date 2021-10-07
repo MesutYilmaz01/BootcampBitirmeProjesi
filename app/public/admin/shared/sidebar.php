@@ -147,6 +147,18 @@ use Project\Helper\Authorization;
             </a>
         </li>';
     }
+    if (Authorization::isAdmin())
+    {
+        echo '
+        <!-- Nav Item - Maintance  Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/maintance/maintance">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Bakım Modu</span>
+            </a>
+        </li>
+        ';
+    }
 ?>
 <!-- Divider -->
 <hr class="sidebar-divider">

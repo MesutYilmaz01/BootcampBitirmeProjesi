@@ -1,29 +1,23 @@
 <?php
 
-use Project\Services\CategoriesService as CategoriesService;
+use Project\Helper\Authentication;
 use Project\Helper\Authorization;
+use Project\Helper\Logging;
+use Project\Helper\Maintenance;
 
-$service = new CategoriesService();
-$data = $service->getCategoryById($_GET["id"]);
-if (Authorization::isUser() || Authorization::isEditor() || $data == false)
+if (!Authorization::isAdmin())
 {
     header('Location: /404/404');
     die();
 }
-$message = '';
-//after post
-if (isset($_POST["update"]))
+$message = "";
+if (isset($_POST["maintance"]))
 {
-    $result = $service->updateCategory($data);
-    if ($result[0] == 1)
-    {
-         $message =  '<div class="alert alert-success" role="alert">'.$result[1].'</div>';
-    }
-    else
-    {
-        $message =  '<div class="alert alert-danger" role="alert">'.$result[1].'</div>';
-    }
-    $data = $service->getCategoryById($_GET["id"]);
+    $message =  '<div class="alert alert-danger" role="alert">5 saniye içerisinde bakım moduna geçilmiş olunacak...</div>';
+    Logging::critical(Authentication::getUser()," Sistem bakım moduna alındı.");
+    Authentication::logOut();
+    Maintenance::maintenance();
+    header('refresh:5;url=/main/index');
 }
 ?>
 
@@ -38,7 +32,7 @@ if (isset($_POST["update"]))
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kategori Ekle</title>
+    <title>Bakım Moduna Al</title>
 
     <!-- Custom fonts for this template-->
     <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -58,7 +52,7 @@ if (isset($_POST["update"]))
     <? $dir = __DIR__;?>
 
         <!-- Sidebar -->
-        <? include $dir.'/../shared/sidebar.php' ?>
+        <? include $dir.'/../admin/shared/sidebar.php' ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -68,7 +62,7 @@ if (isset($_POST["update"]))
             <div id="content">
 
                 <!-- Topbar -->
-                <? include $dir.'/../shared/topbar.php' ?>
+                <? include $dir.'/../admin/shared/topbar.php' ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -76,31 +70,30 @@ if (isset($_POST["update"]))
 
                     <!-- Page Heading -->
                     <div class="text-center">
-                        <h1 class="h3 mb-4 text-gray-800">Kategori Güncelle</h1>
-                        <? if($message != '') echo $message;?>
+                        <h1 class="h3 mb-4 text-gray-800">Bakım Moduna Al</h1>
                     </div>
 
                     <div class="row d-flex justify-content-center">
                         <div class="col-10">
                                 <!-- Last News Card -->
-                                <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary text-center">Kategori Güncelleme Formu</h6>
-                                </div>
+                                    <h6 class="m-0 font-weight-bold text-primary text-center">Bakım Modu</h6>
+                                    <?
+                                        if ($message != '')
+                                        {
+                                           echo $message; 
+                                        }
+                                    ?>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col">
-                                            <form method="POST" action="updatecategory?id=<?echo $data->getId()?>" enctype="multipart/form-data">
-                                                <div class="form-group d-flex justify-content-center">
-                                                    <div class="col-10 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control" name="category"
-                                                            placeholder="Kategori Adı" value="<?echo $data->getCategory()?>"> 
-                                                    </div>
-                                                </div>
+                                        <div class="col-12">
+                                            <label>Bakım Moduna Aldığınızda public/assets/maintance içerisinde oluşan txt dosyasını silene kadar sistem bakım modunda kalacaktır.</label>
+                                        </div>
+                                        <div class="col mt-4">
+                                            <form method="POST" action="">
                                                 <div class="form-group d-flex justify-content-center">
                                                     <div class="col-3 mb-3 mb-sm-0">
-                                                        <button type="submit" name="update" class="btn btn-block btn-primary">
-                                                            Kaydet
+                                                        <button type="submit" class="btn btn-block btn-primary"  name="maintance">
+                                                            Bakım Moduna Al
                                                         </button>
                                                     </div>
                                                 </div>
@@ -119,10 +112,6 @@ if (isset($_POST["update"]))
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <? include $dir.'/../shared/footer.php' ?>
-            <!-- End of Footer -->
-
         </div>
         <!-- End of Content Wrapper -->
 
@@ -135,7 +124,7 @@ if (isset($_POST["update"]))
     </a>
 
     <!-- Logout Modal-->
-    <? include $dir.'/../shared/logoutmodel.php' ?>
+    <? include $dir.'/../admin/shared/logoutmodel.php' ?>
     <!-- Logout Modal End -->
 
     <!-- Bootstrap core JavaScript-->

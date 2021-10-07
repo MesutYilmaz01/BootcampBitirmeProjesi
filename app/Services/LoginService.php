@@ -12,12 +12,13 @@ class LoginService{
         $email = $_POST["email"];
         $password = $_POST["password"];
         if (!Authentication::check())
-        {
+        {   
             $result = Authentication::login($email, $password);
             if ($result[0] == 0)
             {
-                //Logging::alert(Authentication::getUser(),$email. " kullanıcısı başarısız bir login girişiminde bulundu");
+                return $result;
             }
+
             Logging::info(Authentication::getUser(),$email. " kullanıcısı başarılı bir şekilde login oldu");
             return $result;
         }
