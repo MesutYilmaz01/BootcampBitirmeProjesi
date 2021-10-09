@@ -5,7 +5,6 @@ use Project\Services\NewsService;
 $service = new NewsService();
 
 $data = $service->getNewByIdForAPI();
-
 try{
     if ($data == false)
     {

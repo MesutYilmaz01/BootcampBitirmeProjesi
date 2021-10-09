@@ -51,6 +51,7 @@ try{
                 "content"   => $data->getContent(),
                 "category"  => $data->getCategory(),
                 "img"       => $data->getImg(),
+                "created"       => $data->getCreatedAt(),
             ];
         }
         echo json_encode([

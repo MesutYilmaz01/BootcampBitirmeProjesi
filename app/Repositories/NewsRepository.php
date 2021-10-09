@@ -229,7 +229,7 @@ class NewsRepository{
     }
 
     public function selectByIDForAPI($id){
-        $query = $this->db->prepare("SELECT n.id,n.title,n.content,n.img,n.created_at,n.updated_at,c.category FROM news as n INNER JOIN categories as c ON n.category = c.id WHERE n.published = ? AND n.id = ?");
+        $query = $this->db->prepare("SELECT n.id,n.title,n.content,n.img,n.created_at,n.updated_at,c.category,c.id as cid FROM news as n INNER JOIN categories as c ON n.category = c.id WHERE n.published = ? AND n.id = ?");
         $query->execute([1,$_GET["id"]]);
         $row = $query->fetch();
         if ($row == false)
@@ -240,7 +240,7 @@ class NewsRepository{
         $tempNew->setId($row["id"]);
         $tempNew->setTitle($row["title"]);
         $tempNew->setContent($row["content"]);
-        $tempNew->setCategory($row["category"]);
+        $tempNew->setCategory($row["cid"]);
         $tempNew->setImg($row["img"]);
         $tempNew->setCreatedAt($row["created_at"]);
         $tempNew->setUpdatedAt($row["updated_at"]);

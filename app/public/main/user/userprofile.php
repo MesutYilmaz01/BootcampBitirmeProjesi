@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Haber Sitesi</title>
+    <title>Profilim</title>
 
     <!-- Custom fonts for this template-->
     <link href="/../../assets/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
@@ -32,6 +32,9 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-9 mt-5 border border-4 rounded">
+        <form class="abc">
+        <div class="row mt-3 justify-content-center" id="errMessage">
+        </div>   
         <div class="row mt-3 justify-content-center">
                 <div class="col-3 mt-1">
                     <label for="ad">Ad :</label>
@@ -53,7 +56,7 @@
                     <label for="email_sign">E-mail :</label>
                 </div>
                 <div class="col-6">
-                    <input type="email" name="email_sign" id="email_sign" class="form-control" placeholder="E-mail Adresiniz"/>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="E-mail Adresiniz"/>
                 </div>
             </div>
             <div class="row mt-3 justify-content-center">
@@ -61,7 +64,7 @@
                     <label for="password_sign">Şifre :</label>
                 </div>
                 <div class="col-6">
-                    <input type="password" name="password_sign" id="password_sign" class="form-control" placeholder="Şifreniz"/>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Şifreniz"/>
                 </div>
             </div>
             <div class="row mt-3 justify-content-center">
@@ -69,7 +72,7 @@
                     <label for="password_sign2">Şifre Tekrar :</label>
                 </div>
                 <div class="col-6">
-                    <input type="password" name="password_sign2" id="password_sign2" class="form-control" placeholder="Şifreniz Tekrar"/>
+                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Şifreniz Tekrar"/>
                 </div>
             </div>
             <div class="row mt-3 justify-content-center">
@@ -79,17 +82,18 @@
                         </label>
                     </div>
                 <div class="col-6">    
-                    <input class="form-check-input mt-3" type="checkbox" value="" id="flexCheckDefault">
+                    <input class="form-check-input mt-3" type="checkbox" value="" id="deleteUser">
                 </div>   
             </div>
             <div class="row">
                 <div class="col-6 mt-3 mb-3">
-                    <a href="#" class="btn btn-primary mt-3" style="float:right;">Kaydet</a>
+                    <span onclick=validation() class="btn btn-primary mt-3" style="float:right;">Kaydet</span>
                 </div>
             </div>
+        </form>
             <div class="row">
                 <p>Not 1 : Şifrenizi güncellemek istemiyorsanız şifre alanlarını boş bırakınız.</p>
-                <p>Not 2 : Hesabınızı silmek istiyorsanız diğer alanları boş bırakabilirsiniz.</p>
+                <p>Not 2 : Hesabınızı silmek istiyorsanız diğer alanları boş bırakınız.</p>
             </div>
         </div>
     </div>
@@ -104,7 +108,6 @@
 <script type="text/javascript" src="/../../assets/js/navbar.js"></script>
 <script type="text/javascript" src="/../../assets/js/categories.js"></script>
 <script type="text/javascript" src="/../../assets/js/user.js"></script>
-
 
 </body>
 </html>

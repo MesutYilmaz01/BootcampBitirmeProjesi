@@ -80,28 +80,11 @@
                 
             </div>
         </div>
-        <div class="col-3 offset-1 mt-5">
+        <div class="col-3 offset-1 mt-5" id="similar">
             <div>
                 <h5>Benzer Haberler</h5>
             </div>
-            <div class="card mt-5" style="width: 18rem;">
-                <img src="https://foto.sondakika.com/manset/2021/10/07/magarada-binlerce-hayvan-ve-insan-kemigi-bulundu_720111_19_sd.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            </div>            
-            <div class="card mt-5" style="width: 18rem;">
-                <img src="https://foto.sondakika.com/manset/2021/10/07/magarada-binlerce-hayvan-ve-insan-kemigi-bulundu_720111_19_sd.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            </div>            
-            <div class="card mt-5" style="width: 18rem;">
-                <img src="https://foto.sondakika.com/manset/2021/10/07/magarada-binlerce-hayvan-ve-insan-kemigi-bulundu_720111_19_sd.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            </div>
+            <!-- Hberler -->
         </div>
     </div>
 </div>
@@ -115,46 +98,8 @@ Copyright © Your Website 2020
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript" src="/../../assets/js/navbar.js"></script>
 <script type="text/javascript" src="/../../assets/js/categories.js"></script>
-<script type="text/javascript"> 
-    //new detail
+<script type="text/javascript" src="/../../assets/js/newdetail.js"></script>
 
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get('id')
-    $.ajax({
-        type: "GET",
-        url: "http://localhost/api/news/detailnew?id="+id,
-        dataType:"json",
-        //data: dataString,
-        success: function (response) {
-            if(response.result === true) {  
-                string = `           
-                        <div class="row mt-4">
-                            <div class="col">
-                                <h3>${response.title}</h3>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col">
-                                <img src="${response.img}" class="img-fluid" alt="...">
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col mb-3">
-                                <p>
-                                ${response.content}
-                                </p>
-                            </div>
-                        </div>
-                        `;
-                    $("#detail").append(string);
-            } else if(response.result === false) {
-                
-                $("#detail").append("Gösterilecek kategori bulunamadı..");
-            }
-        }
-    })
-</script>
 
 
 </body>

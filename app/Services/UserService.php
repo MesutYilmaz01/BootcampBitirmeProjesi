@@ -133,10 +133,14 @@ class UserService{
         {
             if ($data == false)
             {
-                Logging::emergency(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekilemedi.");
+                $temp = new User();
+                $temp->setName("Bir");
+                $temp->setSurname("Kullanıcı");
+                $temp->setType("1");
+                Logging::emergency($temp," Kullanıcı veritabanından çekilemedi.");
                 return false;
             }
-            Logging::info(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekildi.");
+            Logging::info($data,$data->getId()." id'li kullanıcı veritabanından çekildi.");
         }
         return $data;
     }
@@ -146,16 +150,17 @@ class UserService{
         $token = $_GET["token"];
         $repo = new UserRepository();
         $data = $repo->selectByToken($token);
-        if (Authentication::check())
-        {
             if ($data == false)
             {
-                //Logging::emergency(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekilemedi.");
+                $temp = new User();
+                $temp->setName("Bir");
+                $temp->setSurname("Kullanıcı");
+                $temp->setType("1");
+                Logging::emergency($temp,"Kullanıcı veritabanından çekilemedi.");
                 return false;
             }
-            //Logging::info(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekildi.");
-        }
-        return $data;
+            Logging::info($data,$data->getId()." id'li kullanıcı veritabanından çekildi.");
+            return $data;
     }
 
     public function deleteUserById(){
@@ -190,5 +195,30 @@ class UserService{
             $data = $repo->selectAllWithLimit($pageStarts, $limit);
             Logging::info(Authentication::getUser(),"Veritabanından Kullanıcılar Sayfası İçin Kullanıcılar Çekildi");
         return $data;
+    }
+
+    public function updateWithAPI(){
+        $token = $_GET["token"];
+        $repo = new UserRepository();
+        $user = $repo->selectByToken($token);
+        $user->setName($_POST["name"]);
+        $user->setSurname($_POST["surname"]);
+        $user->setEmail($_POST["email"]);
+        if ($_POST["password"] != "")
+        {
+            $user->setPassword($_POST["password"]);
+        }
+        $result = $repo->update($user);
+        if ($result[0] == 1)
+        {
+            Logging::info($user,"Veritabanında api ile profil bilgileri güncellendi");
+            return true;
+        }
+        else
+        {
+            
+            Logging::info($user,"Veritabanında api ile profil bilgileri güncellenirken bir hata oluştu.");
+            return false;
+        }
     }
 }

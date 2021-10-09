@@ -9,7 +9,7 @@ function authUser(){
         url: "http://localhost/api/user/getuserinfo?token="+token,
         dataType:"json",
         success: (res) => {
-            console.log("data",res)
+
         },
         error: function (httpObj, statu){
             localStorage.removeItem("user-token");
@@ -18,3 +18,8 @@ function authUser(){
     });
     
 }
+$(document).ready(function(){
+    authUser();
+})
+
+

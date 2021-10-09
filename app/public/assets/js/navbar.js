@@ -32,14 +32,14 @@ function renderNonUser(){
 }
 
 function getNavbarButtons(){
-if (localStorage.getItem("user-token"))
-{
-renderUser();
-}
-else
-{
-renderNonUser();
-}
+    if (localStorage.getItem("user-token"))
+    {
+        renderUser();
+    }
+    else    
+    {
+        renderNonUser();
+    }
 }
 
 getNavbarButtons();
