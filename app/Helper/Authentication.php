@@ -23,6 +23,9 @@ class Authentication{
             $user->setSurname($result["surname"]);
             $user->setEmail($result["email"]);
             $user->setId($result["id"]);
+            $user->setToken($result["token"]);
+            $user->setCreatedAt($result["created_at"]);
+            $user->setUpdatedAt($result["updated_at"]);
 
 
             $_SESSION["user"] = $user;
@@ -44,6 +47,32 @@ class Authentication{
         if (isset($_SESSION["user"]))
         {
             return $_SESSION["user"];
+        } 
+        else 
+        {
+            return false;
+        }
+    }
+
+    public  static function checkToken($token){
+        if ($token)
+        {
+            $db = new Database();
+            $db = $db->getDb();
+    
+            $sql = "SELECT * FROM users WHERE token=?";
+            $stmt= $db->prepare($sql);
+            $stmt->execute([$token]);
+            $result = $stmt->fetch();
+            if($result) 
+            {
+                return $result;    
+            } 
+            else 
+            {
+                return false;
+            }
+
         } 
         else 
         {

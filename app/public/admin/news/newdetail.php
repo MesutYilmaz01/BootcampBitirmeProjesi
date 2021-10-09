@@ -9,7 +9,11 @@ use Project\Helper\Authorization;
 $service = new NewsService();
 $categoryService = new CategoriesService();
 $data = $service->getNewsById();
-$control= $service->validationForEditor($data);
+$control = true;
+if (Authorization::isEditor())
+{
+    $control= $service->validationForEditor($data);
+}
 if (Authentication::check() == false || Authorization::isUser() || $data == false || $control == false)
 {
     header('Location: /404/404');

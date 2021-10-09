@@ -35,10 +35,13 @@ class NewsService{
                     $data->setPublish($published);
                     $repo = new NewsRepository();
                     //Kategori kullanıcıda ekli ise ekleme yapabilir. Yetkisi olmayan idyi eklememeli.
-                    $control = $this->isExistInUser();
-                    if($_POST["category"] == null || $control == false)
+                    if (Authorization::isEditor())
                     {
-                        return array(0,"Kategori alanınını kontrol ediniz.");
+                        $control = $this->isExistInUser();
+                        if($_POST["category"] == null || $control == false)
+                        {
+                            return array(0,"Kategori alanınını kontrol ediniz.");
+                        }
                     }
                     $result = $repo->create($data);
                     if ($result[0] == 1)
@@ -165,7 +168,7 @@ class NewsService{
 
     public function deleteNewById(){
         $id = $_GET["id"];
-        $repo = new NewsRepository($id);
+        $repo = new NewsRepository();
         $data = $repo->delete($id);
         if ($data == false)
         {
@@ -173,6 +176,49 @@ class NewsService{
             return false;
         }
         Logging::info(Authentication::getUser(),$id." id'li haber veritabanından silindi.");
+        return $data;
+    }
+
+    public function getNewsForAPI($page){
+        if (empty($page) || !is_numeric($page))
+        {
+            $page = 1;
+        }
+        $category = null;
+        if (isset($_GET["category"]))
+        {
+            $category = $_GET["category"];
+        }
+        $limit = 20;
+        $repo = new NewsRepository();
+        $pageStarts = ($page*$limit) - $limit;
+        $data = $repo->selectForAPI($pageStarts, $limit, $category);
+        return $data;
+    }
+
+    public function getCountForAPI(){
+        $category = null;
+        if (isset($_GET["category"]))
+        {
+            $category = $_GET["category"];
+        }
+        $repo = new NewsRepository();
+        $data = $repo->countForAPI($category);
+        if ($data == false)
+        {
+            return false;
+        }
+        return $data;
+    }
+
+    public function getNewByIdForAPI(){
+        $id = $_GET["id"];
+        $repo = new NewsRepository();
+        $data = $repo->selectByIDForAPI($id);
+        if ($data == false)
+        {
+            return false;
+        }
         return $data;
     }
 

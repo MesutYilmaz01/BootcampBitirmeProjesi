@@ -125,15 +125,36 @@ class UserService{
     }
 
     public function getUserById(){
+        //Burada log kısmı düzenlenmeli.
         $id = $_GET["id"];
         $repo = new UserRepository();
         $data = $repo->selectById($id);
-        if ($data == false)
+        if (Authentication::check())
         {
-            Logging::emergency(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekilemedi.");
-            return false;
+            if ($data == false)
+            {
+                Logging::emergency(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekilemedi.");
+                return false;
+            }
+            Logging::info(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekildi.");
         }
-        Logging::info(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekildi.");
+        return $data;
+    }
+
+    public function getUserByToken(){
+        //Burada log kısmı düzenlenmeli.
+        $token = $_GET["token"];
+        $repo = new UserRepository();
+        $data = $repo->selectByToken($token);
+        if (Authentication::check())
+        {
+            if ($data == false)
+            {
+                //Logging::emergency(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekilemedi.");
+                return false;
+            }
+            //Logging::info(Authentication::getUser(),$id." id'li kullanıcı veritabanından çekildi.");
+        }
         return $data;
     }
 

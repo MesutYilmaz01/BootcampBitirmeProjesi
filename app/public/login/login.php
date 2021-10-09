@@ -6,6 +6,12 @@ use Project\Services\LoginService;
 
 $login = new LoginService();
 $message = '';
+if(Authentication::check() && !Authorization::isEditor() && !Authorization::isUser() )
+{
+    header('Location: /admin/index');
+} else if(Authentication::check() && Authorization::isEditor()) {
+    header('Location: /admin/news/news');
+}
 if(isset($_POST["login"])){
     $result = $login->login();
     if($result[0] == 0)
@@ -14,9 +20,19 @@ if(isset($_POST["login"])){
     }
     else
     {        
-        if (Authorization::isEditor())
+        if (Authorization::isUser())
         {
-            header('Location: /main/index');
+            $token = $result[1]->getToken();
+            Authentication::logOut();
+            echo "Siteye yönlendiriliyorsunuz...
+                    <script type='text/javascript'>
+                        localStorage.setItem('user-token',"."'".$token."')"."
+                        window.location.href = '/main/index';
+                    </script>";
+        }
+        else if (Authorization::isEditor())
+        {
+            header('Location: /admin/news/news');
         }
         else
         {

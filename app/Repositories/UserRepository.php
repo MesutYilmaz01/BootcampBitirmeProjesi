@@ -97,6 +97,30 @@ class UserRepository{
         return $news;
 
     }
+
+    public function selectByToken($token){
+        $data = null;
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE token=?");
+        $stmt->execute([$token]);
+        $data = $stmt->fetch();
+        if ($data == false)
+        {
+            return false;
+        }
+        $news = new User();
+        $news->setId($data["id"]);
+        $news->setName($data["name"]);
+        $news->setSurname($data["surname"]);
+        $news->setEmail($data["email"]);
+        $news->setPassword($data["password"]);
+        $news->setType($data["type"]);
+        $news->setToken($data["token"]);
+        $news->setCreatedAt($data["created_at"]);
+        $news->setUpdatedAt($data["updated_at"]);
+        return $news;
+
+    }
+
     public function selectByEmail($email){
         $data = null;
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email=?");

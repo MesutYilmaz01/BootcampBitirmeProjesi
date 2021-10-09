@@ -68,14 +68,17 @@ class CategoriesService{
     }
     public function getCategories(){
         $repo = new CategoryRepository();
-        if(Authorization::isEditor())
-        {
-            $service = new EditorCategoryService();
-            $result = $service->getCategoriesById(Authentication::getUser());
-            Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi");      
-            return $result->getCategories();
+        $result = "";
+        if(Authentication::check()){
+            if(Authorization::isEditor())
+            {
+                $service = new EditorCategoryService();
+                $result = $service->getCategoriesById(Authentication::getUser());
+                Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi"); 
+                return $result->getCategories();
+            }
+            Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi");
         }
-        Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi");        
         $result = $repo->select();
         return $result;
     }

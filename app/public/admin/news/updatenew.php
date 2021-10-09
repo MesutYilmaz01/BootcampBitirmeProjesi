@@ -10,19 +10,17 @@ $service = new NewsService();
 $categoryService = new CategoriesService();
 $categories = $categoryService->getCategories();
 $data = $service->getNewsById();
-$control = "";
-
-if (Authentication::check() == false || Authorization::isUser() || $data == false || $control == false)
-{
-    header('Location: /404/404');
-    die();
-}
+$control = true;
 
 if (Authorization::isEditor())
 {
     $control = $service->validationForEditor($data);
 }
-
+if (Authentication::check() == false || Authorization::isUser() || $data == false || $control == false)
+{
+    header('Location: /404/404');
+    die();
+}
 
 $message = '';
 //after post

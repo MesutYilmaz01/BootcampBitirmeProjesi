@@ -147,7 +147,6 @@ class NewsRepository{
     }
 
     public function selectCountForEditor($time){
-        $user_id =  Authentication::getUser()->getId();
         $model = array();
         $query = $this->db->query("SELECT * FROM news");
         while ($row = $query->fetch()) {
@@ -172,4 +171,79 @@ class NewsRepository{
         return $model;   
     }
 
+    public function selectForAPI($pagestarts, $limit, $category=null){
+        $model = array();
+        $query = "";
+        if ($category == null)
+        {
+            $query = $this->db->prepare("SELECT n.id,n.title,n.content,n.img,n.created_at,n.updated_at,c.category FROM news as n INNER JOIN categories as c ON n.category = c.id WHERE n.published = ? ORDER BY n.id DESC limit $pagestarts,$limit
+        ");
+            $query->execute([1]);
+        }
+        else
+        {
+            $query = $this->db->prepare("SELECT n.id,n.title,n.content,n.img,n.created_at,n.updated_at,c.category FROM news as n INNER JOIN categories as c ON n.category = c.id WHERE n.published = ? AND n.category = ? ORDER BY n.id DESC limit $pagestarts,$limit
+        ");
+            $query->execute([1,$category]);
+        }
+        while ($row = $query->fetch()) {
+            $tempNew = new News();
+            $tempNew->setId($row["id"]);
+            $tempNew->setTitle($row["title"]);
+            $tempNew->setContent($row["content"]);
+            $tempNew->setCategory($row["category"]);
+            $tempNew->setImg($row["img"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+        return $model;
+    }
+
+    public function countForAPI($category = null){
+        $model = array();
+        if ($category == null)
+        {
+            $query = $this->db->prepare("SELECT n.id,n.title,n.content,n.img,n.created_at,n.updated_at,c.category FROM news as n INNER JOIN categories as c ON n.category = c.id WHERE n.published = ?
+        ");
+            $query->execute([1]);
+        }
+        else
+        {
+            $query = $this->db->prepare("SELECT n.id,n.title,n.content,n.img,n.created_at,n.updated_at,c.category FROM news as n INNER JOIN categories as c ON n.category = c.id WHERE n.published = ? AND n.category = ? 
+        ");
+            $query->execute([1,$category]);
+        }
+        while ($row = $query->fetch()) {
+            $tempNew = new News();
+            $tempNew->setId($row["id"]);
+            $tempNew->setTitle($row["title"]);
+            $tempNew->setContent($row["content"]);
+            $tempNew->setCategory($row["category"]);
+            $tempNew->setImg($row["img"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+        return $model;
+    }
+
+    public function selectByIDForAPI($id){
+        $query = $this->db->prepare("SELECT n.id,n.title,n.content,n.img,n.created_at,n.updated_at,c.category FROM news as n INNER JOIN categories as c ON n.category = c.id WHERE n.published = ? AND n.id = ?");
+        $query->execute([1,$_GET["id"]]);
+        $row = $query->fetch();
+        if ($row == false)
+        {
+            return false;
+        }
+        $tempNew = new News();
+        $tempNew->setId($row["id"]);
+        $tempNew->setTitle($row["title"]);
+        $tempNew->setContent($row["content"]);
+        $tempNew->setCategory($row["category"]);
+        $tempNew->setImg($row["img"]);
+        $tempNew->setCreatedAt($row["created_at"]);
+        $tempNew->setUpdatedAt($row["updated_at"]);
+        return $tempNew;
+    }
 }
