@@ -78,4 +78,79 @@ class CommentService{
             return $result;
         }
     }
+
+    public function paginatedComments($pagenumber){
+        $repo = new CommentRepository();
+        $limit = 20;
+        $result = $repo->selectPagination($pagenumber,$limit);
+        if($result == false)
+        {
+            Logging::critical(Authentication::getUser(),"Bütün yorumlar çekilirken hata oluştu");
+            return false;
+        }
+        Logging::info(Authentication::getUser(),"Bütün yorumlar çekildi");
+        return $result;
+    }
+
+    public function selectAll(){
+        $repo = new CommentRepository();
+        $result = $repo->select();
+        if($result == false)
+        {
+            Logging::critical(Authentication::getUser(),"Yorum sayısı alınırken hata oluştu");
+            return false;
+        }
+        Logging::info(Authentication::getUser(),"Yorum sayısı alındı");
+        return $result;
+    }
+
+    public function deleteComment(){
+        if (isset($_GET["id"]))
+        {
+            $id = $_GET["id"];
+            $repo = new CommentRepository();
+            $result = $repo->delete($id);
+            if ($result == false)
+            {
+                Logging::critical(Authentication::getUser(), "Yorum silinirken bir hata oluştu");
+                return false;
+            }
+            Logging::info(Authentication::getUser(), "Yorum başarıyla silindi");
+            return $result;
+
+        }
+        return false;
+    }
+
+    public function approveComment(){
+        $repo = new CommentRepository();
+        if (isset($_GET["id"]))
+        {
+            if(isset($_GET["app"]))
+            {
+                $id = $_GET["id"];
+                $app = $_GET["app"];
+                $approve = "";
+                if ($app == 0)
+                {
+                    $approve = 1;
+                }
+                if ($app == 1)
+                {
+                    $approve = 0;
+                }
+                $result = $repo->update($id,$approve);
+                if ($result == false)
+                {
+                    Logging::critical(Authentication::getUser(),"Yorum onaylanırken bir sorun oluştu");
+                    return false;
+                }
+                Logging::info(Authentication::getUser(),"Yorum başarıyla onaylandı");
+                return $result;
+
+            }
+            return false;
+        }
+        return false;
+    }
 }

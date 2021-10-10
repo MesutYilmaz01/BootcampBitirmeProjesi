@@ -112,8 +112,7 @@ use Project\Helper\Authorization;
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Yorumlar</h6>
-                    <a class="collapse-item" href="/admin/categories/addcategory">Yorumları Onayla</a>
-                    <a class="collapse-item" href="/admin/categories/categories">Yorumlar</a>
+                    <a class="collapse-item" href="/admin/comments/comments">Yorumlar</a>
                 </div>
             </div>
         </li><!-- Nav Item - Categories Collapse Menu -->
@@ -127,7 +126,6 @@ use Project\Helper\Authorization;
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Bekleyen Kullanıcılar</h6>
-                    <a class="collapse-item" href="/admin/categories/addcategory">Silinenler</a>
                     <a class="collapse-item" href="/admin/categories/categories">Bekleyenler</a>
                 </div>
             </div>

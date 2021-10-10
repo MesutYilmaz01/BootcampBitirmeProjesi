@@ -31,10 +31,10 @@ class CommentRepository{
 
     }
 
-    public function update($comment_id, $approve){
-        $sql = "UPDATE comments SET approve = ? updated_at=? WHERE id=?";
+    public function update($comment_id, $approve,){
+        $sql = "UPDATE comments SET approve = ?, updated_at=? WHERE id=?";
         $stmt= $this->db->prepare($sql);
-        $result = $stmt->execute([$approve, $comment_id]);
+        $result = $stmt->execute([$approve, date("d-m-Y:i"), $comment_id]);
         if ($result) 
         {
             return array(1,"Yorum başarı ile güncellendi.");
@@ -72,6 +72,25 @@ class CommentRepository{
 
         return $model;
     }
+
+    public function selectPagination($pageStart,$limit){
+        $model = array();
+        $query = $this->db->query("SELECT * FROM comments ORDER BY id DESC limit $pageStart,$limit");
+        while ($row = $query->fetch()) {
+            $tempNew = new Comment();
+            $tempNew->setId($row["id"]);
+            $tempNew->setUserId($row["user_id"]);
+            $tempNew->setNewId($row["new_id"]);
+            $tempNew->setComment($row["comment"]);
+            $tempNew->setApprove($row["approve"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+
+        return $model;
+    }
+
     public function selectByUserId($id){
         $model = array();
         $query = $this->db->prepare("SELECT * FROM comments WHERE user_id=?");
@@ -88,6 +107,18 @@ class CommentRepository{
             $model[] = $tempNew;
         }
         return $model;
+    }
+
+    public function selectById($id){
+        $data = null;
+        $stmt = $this->db->prepare("SELECT * FROM comments WHERE id=?");
+        $stmt->execute([$id]);
+        $data = $stmt->fetch(); 
+        if ($data == false)
+        {
+            return false;
+        }
+        return true;
     }
 
     public function selectforNew($new_id){
