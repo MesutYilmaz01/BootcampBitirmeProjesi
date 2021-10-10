@@ -7,6 +7,7 @@ use Project\Helper\Authorization;
 use Project\Models\Category as Category;
 use Project\Repositories\CategoryRepository as CategoryRepository;
 use Project\Helper\Logging;
+use Project\Models\User;
 use Project\Services\EditorCategoryService;
 
 class CategoriesService{
@@ -68,8 +69,6 @@ class CategoriesService{
     }
     public function getCategories(){
         $repo = new CategoryRepository();
-        $result = "";
-        if(Authentication::check()){
             if(Authorization::isEditor())
             {
                 $service = new EditorCategoryService();
@@ -78,10 +77,27 @@ class CategoriesService{
                 return $result->getCategories();
             }
             Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi");
-        }
         $result = $repo->select();
         return $result;
     }
+
+    public function getCategoriesAPI(){
+        $repo = new CategoryRepository();
+        if (!Authentication::check())
+        {
+            $temp = new User();
+            $temp->setName("Bir");
+            $temp->setSurname("Kullanıcı");
+            $temp->setType("4");
+            Logging::info($temp,"Veritabanından tüm kategoriler çekildi");
+            $result = $repo->select();
+            return $result;
+        }
+        Logging::info(Authentication::getUser(),"Veritabanından tüm kategoriler çekildi");
+        $result = $repo->select();
+        return $result;
+    }
+
     public function getCategoryById($id){
         $repo = new CategoryRepository();
         $result = $repo->selectById($id);

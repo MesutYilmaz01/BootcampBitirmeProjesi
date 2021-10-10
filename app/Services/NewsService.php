@@ -271,6 +271,21 @@ class NewsService{
         return false;  
     }
 
+    public function getNewsForHistory(){
+        $token = $_GET["token"];
+        $service = new UserService();
+        $us = $service->getUserByToken($token);
+        $repo = new NewsRepository();
+        $result = $repo->getNewsForHistory($us->getId());
+        if ($result == false)
+        {
+            Logging::emergency($us,"Veritabanından geçmiş haberler çekilirken bir sorun oluştu.");
+            return false;
+        }
+        Logging::info($us,"Veritabanından geçmiş haberler başarıyla çekildi.");
+        return $result;
+    }
+
     private function isExistInUser(){
         foreach(Authentication::getUser()->getCategories() as $category)
         {

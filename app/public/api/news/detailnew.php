@@ -1,11 +1,18 @@
 <?php
 
+use Project\Helper\Authentication;
 use Project\Services\NewsService;
+use Project\Services\UserService;
 
 $service = new NewsService();
+$userService = new UserService();
 
 $data = $service->getNewByIdForAPI();
 try{
+    if(Authentication::check())
+    {
+        $result = $userService->addNewHistoryForAPI(Authentication::getUser()->getId(),$data->getId());
+    }
     if ($data == false)
     {
         http_response_code(404);

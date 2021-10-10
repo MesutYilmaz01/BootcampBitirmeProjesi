@@ -23,7 +23,6 @@ if(isset($_POST["login"])){
         if (Authorization::isUser())
         {
             $token = $result[1]->getToken();
-            Authentication::logOut();
             echo "Siteye yönlendiriliyorsunuz...
                     <script type='text/javascript'>
                         localStorage.setItem('user-token',"."'".$token."')"."
@@ -32,11 +31,21 @@ if(isset($_POST["login"])){
         }
         else if (Authorization::isEditor())
         {
-            header('Location: /admin/news/news');
+            $token = $result[1]->getToken();
+            echo "Siteye yönlendiriliyorsunuz...
+                    <script type='text/javascript'>
+                        localStorage.setItem('user-token',"."'".$token."')"."
+                        window.location.href = '/admin/news/news';
+                    </script>";
         }
         else
         {
-            header('Location: /admin/index');
+            $token = $result[1]->getToken();
+            echo "Siteye yönlendiriliyorsunuz...
+                    <script type='text/javascript'>
+                        localStorage.setItem('user-token',"."'".$token."')"."
+                        window.location.href = '/admin/index';
+                    </script>";
         }
     }
 }

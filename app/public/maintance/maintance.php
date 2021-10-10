@@ -16,6 +16,11 @@ if (isset($_POST["maintance"]))
     $message =  '<div class="alert alert-danger" role="alert">5 saniye içerisinde bakım moduna geçilmiş olunacak...</div>';
     Logging::critical(Authentication::getUser()," Sistem bakım moduna alındı.");
     Authentication::logOut();
+    echo "Siteye yönlendiriliyorsunuz...
+    <script type='text/javascript'>
+        window.localStorage.removeItem('user-token')
+        window.location.href = '/main/index';
+    </script>";
     Maintenance::maintenance();
     header('refresh:5;url=/main/index');
 }

@@ -6,7 +6,7 @@ $service = new CategoriesService();
 
 try{
 
-    $categories = $service->getCategories();
+    $categories = $service->getCategoriesAPI();
 
     if ($categories == false)
     {

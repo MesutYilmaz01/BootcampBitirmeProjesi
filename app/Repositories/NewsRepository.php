@@ -246,4 +246,22 @@ class NewsRepository{
         $tempNew->setUpdatedAt($row["updated_at"]);
         return $tempNew;
     }
+
+    public function getNewsForHistory($user_id){
+        $model = array();
+        $query = $this->db->prepare("SELECT n.* FROM news_history as nh INNER JOIN news  as n ON nh.new_id = n.id WHERE nh.user_id = ? ORDER BY id DESC");
+        $query->execute([$user_id]);
+        while ($row = $query->fetch()) {
+            $tempNew = new News();
+            $tempNew->setId($row["id"]);
+            $tempNew->setTitle($row["title"]);
+            $tempNew->setContent($row["content"]);
+            $tempNew->setCategory($row["category"]);
+            $tempNew->setImg($row["img"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+        return $model;
+    }
 }

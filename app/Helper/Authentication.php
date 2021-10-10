@@ -40,7 +40,14 @@ class Authentication{
     }
 
     public static function logOut(){
+        $token = self::getUser()->getToken();
+        $result = self::checkToken($token);
         session_destroy();
+        if ($result)
+        {
+            return true;
+        }
+        return false;
     }
 
     public  static function check(){

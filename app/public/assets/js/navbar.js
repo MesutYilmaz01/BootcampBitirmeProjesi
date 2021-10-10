@@ -5,20 +5,35 @@ function renderUser(){
         Profilim
     </a>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="/main/user/userprofile.php">Profilim</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <li><a class="dropdown-item" href="/main/user/userprofile">Profilim</a></li>
+        <li><a class="dropdown-item" href="/main/user/categorychoice">Kategorilerim</a></li>
+        <li><a class="dropdown-item" href="/main/user/commentlist">Yorumlarım</a></li>
+        <li><a class="dropdown-item" href="/main/user/newslist">Okuduğum Haberler</a></li>
         <li><hr class="dropdown-divider"></li>
-        <li><button class="dropdown-item" onclick="return logoutUser()">Çıkış Yap</button></li>
+        <li><span class="dropdown-item" onclick="return logoutUser()">Çıkış Yap</span></li>
     </ul>
     </div>
     `)
 }
 
-function logoutUser(e){
-    localStorage.removeItem("user-token");
-    window.location.reload();
+function logoutUser(){
+    //logout
+    $.ajax({
+        type: "GET",
+        url: "http://localhost/api/user/logout",
+        dataType:"json",
+        //data: dataString,
+        success: function (response) {
+            if(response.result === true) { 
+                localStorage.removeItem("user-token");
+                window.location.href = "/main/index" 
+            } else if(response.result === false) {
+                //Hata durumu
+            }
+        }
+    })
 }
+
 
 function renderNonUser(){
     $("#buttons").append(`

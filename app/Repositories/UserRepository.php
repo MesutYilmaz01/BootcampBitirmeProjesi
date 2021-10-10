@@ -29,6 +29,22 @@ class UserRepository{
         return array(0,"Kullanıcı eklerken bir hata oluştu.");
     }
 
+    public function createNewHistory($user,$new){
+        $query = $this->db->prepare("INSERT INTO news_history 
+        (user_id,new_id,created_at)
+        VALUES (?,?,?)");
+        $insert = $query->execute(array(
+            $user, $new, date("d-m-Y:i")
+        ));
+        if ($insert)
+        {
+            $last_id = $this->db->lastInsertId();
+            return array(1,"Haber geçmişi başarı ile eklendi.");
+        }
+        return array(0,"Haber geçmişi eklerken bir hata oluştu.");
+    }
+
+
     public function update(User $user){
         $sql = "UPDATE users SET name=?, surname=?, email=?, password=?, type=?, created_at=?, updated_at=? WHERE id=?";
         $stmt= $this->db->prepare($sql);

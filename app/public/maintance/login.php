@@ -19,6 +19,11 @@ if(isset($_POST["login"])){
         {
             Maintenance::endMaintenance();
             Authentication::logOut();
+            echo "Siteye yönlendiriliyorsunuz...
+            <script type='text/javascript'>
+                window.localStorage.removeItem('user-token')
+                window.location.href = '/main/index';
+            </script>";
             $message =  '<div class="alert alert-success" role="alert">Bakım modundan çıkıldı. Login sayfasına yönlendiriliyorsunuz</div>';
             header('refresh:5;url=/login/login');
         }

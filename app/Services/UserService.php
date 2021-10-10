@@ -133,20 +133,15 @@ class UserService{
         {
             if ($data == false)
             {
-                $temp = new User();
-                $temp->setName("Bir");
-                $temp->setSurname("Kullanıcı");
-                $temp->setType("1");
-                Logging::emergency($temp," Kullanıcı veritabanından çekilemedi.");
+                Logging::emergency(Authentication::getUser()," Kullanıcı veritabanından çekilemedi.");
                 return false;
             }
-            Logging::info($data,$data->getId()." id'li kullanıcı veritabanından çekildi.");
+            Logging::info(Authentication::getUser(),$data->getId()." id'li kullanıcı veritabanından çekildi.");
         }
         return $data;
     }
 
     public function getUserByToken(){
-        //Burada log kısmı düzenlenmeli.
         $token = $_GET["token"];
         $repo = new UserRepository();
         $data = $repo->selectByToken($token);
@@ -220,5 +215,24 @@ class UserService{
             Logging::info($user,"Veritabanında api ile profil bilgileri güncellenirken bir hata oluştu.");
             return false;
         }
+    }
+
+    public function logOutForAPI(){
+        if (Authentication::check())
+        {
+            Logging::info(Authentication::getUser(),"API ile sistemden çıkış yaptı.");
+            $result = Authentication::logOut();
+            return $result;
+        }
+    }
+
+    public function addNewHistoryForAPI($user,$new){
+        $repo = new UserRepository();
+        $result = $repo->createNewHistory($user,$new);
+        if ($result[0] == 1)
+        {
+            return true;
+        }
+        return false;
     }
 }

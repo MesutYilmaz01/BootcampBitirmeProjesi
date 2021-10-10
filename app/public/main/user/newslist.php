@@ -40,22 +40,8 @@
                     <th scope="col">Tarih</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td><a href="#">Samsung'un geleneksel hale gelen "Büyük TV Günleri" kampanyası bugün başladı.</a></td>
-                    <td>11.08.2021</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td><a href="#">Samsung'un geleneksel hale gelen "Büyük TV Günleri" kampanyası bugün başladı.</a></td>
-                    <td>11.08.2021</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td><a href="#">Samsung'un geleneksel hale gelen "Büyük TV Günleri" kampanyası bugün başladı.</a></td>
-                    <td>11.08.2021</td>
-                    </tr>
+                <tbody id="body">
+                    <!-- Haberler -->
                 </tbody>
             </table>
         </div>
@@ -70,6 +56,7 @@
 <script type="text/javascript" src="/../../assets/js/authentication.js"></script>
 <script type="text/javascript" src="/../../assets/js/navbar.js"></script>
 <script type="text/javascript" src="/../../assets/js/categories.js"></script>
+<script type="text/javascript" src="/../../assets/js/newshistory.js"></script>
 
 </body>
 </html>
