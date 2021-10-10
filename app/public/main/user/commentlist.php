@@ -40,22 +40,8 @@
                     <th scope="col">Tarih</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td><a href="#">Otto lorem ipsum semi duraq sdar cisotne kafre</a></td>
-                    <td>11.08.2021</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td><a href="#">Otto lorem ipsum semi duraq sdar cisotne kafre</a></td>
-                    <td>11.08.2021</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td><a href="#">Otto lorem ipsum semi duraq sdar cisotne kafre</a></td>
-                    <td>11.08.2021</td>
-                    </tr>
+                <tbody id="comments">
+                <!-- Yorumlar Burada -->
                 </tbody>
             </table>
         </div>
@@ -69,6 +55,7 @@
 <script type="text/javascript" src="/../../assets/js/authentication.js"></script>
 <script type="text/javascript" src="/../../assets/js/navbar.js"></script>
 <script type="text/javascript" src="/../../assets/js/categories.js"></script>
+<script type="text/javascript" src="/../../assets/js/commenthistory.js"></script>
 
 </body>
 </html>

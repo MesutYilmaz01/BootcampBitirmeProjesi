@@ -37,46 +37,22 @@
                             Yorumunuzu aşşağıdaki alana bırakınız.
                         </div>
                         <div class="card-body">
-                            <textarea class="form-control" placeholder="Yorumunuz" row=3></textarea>
+                            <div id="error"><!-- Mesaj basılacak --></div>
+                            <textarea class="form-control" placeholder="Yorumunuz" row=3 id="comment"></textarea>
                             <div class="form-check">
-                                <input class="form-check-input mt-3" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label mt-2" for="flexCheckDefault">
+                                <input class="form-check-input mt-3" type="checkbox" value="" id="anonim">
+                                <label class="form-check-label mt-2" for="anonim">
                                     Anonim Olarak Gönder
                                 </label>
-                                <a href="#" class="btn btn-primary mt-3" style="float:right;">Gönder</a>
+                                <span class="btn btn-primary mt-3" onclick=validateComment() style="float:right;">Gönder</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mt-4">
-                <div class="col-12 mt-2">
-                    <div class="card border-dark mb-3">
-                    <div class="card-header"><h6>Mesut YILMAZ</h6></div>
-                    <div class="card-body text-dark">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <p class="card-text"><h6 style="float:right;">10.28.2021</h6></p>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-12 mt-2">
-                    <div class="card border-dark mb-3">
-                    <div class="card-header"><h6>Mesut YILMAZ</h6></div>
-                    <div class="card-body text-dark">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <p class="card-text"><h6 style="float:right;">10.28.2021</h6></p>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-12 mt-2">
-                    <div class="card border-dark mb-3">
-                    <div class="card-header"><h6>Anonim</h6></div>
-                    <div class="card-body text-dark">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <p class="card-text"><h6 style="float:right;">10.28.2021</h6></p>
-                    </div>
-                    </div>
-                </div>
+            <div class="row mt-4" id="commentside">
+
+            <!-- Yorumlar -->
                 
             </div>
         </div>
@@ -99,6 +75,8 @@ Copyright © Your Website 2020
 <script type="text/javascript" src="/../../assets/js/navbar.js"></script>
 <script type="text/javascript" src="/../../assets/js/categories.js"></script>
 <script type="text/javascript" src="/../../assets/js/newdetail.js"></script>
+<script type="text/javascript" src="/../../assets/js/comment.js"></script>
+<script type="text/javascript" src="/../../assets/js/getcomments.js"></script>
 
 
 
