@@ -271,4 +271,44 @@ class UserRepository{
         }
         return $model;
     }
+
+    public function addRelatedCategory($user_id, $category_id){
+        $query = $this->db->prepare("INSERT INTO user_related_categories 
+        (user_id, category_id)
+        VALUES (?,?)");
+        $insert = $query->execute(array(
+            $user_id, $category_id
+        ));
+        if ($insert)
+        {
+            $last_id = $this->db->lastInsertId();
+            return array(1,"Kullanıcı kategorisi başarıyla eklendi.");
+        }
+        return array(0,"Kullanıcı kategorisi ekleirken bir hata oluştu.");
+    }
+
+    public function deleteRelatedCategory($user_id)
+    {
+        $data = null;
+        $sql = "DELETE FROM user_related_categories WHERE user_id=?";
+        $stmt= $this->db->prepare($sql);
+        $data = $stmt->execute([$user_id]);
+        return $data;
+    }
+
+    public function getRelatedCategoryById($user_id){
+        $result = array();       
+        $query = "SELECT * FROM user_related_categories WHERE user_id=?";       
+        $stmt = $this->db->prepare($query); 
+        $stmt->execute([$user_id]);
+        while($data = $stmt->fetch())
+        {
+            $result[] = [
+                "id" => $data["id"],
+                "user" => $data["user_id"],
+                "category" => $data["category_id"],
+            ];
+        }
+        return $result;
+    }
 }

@@ -1,9 +1,16 @@
 
 function newsFetchForMain(){
 //Haberler
+const token = localStorage.getItem('user-token');
+let url ="";
+if(token) {
+    url = "http://localhost/api/news/getrelatednews?token="+token;
+} else {
+    url = "http://localhost/api/news/getnews?page=1";
+}
 $.ajax({
     type: "GET",
-    url: "http://localhost/api/news/getnews?page=1",
+    url: url,
     dataType:"json",
     //data: dataString,
     success: function (response) {

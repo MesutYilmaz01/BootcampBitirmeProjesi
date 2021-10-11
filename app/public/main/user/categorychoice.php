@@ -32,40 +32,13 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-9 mt-5 border border-4 rounded">
-        <div class="row mt-3 justify-content-center">
-            <div class="row mt-3 justify-content-center">
-                 <div class="col-3 mt-1">
-                    <label class="form-check-label mt-2" for="flexCheckDefault">
-                            Kategori A :
-                    </label>
-                </div>
-                <div class="col-6">    
-                    <input class="form-check-input mt-3" type="checkbox" value="" id="flexCheckDefault">
-                </div>   
-            </div>
-            <div class="row mt-3 justify-content-center">
-                 <div class="col-3 mt-1">
-                    <label class="form-check-label mt-2" for="flexCheckDefault">
-                            Kategori B :
-                    </label>
-                </div>
-                <div class="col-6">    
-                    <input class="form-check-input mt-3" type="checkbox" value="" id="flexCheckDefault">
-                </div>   
-            </div>
-            <div class="row mt-3 justify-content-center">
-                 <div class="col-3 mt-1">
-                    <label class="form-check-label mt-2" for="flexCheckDefault">
-                            Kategori C :
-                    </label>
-                </div>
-                <div class="col-6">    
-                    <input class="form-check-input mt-3" type="checkbox" value="" id="flexCheckDefault">
-                </div>   
-            </div>
+        <div class="row mt-3 justify-content-center" id="cat">
+            <!-- Kategoriler -->
+        </div>
+            <div id="message"><!-- Message --></div>
             <div class="row">
                 <div class="col-6 mt-3 mb-3">
-                    <a href="#" class="btn btn-primary mt-3" style="float:right;">Kaydet</a>
+                    <span onclick=saveCategories() class="btn btn-primary mt-3" style="float:right;">Kaydet</span>
                 </div>
             </div>
             <div class="row">
@@ -82,6 +55,7 @@
 <script type="text/javascript" src="/../../assets/js/authentication.js"></script>
 <script type="text/javascript" src="/../../assets/js/navbar.js"></script>
 <script type="text/javascript" src="/../../assets/js/categories.js"></script>
+<script type="text/javascript" src="/../../assets/js/usercategory.js"></script>
 
 
 </body>

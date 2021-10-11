@@ -7,6 +7,7 @@ use Project\Repositories\NewsRepository as NewsRepository;
 use Project\Helper\Logging as Logging;
 use Project\Helper\Authentication;
 use Project\Helper\Authorization;
+use Project\Repositories\UserRepository;
 use Project\Services\EditorCategoryService;
 
 class NewsService{
@@ -176,10 +177,6 @@ class NewsService{
     }
 
     public function getNewsForAPI($page){
-        if (empty($page) || !is_numeric($page))
-        {
-            $page = 1;
-        }
         $category = null;
         if (isset($_GET["category"]))
         {
@@ -190,6 +187,22 @@ class NewsService{
         $pageStarts = ($page*$limit) - $limit;
         $data = $repo->selectForAPI($pageStarts, $limit, $category);
         return $data;
+    }
+
+    public function getNewsForUser(){
+        $token = $_GET["token"];
+        $userRepo = new UserRepository();
+        $user = $userRepo->selectByToken($token);
+        if ($user == false)
+        {
+            return false;
+        }
+        $repo = new NewsRepository();
+        if (count($userRepo->getRelatedCategoryById($user->getId())) > 0){
+            return $repo->selectNewsForUSer($user->getId());
+        } else {
+            return $this->getNewsForAPI(1);
+        }
     }
 
     public function getCountForAPI(){

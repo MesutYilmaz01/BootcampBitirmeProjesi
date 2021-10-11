@@ -7,6 +7,7 @@ use Project\Helper\Authorization;
 use Project\Models\User;
 use Project\Repositories\UserRepository;
 use Project\Helper\Logging;
+use Project\Repositories\CategoryRepository;
 
 class UserService{
     public function addToDatabase(){
@@ -28,10 +29,13 @@ class UserService{
                         $data->setCreatedAt(date('d-m-Y h:i'));
                         $data->setUpdatedAt(date('d-m-Y h:i'));
                         $repo = new UserRepository();
-                        if (Authorization::isModerator() && ($_POST["type"] == 1 || $_POST["type"] == 2))
+                        if(Authentication::check())
                         {
-                            Logging::emergency(Authentication::getUser(),"Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
-                            return array(0,"Admin değilseniz admin işlemleri yapmaya kalkmayınız.");
+                            if (Authorization::isModerator() && ($_POST["type"] == 1 || $_POST["type"] == 2))
+                            {
+                                Logging::emergency(Authentication::getUser(),"Kullanıcıya  izinsiz yetki verilmeye çalışıldı.");
+                                return array(0,"Admin değilseniz admin işlemleri yapmaya kalkmayınız.");
+                            }
                         }
                         if (!$repo->selectByEmail($_POST["email"]))
                         {
@@ -39,13 +43,31 @@ class UserService{
                             return array(0,"Bu email adresi sistemde kayıtlı.");
                         }
                         $result = $repo->create($data);
+                        $anonim = new User();
+                        $anonim->setName("Bir");
+                        $anonim->setSurname("Kullanıcı");
+                        $anonim->setType("4");
                         if ($result[0] == 1)
                         {
-                            Logging::info(Authentication::getUser(),"Veritabanına ".$data->getId()." id'li yeni bir kullanıcı eklendi ");
+                            if(!Authentication::check())
+                            {
+                                Logging::info($anonim,"Yeni bir kullanıcı üye oldu.");
+                            }
+                            else
+                            {
+                                Logging::info(Authentication::getUser(),"Veritabanına ".$data->getId()." id'li yeni bir kullanıcı eklendi ");
+                            }
                         }
                         else
                         {
-                            Logging::emergency(Authentication::getUser(),"Veritabanına kullanıcı eklerken bir hata oluştu ");
+                            if(!Authentication::check())
+                            {
+                                Logging::emergency($anonim,"Üye olurken sorun ile karşılaşıldı.");
+                            }
+                            else
+                            {
+                                Logging::emergency(Authentication::getUser(),"Veritabanına kullanıcı eklerken bir hata oluştu ");
+                            }
                         }
                         return $result;
                     }
@@ -279,6 +301,59 @@ class UserService{
             return false;
         }
         Logging::info(Authentication::getUser(),"Kullanıcı silme talebi başarıyla reddedildi");
+        return $result;
+    }
+
+    public function addUserRelatedCategory(){
+        $token = $_GET["token"];
+        $repo = new UserRepository();
+        $user = $repo->selectByToken($token);
+        if ($user == false){
+            return false;
+        }
+        $repo->deleteRelatedCategory($user->getId());
+        $relatedCategory = $_POST["relatedCategory"];
+        if(count($relatedCategory) > 0) {
+            foreach($relatedCategory as $catId) {
+                $repo->addRelatedCategory($user->getId(), $catId);
+                
+            }
+            Logging::info(Authentication::getUser(),count($relatedCategory)." adet kategori kullanıcının kategorileri eklendi");
+            return true;
+        }
+        Logging::info(Authentication::getUser()," kullanıcıya kategor eklerken bir hata oluştu.");
+        return false;
+
+    }
+
+    public function getRelatedCategories(){
+        $token = $_GET["token"];
+        $repo = new UserRepository();
+        $user = $repo->selectByToken($token);
+        if ($user == false){
+            return false;
+        }
+        $catRepo = new CategoryRepository();
+        $categories = $catRepo->select();
+        $relatedCat = $repo->getRelatedCategoryById($user->getId());
+        $result = [];
+        foreach($categories as $category)
+        {
+            $check = false;
+            foreach($relatedCat as $rc){
+                if($rc["category"] == $category->getId())
+                {
+                    $check = true;
+                }
+            }
+            $result[] = [
+                "id" => $category->getId(),
+                "category" => $category->getCategory(),
+                "check"    => $check
+            ];
+
+        }
+        Logging::info($user," kullanıcı kategorilerini çekti.");
         return $result;
     }
 }

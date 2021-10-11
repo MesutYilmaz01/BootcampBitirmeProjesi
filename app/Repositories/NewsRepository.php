@@ -200,6 +200,26 @@ class NewsRepository{
         return $model;
     }
 
+    public function selectNewsForUSer($user_id){
+        $model = array();
+        $query = "";
+        $query = $this->db->prepare("SELECT n.* FROM news as n INNER JOIN user_related_categories as urc ON n.category = urc.category_id WHERE urc.user_id = ? AND n.published = ? ORDER BY id");
+        $query->execute([$user_id,1]);
+    
+        while ($row = $query->fetch()) {
+            $tempNew = new News();
+            $tempNew->setId($row["id"]);
+            $tempNew->setTitle($row["title"]);
+            $tempNew->setContent($row["content"]);
+            $tempNew->setCategory($row["category"]);
+            $tempNew->setImg($row["img"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+        return $model;
+    }
+
     public function countForAPI($category = null){
         $model = array();
         if ($category == null)

@@ -8,7 +8,7 @@
             "port" => "3306",
             "user" => "root",
             "pass" => "mypassword",
-            "dbname" => "testdb",
+            "dbname" => "teknasyon_db",
         ];
 
     }
