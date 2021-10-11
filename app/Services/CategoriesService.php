@@ -16,8 +16,8 @@ class CategoriesService{
         {            
             $data = new Category();
             $data->setCategory($_POST["category"]);
-            $data->setCreatedAt(date('d-m-Y-h:i'));
-            $data->setUpdatedAt(date('d-m-Y-h:i'));
+            $data->setCreatedAt(date('d-m-Y h:i'));
+            $data->setUpdatedAt(date('d-m-Y h:i'));
             $repo = new CategoryRepository();
             $result = $repo->create($data);
             if ($result[0] == 1)
@@ -39,7 +39,7 @@ class CategoriesService{
             $data->setId($category->getId());
             $data->setCategory($_POST["category"]);
             $data->setCreatedAt($category->getCreatedAt());
-            $data->setUpdatedAt(date('d-m-Y-h:i'));
+            $data->setUpdatedAt(date('d-m-Y h:i'));
             $repo = new CategoryRepository();
             $result = $repo->update($data);
             if ($result[0] == 1)
@@ -111,10 +111,6 @@ class CategoriesService{
     }
 
     public function getPaginatedCategories($page){
-        if (empty($page) || !is_numeric($page))
-        {
-            $page = 1;
-        }
         $limit = 5;
         $repo = new CategoryRepository();
         $pageStarts = ($page*$limit) - $limit;

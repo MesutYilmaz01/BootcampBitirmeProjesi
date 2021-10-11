@@ -18,8 +18,8 @@ class CommentService{
         $comment->setNewId($new_id);
         $comment->setComment($com);
         $comment->setApprove("0");
-        $comment->setCreatedAt(date("d-m-Y:i"));
-        $comment->setUpdatedAt(date("d-m-Y:i"));
+        $comment->setCreatedAt(date("d-m-Y h:i"));
+        $comment->setUpdatedAt(date("d-m-Y h:i"));
         $result = $repo->create($comment);
         $temp = new User();
         if($user_id == 0){
@@ -82,6 +82,7 @@ class CommentService{
     public function paginatedComments($pagenumber){
         $repo = new CommentRepository();
         $limit = 20;
+        $pagenumber = ($pagenumber*$limit) - $limit;
         $result = $repo->selectPagination($pagenumber,$limit);
         if($result == false)
         {

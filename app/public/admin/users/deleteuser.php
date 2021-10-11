@@ -11,7 +11,6 @@ if (Authentication::check() == false || Authorization::isUser() || Authorization
 }
 $service = new UserService();
 $data = $service->deleteUserById();
-$message = '';
 if ($data == false){
     $message = "Silme işlemi sırasında bir hata oluştu";  
     header('Location: /404/404');
@@ -21,6 +20,10 @@ else
 {
     $message = "Silme işlemi başarıyla gerçekleşti.";
 }
+if(isset($_GET["sw"])){
+    header('refresh:3;url=/admin/users/deletelist');
+}
+$message = '';
 header('refresh:3;url=/admin/users/users'); 
 ?>
 <!DOCTYPE html>

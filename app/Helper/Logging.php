@@ -6,32 +6,32 @@
   class Logging {
 
     public static function error($user, $message) {
-      $message = date('d-m-Y:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Error---".$message."\n";
+      $message = date('d-m-Y h:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Error---".$message."\n";
       Logging::write($message);
     }
 
     public static function emergency($user, $message) {
-      $message = date('d-m-Y:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Emergency---".$message."\n";
+      $message = date('d-m-Y h:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Emergency---".$message."\n";
       Logging::write($message);
     }
 
     public static function alert($user, $message) {
-      $message = date('d-m-Y:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Alert---".$message."\n";
+      $message = date('d-m-Y h:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Alert---".$message."\n";
       Logging::write($message);
     }
 
     public static function critical($user, $message) {
-      $message = date('d-m-Y:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Critical---".$message."\n";
+      $message = date('d-m-Y h:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Critical---".$message."\n";
       Logging::write($message);
     }
 
     public static function notice($user, $message) {
-      $message = date('d-m-Y:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Notice---".$message."\n";
+      $message = date('d-m-Y h:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Notice---".$message."\n";
       Logging::write($message);
     }
 
     public static function info($user, $message) {
-      $message = date('d-m-Y:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Info---".$message."\n";
+      $message = date('d-m-Y h:i')."---".$user->getName()." ".$user->getSurname()."---".$user->getType()."---Info---".$message."\n";
       Logging::write($message);
     }
 

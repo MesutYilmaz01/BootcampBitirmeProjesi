@@ -19,7 +19,7 @@ class EditorCategoryRepository{
         VALUES (?,?,?,?)");
 
         $insert = $query->execute(array(
-            $user_id, $category_id, Date('d-m-Y:i'), Date('d-m-Y:i')
+            $user_id, $category_id, date('d-m-Y h:i'), date('d-m-Y h:i')
         ));
         if ($insert)
         {

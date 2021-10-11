@@ -126,7 +126,7 @@ use Project\Helper\Authorization;
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Bekleyen Kullanıcılar</h6>
-                    <a class="collapse-item" href="/admin/categories/categories">Bekleyenler</a>
+                    <a class="collapse-item" href="/admin/users/deletelist">Bekleyenler</a>
                 </div>
             </div>
         </li>

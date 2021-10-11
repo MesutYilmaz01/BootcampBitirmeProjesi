@@ -35,7 +35,7 @@ else
     }
 }
 
-if ($pageNumber > ceil(count($data) / 20) + 1 || $pageNumber < 1)
+if ($pageNumber > ceil(count($data) / 20) || $pageNumber < 1)
 {
     header('Location: /admin/logs/log');
     die();

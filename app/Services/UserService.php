@@ -25,8 +25,8 @@ class UserService{
                         $data->setPassword($_POST["password"]);
                         $data->setType($_POST["type"]);
                         $data->setToken(strval(time()));
-                        $data->setCreatedAt(date('d-m-Y-h:i'));
-                        $data->setUpdatedAt(date('d-m-Y-h:i'));
+                        $data->setCreatedAt(date('d-m-Y h:i'));
+                        $data->setUpdatedAt(date('d-m-Y h:i'));
                         $repo = new UserRepository();
                         if (Authorization::isModerator() && ($_POST["type"] == 1 || $_POST["type"] == 2))
                         {
@@ -77,7 +77,7 @@ class UserService{
                         $data->setPassword($password);
                         $data->setType($_POST['type']);
                         $data->setCreatedAt($user->getCreatedAt());
-                        $data->setUpdatedAt(date('d-m-Y-h:i'));
+                        $data->setUpdatedAt(date('d-m-Y h:i'));
                         $repo = new UserRepository();
                         if (Authorization::isModerator() && ($_POST["type"] == 1 || $_POST["type"] == 2))
                         {
@@ -172,10 +172,6 @@ class UserService{
     }
 
     public function getPaginatedUsers($page){
-        if (empty($page) || !is_numeric($page))
-        {
-            $page = 1;
-        }
         $limit = 5;
         $repo = new UserRepository();
         $pageStarts = ($page*$limit) - $limit;
@@ -234,5 +230,55 @@ class UserService{
             return true;
         }
         return false;
+    }
+
+    public function deleteUser(){
+        $token = $_GET["token"];
+        $repo = new UserRepository();
+        $user = $repo->selectByToken($token);
+        if ($user == false)
+        {
+            return false;
+        }
+        $result = $repo->addToDeleteList($user->getId());
+        if ( $result[0] == 0)
+        {
+            Logging::critical($user,"Silinecek hesap eklenirken bir sorun oluştu.");
+            return false;
+        }
+        Logging::info($user,"Hesap başarıyla silinecekler arasına eklendi.");
+        return true;
+    }
+
+    public function getDeleteList($page){
+        if (empty($page) || !is_numeric($page))
+        {
+            $page = 1;
+        }
+        $limit = 5;
+        $repo = new UserRepository();
+        $pageStarts = ($page*$limit) - $limit;
+        $data = $repo->selectWaitingsPagination($pageStarts, $limit);
+        Logging::info(Authentication::getUser(),"Veritabanından Silinecek KullanıcılarÇekildi");
+        return $data;
+    }
+
+    public function deleteListCount(){
+        $repo = new UserRepository();
+        $data = $repo->selectDeleteList();
+        Logging::info(Authentication::getUser(),"Veritabanından Silinecek Kullanıcıların Sayısı Çekildi");
+        return $data;
+    }
+
+    public function deleteFromWaitings(){
+        $id = $_GET["id"];
+        $repo = new UserRepository();
+        $result = $repo->deleteFromWaitings($id);
+        if ($result == false){
+            Logging::emergency(Authentication::getUser(),"Kullanıcı silme reddetmede sorun oluştu");
+            return false;
+        }
+        Logging::info(Authentication::getUser(),"Kullanıcı silme talebi başarıyla reddedildi");
+        return $result;
     }
 }

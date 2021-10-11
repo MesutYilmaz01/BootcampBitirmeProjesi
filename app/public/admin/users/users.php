@@ -23,7 +23,7 @@ else
 $service = new UserService();
 $data = $service->getUsers();
 
-if ($pageNumber > ceil(count($data) / 5) + 1 || $pageNumber < 1)
+if ($pageNumber > ceil(count($data) / 5) || $pageNumber < 1)
 {
     header('Location: /admin/users/users');
     die();

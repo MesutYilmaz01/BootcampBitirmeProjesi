@@ -34,7 +34,7 @@ class CommentRepository{
     public function update($comment_id, $approve,){
         $sql = "UPDATE comments SET approve = ?, updated_at=? WHERE id=?";
         $stmt= $this->db->prepare($sql);
-        $result = $stmt->execute([$approve, date("d-m-Y:i"), $comment_id]);
+        $result = $stmt->execute([$approve, date("d-m-Y h:i"), $comment_id]);
         if ($result) 
         {
             return array(1,"Yorum başarı ile güncellendi.");
@@ -76,6 +76,7 @@ class CommentRepository{
     public function selectPagination($pageStart,$limit){
         $model = array();
         $query = $this->db->query("SELECT * FROM comments ORDER BY id DESC limit $pageStart,$limit");
+        $pageStart -=1;
         while ($row = $query->fetch()) {
             $tempNew = new Comment();
             $tempNew->setId($row["id"]);
@@ -123,7 +124,7 @@ class CommentRepository{
 
     public function selectforNew($new_id){
         $model = array();
-        $query = $this->db->prepare("SELECT u.name, u.surname ,c.* FROM comments as c INNER JOIN users as u ON c.user_id = u.id WHERE new_id=? AND approve=?");
+        $query = $this->db->prepare("SELECT u.name, u.surname ,c.* FROM comments as c INNER JOIN users as u ON c.user_id = u.id WHERE new_id=? AND approve=? ORDER BY id DESC");
         $query->execute([$new_id,1]);
         while ($row = $query->fetch()) {
             $tempNew = new Comment();

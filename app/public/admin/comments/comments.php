@@ -22,7 +22,7 @@ else
 }
 $service = new CommentService();
 $data = $service->selectAll();
-if ($pageNumber > ceil(count($data) / 5) + 1 || $pageNumber < 1)
+if ($pageNumber > ceil(count($data) / 20) || $pageNumber < 1)
 {
     header('Location: /admin/comments/comments');
     die();
@@ -148,16 +148,16 @@ $paginated = $service->paginatedComments($pageNumber);
                                                 </li>
                                             ';
                                         }
-                                        else if ($pageNumber > 1 && $pageNumber <= ceil(count($data) / 5))
+                                        else if ($pageNumber > 1 && $pageNumber <= ceil(count($data) / 20))
                                         {
                                             $page = $pageNumber - 1;
                                             echo '
                                                 <li class="pagination_button page-item previous">
-                                                    <a href="/admin/categories/categories?page='.$page.'" class="page-link">Önceki</a>
+                                                    <a href="/admin/comments/comments?page='.$page.'" class="page-link">Önceki</a>
                                                 </li>
                                             ';
                                         }
-                                        if ($pageNumber > 1 && $pageNumber >= ceil(count($data) / 5))
+                                        if ($pageNumber > 1 && $pageNumber >= ceil(count($data) / 20))
                                         {
                                             echo '
                                                 <li class="pagination_button page-item next disabled">
@@ -165,12 +165,12 @@ $paginated = $service->paginatedComments($pageNumber);
                                                 </li>
                                             ';
                                         }
-                                        else if ($pageNumber < ceil(count($data) / 5))
+                                        else if ($pageNumber < ceil(count($data) / 20))
                                         {
                                             $page = $pageNumber + 1;
                                             echo '
                                                 <li class="pagination_button page-item next">
-                                                    <a href="/admin/categories/categories?page='.$page.'" class="page-link">Sonraki</a>
+                                                    <a href="/admin/comments/comments?page='.$page.'" class="page-link">Sonraki</a>
                                                 </li>
                                             ';
                                         }

@@ -66,7 +66,7 @@ class CategoryRepository{
 
         return $model;
     }
-
+    
     public function selectById($id){
         $data = null;
         $stmt = $this->db->prepare("SELECT * FROM categories WHERE id=?");
@@ -83,7 +83,6 @@ class CategoryRepository{
         $news->setUpdatedAt($data["updated_at"]);
         return $news;
     }
-    
     public function selectAllWithLimit($pagesStarts, $limit){
         $model = array();
         $query = $this->db->query("SELECT * FROM categories order by id desc limit $pagesStarts, $limit");

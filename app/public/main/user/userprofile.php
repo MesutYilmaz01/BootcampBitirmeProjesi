@@ -75,25 +75,30 @@
                     <input type="password" name="password2" id="password2" class="form-control" placeholder="Şifreniz Tekrar"/>
                 </div>
             </div>
-            <div class="row mt-3 justify-content-center">
-                <div class="col-3 mt-1">
-                    <label class="form-check-label mt-2" for="flexCheckDefault">
-                            Hesabımı Silmek İstiyorum :
-                        </label>
-                    </div>
-                <div class="col-6">    
-                    <input class="form-check-input mt-3" type="checkbox" value="" id="deleteUser">
-                </div>   
-            </div>
             <div class="row">
                 <div class="col-6 mt-3 mb-3">
                     <span onclick=validation() class="btn btn-primary mt-3" style="float:right;">Kaydet</span>
                 </div>
             </div>
         </form>
-            <div class="row">
+            <div class="row text-center">
                 <p>Not 1 : Şifrenizi güncellemek istemiyorsanız şifre alanlarını boş bırakınız.</p>
-                <p>Not 2 : Hesabınızı silmek istiyorsanız diğer alanları boş bırakınız.</p>
+            </div>
+            <div class="row text-center">
+                <h2>Ya da.</h2>
+            </div>
+            <div class="row mt-3 justify-content-center mb-3">
+                <div id="error">
+                        <!-- MEsaj buraya -->
+                </div>
+                <div class="col-3 mt-1">
+                    <label class="form-check-label mt-2" for="flexCheckDefault">
+                            Hesabımı Silmek İstiyorum :
+                        </label>
+                    </div>
+                <div class="col-6">    
+                <span onclick=deleteaccount() class="btn btn-danger mt-3" style="float:left;">Sil</span>
+                </div>   
             </div>
         </div>
     </div>
@@ -108,6 +113,7 @@
 <script type="text/javascript" src="/../../assets/js/navbar.js"></script>
 <script type="text/javascript" src="/../../assets/js/categories.js"></script>
 <script type="text/javascript" src="/../../assets/js/user.js"></script>
+<script type="text/javascript" src="/../../assets/js/deleteaccount.js"></script>
 
 </body>
 </html>

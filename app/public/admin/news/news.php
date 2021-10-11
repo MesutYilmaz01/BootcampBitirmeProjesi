@@ -22,7 +22,7 @@ else
 }
 $service = new NewsService();
 $data = $service->getAllFromDatabase();
-if ($pageNumber > ceil(count($data) / 5) + 1 || $pageNumber < 1)
+if ($pageNumber > ceil(count($data) / 5) || $pageNumber < 1)
 {
     header('Location: /admin/news/news');
     die();

@@ -29,8 +29,8 @@ class NewsService{
                     $data->setUserId(Authentication::getUser()->getId());
                     $data->setContent($_POST["content"]);
                     $data->setCategory($_POST["category"]);
-                    $data->setCreatedAt(date('d-m-Y-h:i'));
-                    $data->setUpdatedAt(date('d-m-Y-h:i'));
+                    $data->setCreatedAt(date('d-m-Y h:i'));
+                    $data->setUpdatedAt(date('d-m-Y h:i'));
                     $data->setImg($imgPath[1]);
                     $data->setPublish($published);
                     $repo = new NewsRepository();
@@ -89,7 +89,7 @@ class NewsService{
                     $data->setImg($img);
                     $data->setPublish($published);
                     $data->setCreatedAt($oldData->getCreatedAt());
-                    $data->setUpdatedAt(date('d-m-Y-h:i'));
+                    $data->setUpdatedAt(date('d-m-Y h:i'));
                     $repo = new NewsRepository();
                     $result = $repo->update($data);
                     if ($result[0] == 1)
@@ -125,10 +125,6 @@ class NewsService{
     }
 
     public function getByLimit($page){
-        if (empty($page) || !is_numeric($page))
-        {
-            $page = 1;
-        }
         $limit = 5;
         $repo = new NewsRepository();
         $pageStarts = ($page*$limit) - $limit;

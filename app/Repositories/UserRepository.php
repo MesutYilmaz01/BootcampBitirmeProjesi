@@ -4,6 +4,7 @@ namespace Project\Repositories;
 
 use Project\Models\User as User;
 use Project\Database\Database as Database;
+use Project\Helper\Authentication;
 
 class UserRepository{
     private $db;
@@ -34,7 +35,7 @@ class UserRepository{
         (user_id,new_id,created_at)
         VALUES (?,?,?)");
         $insert = $query->execute(array(
-            $user, $new, date("d-m-Y:i")
+            $user, $new, date("d-m-Y h:i")
         ));
         if ($insert)
         {
@@ -42,6 +43,21 @@ class UserRepository{
             return array(1,"Haber geçmişi başarı ile eklendi.");
         }
         return array(0,"Haber geçmişi eklerken bir hata oluştu.");
+    }
+
+    public function addToDeleteList($user_id){
+        $query = $this->db->prepare("INSERT INTO waitings_deletion 
+        (user_id,is_deleted,created_at,updated_at)
+        VALUES (?,?,?,?)");
+        $insert = $query->execute(array(
+            $user_id, 0, date("d-m-Y h:i"),date("d-m-Y h:i")
+        ));
+        if ($insert)
+        {
+            $last_id = $this->db->lastInsertId();
+            return array(1,"Kullanıcı başarı ile eklendi.");
+        }
+        return array(0,"Kullanıcı eklerken bir hata oluştu.");
     }
 
 
@@ -137,6 +153,14 @@ class UserRepository{
 
     }
 
+    public function deleteFromWaitings($id){
+            $data = null;
+            $sql = "DELETE FROM waitings_deletion WHERE user_id=?";
+            $stmt= $this->db->prepare($sql);
+            $data = $stmt->execute([$id]);
+            return $data;
+    }
+
     public function selectByEmail($email){
         $data = null;
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email=?");
@@ -166,6 +190,44 @@ class UserRepository{
             $tempNew->setToken($row["token"]);
             $tempNew->setCreatedAt($row["created_at"]);
             $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+
+        return $model;
+    }
+
+    public function selectWaitingsPagination($pagesStarts, $limit){
+        $model = array();
+        $query = $this->db->query("SELECT u.id as uid, u.name, u.surname, u.type,d.id, d.who_delete, d.is_deleted, d.created_at, d.updated_at FROM waitings_deletion d INNER JOIN users u ON u.id = d.user_id ORDER BY d.id DESC limit $pagesStarts,$limit");
+        while ($row = $query->fetch()) {
+            $tempNew = [
+                "id"        => $row["uid"],
+                "name"      => $row["name"],
+                "surname"   => $row["surname"],
+                "type"      => $row["type"],
+                "who_delete"=> $row["who_delete"],
+                "is_deleted"=> $row["is_deleted"],
+                "created_at"=> $row["created_at"],
+                "updated_at"=> $row["updated_at"],
+            ];
+            $model[] = $tempNew;
+        }
+
+        return $model;
+    }
+    public function selectDeleteList(){
+        $model = array();
+        $query = $this->db->query("SELECT u.name, u.surname, u.type,d.id, d.who_delete, d.is_deleted, d.created_at, d.updated_at FROM waitings_deletion d INNER JOIN users u ON u.id = d.user_id ORDER BY d.id DESC");
+        while ($row = $query->fetch()) {
+            $tempNew = [
+                "name"      => $row["name"],
+                "surname"   => $row["surname"],
+                "type"      => $row["type"],
+                "who_delete"=> $row["who_delete"],
+                "is_deleted"=> $row["is_deleted"],
+                "created_at"=> $row["created_at"],
+                "updated_at"=> $row["updated_at"],
+            ];
             $model[] = $tempNew;
         }
 

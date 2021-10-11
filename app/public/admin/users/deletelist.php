@@ -1,6 +1,6 @@
 <?php
 
-use Project\Services\CategoriesService as CategoriesService;
+use Project\Services\UserService as UserService;
 use Project\Helper\Authorization;
 use Project\Helper\Authentication;
 
@@ -9,7 +9,7 @@ if (Authentication::check() == false || Authorization::isUser() || Authorization
     header('Location: /404/404');
     die();
 }
-
+ 
 $pageNumber = "";
 $isExist = isset($_GET["page"]);
 if ($isExist == true) 
@@ -20,16 +20,16 @@ else
 {
     $pageNumber = 1;
 }
-$service = new CategoriesService();
-$data = $service->getCategories();
-if ($pageNumber > ceil(count($data) / 5) || $pageNumber < 1)
+$service = new UserService();
+$data = $service->deleteListCount();
+
+if ($pageNumber > ceil(count($data) / 5) + 1 || $pageNumber < 1)
 {
-    header('Location: /admin/categories/categories');
+    header('Location: /admin/users/deletelist');
     die();
 }
-$paginated = $service->getPaginatedCategories($pageNumber);
+$paginated = $service->getDeleteList($pageNumber);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +41,7 @@ $paginated = $service->getPaginatedCategories($pageNumber);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Haber Listesi</title>
+    <title>Silinecek Kullanıcı Listesi</title>
 
     <!-- Custom fonts for this template-->
     <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -80,43 +80,72 @@ $paginated = $service->getPaginatedCategories($pageNumber);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Kategoriler</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Kullanıcılar</h1>
 
                                         <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary text-center">Kategori Listesi</h6>
+                            <h6 class="m-0 font-weight-bold text-primary text-center">Kullanıcı Listesi</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Kategori Adı</th>
+                                            <th>Adı</th>
+                                            <th>Yetki</th>
+                                            <th>Silen</th>
+                                            <th>Durum</th>
                                             <th>Tarih</th>
+                                            <th>Reddet</th>
                                             <th>Sil</th>
-                                            <th>Güncelle</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Kategori Adı</th>
+                                            <th>Adı</th>
+                                            <th>Yetki</th>
+                                            <th>Silen</th>
+                                            <th>Durum</th>
                                             <th>Tarih</th>
+                                            <th>Reddet</th>
                                             <th>Sil</th>
-                                            <th>Güncelle</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <?php
                                             foreach($paginated as $item)
                                             {
+                                                $type = "";
+                                                if ($item["type"] == 1)
+                                                {
+                                                    $type = "Admin";
+                                                }
+                                                if ($item["type"] == 2)
+                                                {
+                                                    $type = "Moderatör";
+                                                }
+                                                if ($item["type"] == 3)
+                                                {
+                                                    $type = "Editör";
+                                                }
+                                                if ($item["type"] == 4)
+                                                {
+                                                    $type = "Kullanıcı";
+                                                }
+
                                                 echo '<tr>
                                                         <td>
-                                                        '.$item->getCategory().'
+                                                        <a href="userdetail?id='.$item["id"].'">
+                                                        '.$item["name"].'  '.$item["surname"].'
+                                                        </a>
                                                         </td>
-                                                        <td>'.$item->getUpdatedAt().'</td>
-                                                        <td><a href="deletecategory?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>
-                                                        <td><a href="updatecategory?id='.$item->getId().'" class="btn btn-warning btn-block">Güncelle</a></td>';
+                                                        <td>'.$type.'</td>
+                                                        <td>'.$item["who_delete"].'</td>
+                                                        <td>'.$item["is_deleted"].'</td>
+                                                        <td>'.$item["updated_at"].'</td>
+                                                        <td><a href="rejectdeletion?id='.$item["id"].'" class="btn btn-warning btn-block">Reddet</a></td>
+                                                        <td><a href="deleteuser?id='.$item["id"].'&sw=1" class="btn btn-danger btn-block">Sil</a></td>';
                                             }
                                         ?>
                                     </tbody>
@@ -138,7 +167,7 @@ $paginated = $service->getPaginatedCategories($pageNumber);
                                             $page = $pageNumber - 1;
                                             echo '
                                                 <li class="pagination_button page-item previous">
-                                                    <a href="/admin/categories/categories?page='.$page.'" class="page-link">Önceki</a>
+                                                    <a href="/admin/users/users?page='.$page.'" class="page-link">Önceki</a>
                                                 </li>
                                             ';
                                         }
@@ -155,7 +184,7 @@ $paginated = $service->getPaginatedCategories($pageNumber);
                                             $page = $pageNumber + 1;
                                             echo '
                                                 <li class="pagination_button page-item next">
-                                                    <a href="/admin/categories/categories?page='.$page.'" class="page-link">Sonraki</a>
+                                                    <a href="/admin/users/users?page='.$page.'" class="page-link">Sonraki</a>
                                                 </li>
                                             ';
                                         }
