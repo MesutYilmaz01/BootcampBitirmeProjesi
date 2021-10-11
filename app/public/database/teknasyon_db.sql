@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: mysql
--- Üretim Zamanı: 11 Eki 2021, 16:22:33
+-- Üretim Zamanı: 11 Eki 2021, 19:11:57
 -- Sunucu sürümü: 8.0.26
 -- PHP Sürümü: 7.4.24
 
@@ -18,15 +18,17 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Veritabanı: `testdb`
+-- Veritabanı: `teknasyon_db`
 --
 
 -- --------------------------------------------------------
-CREATE DATABASE teknasyon_db;
-USE teknasyon_db;
+
 --
 -- Tablo için tablo yapısı `categories`
 --
+
+CREATE DATABASE teknasyon_db;
+USE teknasyon_db;
 
 CREATE TABLE `categories` (
   `id` int NOT NULL,
@@ -318,6 +320,26 @@ INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`, `type`, `toke
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `user_related_categories`
+--
+
+CREATE TABLE `user_related_categories` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `category_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Tablo döküm verisi `user_related_categories`
+--
+
+INSERT INTO `user_related_categories` (`id`, `user_id`, `category_id`) VALUES
+(25, 41, 17),
+(28, 38, 8);
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `waitings_deletion`
 --
 
@@ -392,6 +414,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Tablo için indeksler `user_related_categories`
+--
+ALTER TABLE `user_related_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Tablo için indeksler `waitings_deletion`
 --
 ALTER TABLE `waitings_deletion`
@@ -449,6 +477,12 @@ ALTER TABLE `news_history`
 --
 ALTER TABLE `users`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `user_related_categories`
+--
+ALTER TABLE `user_related_categories`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `waitings_deletion`
