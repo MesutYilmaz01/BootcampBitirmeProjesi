@@ -3,7 +3,7 @@
 $ git clone https://github.com/MesutYilmaz01/Kodluyoruz-Teknasyon-BitirmeProjesi.git .
 $ cd Kodluyoruz-Teknasyon-BitirmeProjesi/
 $ docker-compose up -d
-$ cd Kodluyoruz-Teknasyon-BitirmeProjesi/app/
+$ cd app/
 $ docker run --rm --interactive --tty --volume $PWD/.:/app composer install --ignore-platform-reqs
 ```
 
@@ -12,7 +12,7 @@ $ docker run --rm --interactive --tty --volume $PWD/.:/app composer install --ig
 Bu sayfa açılır : http://localhost/database/index .
 Eğer veritabanı portu meşgul ise;
 app/Config içerisindeki AppSetting.php içerisindeki port değiştirilmelidir.
-Ana dizindeki docker-compose-yml içerisindeki mysql image içerisindeki por numarası da değiştirilmelidir.
+Ana dizindeki docker-compose-yml içerisindeki mysql image içerisindeki port numarası da değiştirilmelidir.
 ```
 
 ## Sayfa Linkleri
