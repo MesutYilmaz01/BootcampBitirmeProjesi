@@ -10,7 +10,7 @@ function categoriesFetch(){
             response.data.categories.map((item) => {
                 string = `           
                         <li class="nav-item" style="margin-left: 30px;">
-                            <a class="nav-link active" aria-current="page" href="/main/category/categoryresult?id=${item.id}">${item.category}</a>
+                            <a class="nav-link active" aria-current="page" href="/main/category/categoryresult?id=${item.id}"><h6>${item.category}</h6></a>
                         </li>
                         `;
                     $("#categories").append(string);
