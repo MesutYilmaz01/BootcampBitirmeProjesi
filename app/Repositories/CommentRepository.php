@@ -92,6 +92,44 @@ class CommentRepository{
         return $model;
     }
 
+    public function selectPaginationForAdminNews($pageStart,$limit,$new_id){
+        $model = array();
+        $query = $this->db->prepare("SELECT * FROM comments WHERE new_id = ? ORDER BY id DESC limit $pageStart,$limit");
+        $query->execute([$new_id]);
+        while ($row = $query->fetch()) {
+            $tempNew = new Comment();
+            $tempNew->setId($row["id"]);
+            $tempNew->setUserId($row["user_id"]);
+            $tempNew->setNewId($row["new_id"]);
+            $tempNew->setComment($row["comment"]);
+            $tempNew->setApprove($row["approve"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+
+        return $model;
+    }
+
+    public function selectAllForNews($new_id){
+        $model = array();
+        $query = $this->db->prepare("SELECT * FROM comments WHERE new_id = ?");
+        $query->execute([$new_id]);
+        while ($row = $query->fetch()) {
+            $tempNew = new Comment();
+            $tempNew->setId($row["id"]);
+            $tempNew->setUserId($row["user_id"]);
+            $tempNew->setNewId($row["new_id"]);
+            $tempNew->setComment($row["comment"]);
+            $tempNew->setApprove($row["approve"]);
+            $tempNew->setCreatedAt($row["created_at"]);
+            $tempNew->setUpdatedAt($row["updated_at"]);
+            $model[] = $tempNew;
+        }
+
+        return $model;
+    }
+
     public function selectByUserId($id){
         $model = array();
         $query = $this->db->prepare("SELECT * FROM comments WHERE user_id=?");

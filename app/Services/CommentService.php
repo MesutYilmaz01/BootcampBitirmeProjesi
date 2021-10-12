@@ -93,6 +93,21 @@ class CommentService{
         return $result;
     }
 
+    public function paginatedCommentsForNews($pagenumber){
+        $repo = new CommentRepository();
+        $new_id = $_GET["id"];
+        $limit = 20;
+        $pagenumber = ($pagenumber*$limit) - $limit;
+        $result = $repo->selectPaginationForAdminNews($pagenumber,$limit,$new_id);
+        if($result == false)
+        {
+            Logging::critical(Authentication::getUser(),"Haberin bütün yorumlar çekilirken hata oluştu");
+            return false;
+        }
+        Logging::info(Authentication::getUser(),"Haberin bütün yorumlar çekildi");
+        return $result;
+    }
+
     public function selectAll(){
         $repo = new CommentRepository();
         $result = $repo->select();
@@ -102,6 +117,22 @@ class CommentService{
             return false;
         }
         Logging::info(Authentication::getUser(),"Yorum sayısı alındı");
+        return $result;
+    }
+
+    public function selectAllForNews($new_id=null){
+        if (isset($_GET["id"]))
+        {
+            $new_id = $_GET["id"];
+        }
+        $repo = new CommentRepository();
+        $result = $repo->selectAllForNews($new_id);
+        if($result == false)
+        {
+            Logging::critical(Authentication::getUser(),"Haber için yorum sayısı alınırken hata oluştu");
+            return false;
+        }
+        Logging::info(Authentication::getUser(),"Haber orum sayısı alındı");
         return $result;
     }
 

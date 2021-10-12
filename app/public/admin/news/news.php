@@ -2,6 +2,7 @@
 
 use Project\Helper\Authentication;
 use Project\Services\NewsService as NewsService;
+use Project\Services\CommentService;
 use Project\Helper\Authorization;
 
 if (Authentication::check() == false || Authorization::isUser())
@@ -22,13 +23,17 @@ else
 }
 $service = new NewsService();
 $data = $service->getAllFromDatabase();
+if (count($data) == 0)
+{
+    $data = [""];
+}
 if ($pageNumber > ceil(count($data) / 5) || $pageNumber < 1)
 {
     header('Location: /admin/news/news');
     die();
 }
 $paginated = $service->getByLimit($pageNumber);
-
+$commentService = new CommentService();
 ?>
 
 <!DOCTYPE html>
@@ -148,6 +153,8 @@ $paginated = $service->getByLimit($pageNumber);
                                         <?php
                                             foreach($paginated as $item)
                                             {
+                                                $commentCount = $commentService->selectAllForNews($item->getId());
+                                                $comment = $commentCount == false ? '<td>Yorum Yapılmamış</td>' : '<td><a href="/admin/comments/newcomments?id='.$item->getId().'" class="btn btn-success btn-block">Yorumlar</a></td>';
                                                 $publish = $item->getPublish() == 1 ? 'Yayında' : 'Yayınlanmamış';
                                                 echo '<tr>
                                                         <td>
@@ -168,7 +175,7 @@ $paginated = $service->getByLimit($pageNumber);
                                                 if (!Authorization::isEditor())
                                                 {
                                                     echo '
-                                                    <td><a href="#" class="btn btn-success btn-block">Yorumlar</a></td>
+                                                    '.$comment.'
                                                     <td><a href="deletenew?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>
                                                     ';
                                                 }

@@ -27,8 +27,9 @@ try{
         "result"    => true,
         "id"        => $user->getId(),
         "name"      => $user->getName(),
-        "surname"     => $user->getSurname(),
+        "surname"   => $user->getSurname(),
         "email"     => $user->getEmail(),
+        "type"      => $user->getType(),
         "token"     => $user->getToken(),
     ]);
     exit;

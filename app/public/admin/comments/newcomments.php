@@ -1,7 +1,7 @@
 <?php
 
+use Project\Services\CommentService;
 use Project\Helper\Authorization;
-use Project\Helper\Logging;
 use Project\Helper\Authentication;
 
 if (Authentication::check() == false || Authorization::isUser() || Authorization::isEditor())
@@ -20,33 +20,19 @@ else
 {
     $pageNumber = 1;
 }
-$logs = Logging::getLogs();
-if(empty($logs[1])){
-    $data = null;
-    $keys = null;
-}
-else
-{
-    $keys = array_keys($logs[1]);
-    $data = $logs[1][$keys[0]];
-    if (isset($_POST["get"]))
-    {
-        $data = $logs[1][$keys[$_POST["log"]]];
-    }
-}
+$service = new CommentService();
+$data = $service->selectAllForNews();
 if ($data == false)
 {
     $data = [];
 }
 if ($pageNumber > ceil(count($data) / 20) || $pageNumber < 1)
 {
-    header('Location: /admin/logs/log');
+    header('Location: /admin/news/news');
     die();
 }
-$limit = 20;
-$pageStarts = ($pageNumber*$limit) - $limit;
-$data = array_reverse($data);
-$finalData = array_slice($data,$pageStarts,20);
+$paginated = $service->paginatedCommentsForNews($pageNumber);
+
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +46,7 @@ $finalData = array_slice($data,$pageStarts,20);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Loglar</title>
+    <title>Haberin Yorum Listesi</title>
 
     <!-- Custom fonts for this template-->
     <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -99,91 +85,58 @@ $finalData = array_slice($data,$pageStarts,20);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Loglar</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Yorumlar</h1>
 
                                         <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary text-center">Loglar</h6>
+                            <h6 class="m-0 font-weight-bold text-primary text-center">Yorum Listesi</h6>
                         </div>
-                        <form action="/admin/logs/log" method="POST">
-                            <div class="card-body">
-                                <div class="form-group d-flex justify-content-center">
-                                    <div class="col-4 offset-1 mb-3 mb-sm-0">    
-                                        <select class="form-control" name="log">
-                                            <?
-                                                $counter = 0;
-                                                foreach ($keys as $key)
-                                                {
-                                                    if (isset($_POST["log"]))
-                                                    {
-                                                        $selected = $_POST["log"] == $counter ? 'selected' : '';
-                                                        echo '<option '.$selected.' value='.$counter.'>'.$key.'</option>';
-                                                        $counter++;
-                                                    }
-                                                    else
-                                                    {
-                                                        echo '<option value='.$counter.'>'.$key.'</option>';
-                                                        $counter++;
-                                                    }
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                <div class="col-3">
-                                        <button type="submit" class="btn btn-success" name="get">Getir</button>
-                                </div>
-                            </div>
-                        </form>
+                        <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>İşlem Yapan</th>
-                                            <th>Yetki</th>
+                                            <th>Yorumlayan</th>
+                                            <th>Haber</th>
+                                            <th>Yorum</th>
+                                            <th>Onay Durumu</th>
                                             <th>Tarih</th>
-                                            <th>Çeşit</th>
-                                            <th>Log</th>
+                                            <th>Onayla</th>
+                                            <th>Sil</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>İşlem Yapan</th>
-                                            <th>Yetki</th>
+                                            <th>Yorumlayan</th>
+                                            <th>Haber</th>
+                                            <th>Yorum</th>
+                                            <th>Onay Durumu</th>
                                             <th>Tarih</th>
-                                            <th>Çeşit</th>
-                                            <th>Log</th>
+                                            <th>Onayla</th>
+                                            <th>Sil</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                            foreach($finalData as $item)
+                                            foreach($paginated as $item)
                                             {
-                                                $role = "";
-                                                if ($item[2] == 1)
-                                                {
-                                                    $role = "Admin";
-                                                }
-                                                if ($item[2] == 2)
-                                                {
-                                                    $role = "Moderatör";
-                                                }
-                                                if ($item[2] == 3)
-                                                {
-                                                    $role = "Editör";
-                                                }
-                                                if ($item[2] == 4)
-                                                {
-                                                    $role = "Kullanıcı";
-                                                }
+                                                $approve = $item->getApprove() == 0 ? 'Onaylanmadı' : 'Onaylandı';
+                                                $message = $item->getApprove() == 0 ? 'Onayla' : 'Onay Kaldır';
                                                 echo '<tr>
                                                         <td>
-                                                        '.$item[1].'
+                                                            <a href ="/admin/users/userdetail?id='.$item->getUserId().'">'.$item->getUserId().'</a>
                                                         </td>
-                                                        <td>'.$role.'</td>
-                                                        <td>'.$item[0].'</td>
-                                                        <td>'.$item[3].'</td>
-                                                        <td>'.$item[4].'</td>';
+                                                        <td>
+                                                            <a href ="/admin/users/userdetail?id='.$item->getNewId().'">'.$item->getNewId().'</a>
+                                                        </td>
+                                                        <td>
+                                                            '.$item->getComment().'
+                                                        </td>
+                                                        <td>'.$approve.'</td>
+                                                        <td>'.$item->getCreatedAt().'</td>
+                                                        <td><a href="approvecomment?id='.$item->getId().'&app='.$item->getApprove().'" class="btn btn-warning btn-block">'.$message.'</a></td>
+                                                        <td><a href="deletecomment?id='.$item->getId().'" class="btn btn-danger btn-block">Sil</a></td>';
                                             }
                                         ?>
                                     </tbody>
@@ -205,7 +158,7 @@ $finalData = array_slice($data,$pageStarts,20);
                                             $page = $pageNumber - 1;
                                             echo '
                                                 <li class="pagination_button page-item previous">
-                                                    <a href="/admin/logs/log?page='.$page.'" class="page-link">Önceki</a>
+                                                    <a href="/admin/comments/comments?page='.$page.'" class="page-link">Önceki</a>
                                                 </li>
                                             ';
                                         }
@@ -222,7 +175,7 @@ $finalData = array_slice($data,$pageStarts,20);
                                             $page = $pageNumber + 1;
                                             echo '
                                                 <li class="pagination_button page-item next">
-                                                    <a href="/admin/logs/log?page='.$page.'" class="page-link">Sonraki</a>
+                                                    <a href="/admin/comments/comments?page='.$page.'" class="page-link">Sonraki</a>
                                                 </li>
                                             ';
                                         }

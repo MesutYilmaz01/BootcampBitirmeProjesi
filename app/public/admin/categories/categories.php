@@ -22,6 +22,10 @@ else
 }
 $service = new CategoriesService();
 $data = $service->getCategories();
+if (count($data) == 0)
+{
+    $data = [""];
+}
 if ($pageNumber > ceil(count($data) / 5) || $pageNumber < 1)
 {
     header('Location: /admin/categories/categories');

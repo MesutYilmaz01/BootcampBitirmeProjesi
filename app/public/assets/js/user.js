@@ -44,6 +44,16 @@ function getUser() {
                 $("#ad").val(response.name);
                 $("#soyad").val(response.surname);
                 $("#email").val(response.email);
+                if(response.type == 1 || response.type == 2)
+                {
+                    button = `<a href="/admin/index" class="btn btn-success">Panele Git</a>`
+                    $("#panel").append(button)
+                }
+                if(response.type == 3)
+                {
+                    button = `<a href="/admin/news/news" class="btn btn-success">Editör Paneline Git</a>`
+                    $("#panel").append(button)
+                }
             } 
             else if(response.result === false) { 
             }
@@ -65,15 +75,8 @@ function getUser() {
         let password    = $("#password").val();
         let password2   = $("#password2").val();
 
-        checkedValue = document.querySelector("#deleteUser:checked") == null ? false : true
 
-        if (checkedValue)
-        {
-            console.log("silinme olayı")
-        }
-        else
-        {
-            if (ad.length > 0)
+        if (ad.length > 0)
         {
             if (soyad.length > 0)
             {
@@ -133,7 +136,7 @@ function getUser() {
             }
             
         }
-        }
+        
 
         
     }

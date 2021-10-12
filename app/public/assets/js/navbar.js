@@ -37,7 +37,7 @@ function logoutUser(){
 
 function renderNonUser(){
     $("#buttons").append(`
-    <a class="btn btn-success mr-5" style="margin-right: 15px;">
+    <a class="btn btn-success mr-5" href="/register/register" style="margin-right: 15px;">
     Üye Ol
     </button>
     <a class="btn btn-success mr-5" href="/login/login" style="margin-right: 15px;">

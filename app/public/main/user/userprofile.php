@@ -35,6 +35,8 @@
         <form class="abc">
         <div class="row mt-3 justify-content-center" id="errMessage">
         </div>   
+        <div class="row mt-3 justify-content-center" id="panel">
+        </div>
         <div class="row mt-3 justify-content-center">
                 <div class="col-3 mt-1">
                     <label for="ad">Ad :</label>
@@ -83,9 +85,6 @@
         </form>
             <div class="row text-center">
                 <p>Not 1 : Şifrenizi güncellemek istemiyorsanız şifre alanlarını boş bırakınız.</p>
-            </div>
-            <div class="row text-center">
-                <h2>Ya da.</h2>
             </div>
             <div class="row mt-3 justify-content-center mb-3">
                 <div id="error">

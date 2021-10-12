@@ -22,12 +22,20 @@ else
 }
 $service = new CommentService();
 $data = $service->selectAll();
+if ($data == false)
+{
+    $data = [""];
+}
 if ($pageNumber > ceil(count($data) / 20) || $pageNumber < 1)
 {
     header('Location: /admin/comments/comments');
     die();
 }
 $paginated = $service->paginatedComments($pageNumber);
+if ($paginated == false)
+{
+    $paginated = [];
+}
 ?>
 
 <!DOCTYPE html>

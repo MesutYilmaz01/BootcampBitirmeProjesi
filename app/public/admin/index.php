@@ -2,6 +2,7 @@
 
 use \Project\Services\NewsService;
 use \Project\Services\CategoriesService;
+use \Project\Services\CommentService;
 use \Project\Services\UserService;
 use \Project\Helper\Authorization;
 use \Project\Helper\Authentication;
@@ -15,9 +16,11 @@ if (Authentication::check() == false || Authorization::isUser() ||Authorization:
 $newsService = new NewsService();
 $categoriesService = new CategoriesService();
 $usersService= new UserService();
+$commentService = new CommentService();
 $news = $newsService->getAllFromDatabase();
 $categories = $categoriesService->getCategories();
 $users = $usersService->getUsers();
+$comments = $commentService->selectAll();
 $paginated = $newsService->getForAdminIndex(5);
 
 ?>
@@ -132,7 +135,7 @@ $paginated = $newsService->getForAdminIndex(5);
                                         <div class="col mr-2">
                                             <div class="text-s font-weight-bold text-warning text-uppercase mb-1 text-center">
                                                 Yorum Sayısı</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800 text-center">180</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800 text-center"><?echo $commentCount = $comments == false ? 0 : count($comments)?></div>
                                         </div>
                                     </div>
                                 </div>
