@@ -14,3 +14,19 @@ Eğer veritabanı portu meşgul ise;
 app/Config içerisindeki AppSetting.php içerisindeki port değiştirilmelidir.
 Ana dizindeki docker-compose-yml içerisindeki mysql image içerisindeki por numarası da değiştirilmelidir.
 ```
+
+## Sayfa Linkleri
+```sh
+Site Anasayfası             : http://localhost/main/index .
+Login Sayfası               : http://localhost/login/login .
+Admin Panel Anasayfası      : http://localhost/admin/index . 
+Bakım Modundan Çıkmak İçin  : http://localhost/maintance/login .
+```
+
+## Default Hesaplar
+```sh
+Admin        : E-mail : a@gmail.com  Şifre : 11223344
+Moderatör    : E-mail : m@gmail.com  Şifre : 11223344
+Editör       : E-mail : e@gmail.com  Şifre : 11223344
+Kullanıcı    : E-mail : k@gmail.com  Şifre : 11223344
+```
